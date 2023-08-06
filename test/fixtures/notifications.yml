@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  visiter_id: 1
+  visited_id: 1
+  post_id: 1
+  comment_id: 1
+  favorite_id: 1
+  relationship_id: 1
+  action: MyString
+  is_checked: false
+
+two:
+  visiter_id: 1
+  visited_id: 1
+  post_id: 1
+  comment_id: 1
+  favorite_id: 1
+  relationship_id: 1
+  action: MyString
+  is_checked: false
