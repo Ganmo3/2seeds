@@ -13,3 +13,21 @@
  *= require_tree .
  *= require_self
  */
+
+
+.input-validation {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 18px;
+}
+
+.validation-text {
+  display: block;
+  color: #777;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.validation-text.invalid {
+  color: red;
+}

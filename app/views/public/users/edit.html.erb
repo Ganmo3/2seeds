@@ -1,0 +1,57 @@
+<div class="container">
+  <%= form_with model: @user, url: user_path, method: :patch, multipart: true do |f| %>
+  <div class="row justify-content-center">
+    <div class="col-md"></div>
+
+    <!-- アイコンカラム -->
+    <div class="col-md-2">
+      <div class="icon">
+        <%= link_to image_tag @user.get_icon, class: "rounded-circle file-fluid", id: "icon-image-link" %>
+      </div>
+      <div class="button">
+        <%= f.file_field :icon, accept: "image/*", style: "display: none;", id: "icon-file-field" %>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="form-group">
+          <label>表示名</label>
+          <%= f.text_field :nickname, class: "form-control", style: "width: 50%" %>
+        </div>
+        <div class="form-group">
+          <label>自己紹介</label>
+          <%= f.text_area :introduction, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <i class="fas fa-link"></i>
+          <label>動画サイトリンク</label>
+          <%= f.text_field :link, class: "form-control", style: "width: 50%" %>
+        </div>
+
+        <div class="form-group form-group__button-wrapper">
+          <%= f.submit "更新する", class: "btn", style: "background-color: #BDDF38; color: black;", data: { disable_with: "処理中..." } %>
+        </div>
+      <% end %>
+
+      <div class="col-md"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const iconImageLink = document.getElementById("icon-image-link");
+    const iconFileField = document.getElementById("icon-file-field");
+
+    if (iconImageLink && iconFileField) {
+      iconImageLink.addEventListener("click", function() {
+        iconFileField.click();
+      });
+
+      iconFileField.addEventListener("change", function() {
+        const form = iconFileField.closest("form");
+        form.submit();
+      });
+    }
+  });
+</script>
