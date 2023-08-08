@@ -35,9 +35,9 @@ Rails.application.routes.draw do
         patch :withdraw_process
       end
     end
-    
   end
 
+  post "/chatbots", to: "chatbots#create"
 
 
   

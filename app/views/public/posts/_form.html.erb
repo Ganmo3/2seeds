@@ -1,0 +1,37 @@
+<div class="form-group form-group__link">
+  <label for="post_link">
+    Link
+  </label>
+  <%= f.text_field :link, required: true, class: 'form-control post_link' %>
+</div>
+<div class="form-group form-group__title">
+  <label for="post_title">
+    Title
+  </label>
+  <%= f.text_field :title, required: true, class: 'form-control post_title' %>
+</div>
+<div class="form-group form-group__body">
+  <label for="post_body">
+    Body
+  </label>
+  <%= f.text_area :body, required: true, rows: 25, cols: 10, class: "form-control " %>
+</div>
+<div class="form-group form-group__hash">
+  <%= f.label :tag_name %>
+  <% if defined?(isEdit) && isEdit == true %>
+    <%= f.text_field :tag_name, value: post.tags.pluck(:tag_name).join(' '), class: "form-control" %>
+  <% else %>
+    <%= f.text_field :tag_name, class: "form-control" %>
+  <% end %>
+</div>
+
+<div class="form-group form-group__button-wrapper">
+  <% if @isDraft || post.new_record? || !post.draft? %>
+    <%= f.submit '投稿する', name: 'commit', class: "btn form-group__submit" %>
+    <% if @isDraft || post.new_record? %>
+      <%= f.submit '下書き保存', name: 'commit', class: "btn form-group__draft" %>
+    <% end %>
+  <% else %>
+    <%= f.submit '投稿する', name: 'commit', class: "btn form-group__submit" %>
+  <% end %>
+</div>
