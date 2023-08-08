@@ -1,0 +1,10 @@
+<% posts.each_slice(3) do |post_group| %>
+<div class="list-group-item">
+  <% post_group.each do |post| %>
+    <% video_id = extract_youtube_video_id(post.link) %>
+      <%= link_to post_path(post) do %>
+    <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 250px; height: auto;', show_info: false) %>
+    <% end %>
+    <% end %>
+</div>
+  <% end %>

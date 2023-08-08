@@ -1,17 +1,13 @@
 class Public::UsersController < ApplicationController
   def show
-    # ユーザーからの入力を取得
-    account_str = params[:account]
-
-    # 文字列から不要な文字（コロン以外の特殊文字など）を削除
-    sanitized_account_str = account_str.gsub(/[^a-zA-Z0-9_]/, '')
-
-    # 文字列をシンボルに変換
-    account_sym = sanitized_account_str.to_sym
-
-    # サニタイズされたシンボルを使用してクエリを実行
-    @user = User.find_by(account: account_sym)
+    # アカウントのシンボル化
+    account_str = params[:account] # ユーザーからの入力を取得
+    sanitized_account_str = account_str.gsub(/[^a-zA-Z0-9_]/, '') # 文字列から不要な文字（コロン以外の特殊文字など）を削除
+    account_sym = sanitized_account_str.to_sym # 文字列をシンボルに変換
+    @user = User.find_by(account: account_sym) # サニタイズされたシンボルを使用してクエリを実行
     # @user = User.find_by(account: params[:account])
+  
+    @posts = @user.posts
   end
 
   def edit

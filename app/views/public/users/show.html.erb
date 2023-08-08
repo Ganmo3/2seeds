@@ -21,17 +21,27 @@
       <div class="introduction">
         <p><%= @user.introduction %></p>
       </div>
-      
+
         <span class="information d-flex">
           <p class="mr-3">Views:</p>
           <p class="mr-3">Likes:</p>
           <p class="mr-3">Follow:</p>
           <p>Follower:</p>
         </span>
-   
+
     </div>
 
     <!-- 右側の余白 -->
     <div class="col-md"></div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+
+      <h2>MY BLOG</h2>
+      <div class="list-group list-group-horizontal justify-content-around">
+      <%= render 'public/shared/post_index', posts: @posts %>
+    </div>
   </div>
 </div>
