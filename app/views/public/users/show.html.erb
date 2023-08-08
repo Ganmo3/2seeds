@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="row">
+    <!-- 左側の余白 -->
+    <div class="col-md"></div>
+
+    <!-- アイコンカラム -->
+<div class="col-md-2">
+  <div class="icon">
+    <%= image_tag @user.get_icon, class: "rounded-circle file-fluid" %>
+  </div>
+  <div class="button">
+    <%= link_to "Edit", edit_user_path(@user), class:"btn", style: "background-color: #BDDF38; color: black; ml-3" %>
+  </div>
+</div>
+
+    <!-- Introductionカラム -->
+    <div class="col-md-6">
+      <div class="nickname">
+        <h5><%= @user.nickname %></h5>
+      </div>
+      <div class="introduction">
+        <p><%= @user.introduction %></p>
+      </div>
+      
+        <span class="information d-flex">
+          <p class="mr-3">Views:</p>
+          <p class="mr-3">Likes:</p>
+          <p class="mr-3">Follow:</p>
+          <p>Follower:</p>
+        </span>
+   
+    </div>
+
+    <!-- 右側の余白 -->
+    <div class="col-md"></div>
+  </div>
+</div>

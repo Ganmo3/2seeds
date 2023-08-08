@@ -1,29 +1,41 @@
-<h2>Sign up</h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "public/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+<div class="container">
+  <div class="row text-center">
+    <h2 class="auth-form-title mx-auto mt-5 mb-3">Sign up</h2>
+  </div>
+  <div class="row text-center">
+    <p class="mx-auto">すでにアカウントがありますか？<%= render "public/shared/links" %></p>
   </div>
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
+  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+    <% fields = [
+      { attribute: :nickname, label: "表示名", error_message: 'Nickname is mandatory, please specify one', autocomplete: "nickname", validations: ["1字以上25字以下"] },
+      { attribute: :account, label: "ユーザー名", error_message: 'Account is mandatory, please specify one', autocomplete: "accountname", validations: ["3字以上25字以下", "半角英数字", "利用可能なユーザー名"] },
+      { attribute: :email, label: "メールアドレス", error_message: 'Email is mandatory, please specify one', validations: ["1字以上256字以下", "適切なフォーマット"] },
+      { attribute: :password, label: "パスワード", validations: ["6字以上72字以下"] },
+      { attribute: :password_confirmation, label: "パスワード(確認用)", validations: ["パスワードと同じ"] }
+    ] %>
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
+    <% fields.each do |field| %>
+      <div class="d-flex justify-content-center flex-column">
+        <div class="form-group mx-auto">
+          <div class="input-validation" id="<%= "#{field[:attribute]}-validation" %>"></div>
+          <h6 class=""><%= field[:label] %></h6>
+          <div class="flex items-center">
+            <%= f.input field[:attribute], label: field[:label], error: field[:error_message], autofocus: field[:attribute] == :nickname, autocomplete: field[:autocomplete], class: 'form-control', label: false %>
+          </div>
+          <% field[:validations].each do |validation| %>
+            <span class="validation-text"><%= validation %></span>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
 
-<%= render "public/shared/links" %>
+    <div class="d-flex justify-content-center flex-column">
+      <div class="form-group mx-auto">
+        <%= f.submit "Sign up", class: 'auth-form__submit' %>
+      </div>
+    </div>
+
+  <% end %>
+</div>
