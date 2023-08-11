@@ -1,7 +1,7 @@
 <article class="post-card card border-0">
   <div class="post-card__author">
     <%= image_tag post.user.icon, size: "30x30", class: "post-card__avatar" %>
-    <%= link_to post.user.nickname, user_path(post.user.id), class: 'post-card__username' %>
+    <%= link_to post.user.nickname, user_path(post.user.account), class: 'post-card__username' %>
     <%= link_to post.title, edit_post_path(post.id), class: 'post-card__username' %>
   </div>
   <ul class="post-card__stats">
@@ -14,6 +14,10 @@
       </li>
       <li id="favorites-<%= post.id %>" class="post-card__likes" <%= "data-toggle=tooltip" unless user_signed_in? || admin_signed_in? %> data-placement="bottom" title="いいねをするには、ログインしてください。">
         <%= render partial: 'public/post_favorites/post_favorite', locals: { post: post } %>
+      </li>
+      <li>
+        <i class="fas fa-eye"></i>
+        <%= @post.impressionist_count %> Views
       </li>
     <% end %>
   </ul>

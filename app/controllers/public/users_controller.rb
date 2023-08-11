@@ -8,6 +8,7 @@ class Public::UsersController < ApplicationController
     # @user = User.find_by(account: params[:account])
   
     @posts = @user.posts
+    @total_views = @user.posts.sum(&:impressionist_count)
   end
 
   def edit

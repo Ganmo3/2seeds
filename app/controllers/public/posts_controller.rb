@@ -33,6 +33,7 @@ class Public::PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    impressionist(@post, nil, unique: [:session_hash]) # 同セッションでの重複閲覧をカウントしない
     @comment = Comment.new
 
     @comments = Comment.where(post_id: params[:id]).order(created_at: :desc)

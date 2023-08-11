@@ -42,7 +42,7 @@ class User < ApplicationRecord
 
   # ActiveStorage
   has_one_attached :icon
-  
+
   def get_icon
     unless icon.attached?
       file_path = Rails.root.join('app/assets/images/no_image.jpg')
@@ -55,10 +55,10 @@ class User < ApplicationRecord
   def to_param
     account
   end
-  
+
   # 会員ステータス
   enum status: { active: 0, banned: 1, inactive: 2 }
-  
+
   def active_for_authentication?
     super && (status == 'active')
   end
