@@ -1,0 +1,32 @@
+<div class="comment-card card border-0" >
+  <div class="comment-card__header">
+    <div class="comment-card__author">
+      <% if comment.user.icon.attached? %>
+        <%= image_tag comment.user.icon, size: "30x30", class: "comment-card__avatar" %>
+      <% else %>
+        <%= image_tag 'no_image.png', size: "30x30", class: "comment-card__avatar" %>
+      <% end %>
+      <%= link_to comment.user.nickname, user_path(comment.user.id), class: 'comment-card__username' %>
+    </div>
+    <div class="comment-card__createdAt">
+      <%= comment.created_at %>
+    </div>
+  </div>
+  <div class="comment-card__wrapper" >
+    <div class="comment-card__contents">
+      <p class="comment-card__body"><%= comment.comment%></p>
+      
+      <div id="comment_favorite_btn_<%= comment.id %>">
+        <%= render "public/comment_favorites/btn", comment: comment %>
+      </div>
+      
+      <% if user_signed_in? %>
+        <% if comment.user == current_user %>
+          <div class="text-right">
+            <%= link_to "削除", post_comment_path(post, comment), method: :delete, remote: true, data: { confirm: '本当に削除して良いですか?', cancel: 'やめる', commit: '削除する' }, title: '削除確認' %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

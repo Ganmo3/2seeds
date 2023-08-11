@@ -19,12 +19,15 @@ module ThumbnailHelper
       view_count = video_item.statistics.view_count
       upload_date = video_item.snippet.published_at.to_date.strftime('%Y/%m/%d')
       
-      content = image_tag(thumbnail_url, alt: title, **options)
-      if options[:show_info]
-        content += content_tag(:div, class: 'video-info') do
-            content_tag(:p, "#{title} - #{number_with_delimiter(view_count)} views - #{upload_date}")
+      content = content_tag(:div, class: 'text-center') do
+        image_tag(thumbnail_url, alt: title, **options) +
+        if options[:show_info]
+          content_tag(:div, class: 'video-info') do
+            content_tag(:p, raw("#{title}<br>#{number_with_delimiter(view_count)} views #{upload_date}"))
+          end
         end
       end
+
 
       content
     end
