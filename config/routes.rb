@@ -27,11 +27,19 @@ Rails.application.routes.draw do
     end
     resources :tags, only: [:create, :show]
     
+    # URLをaccount名に変更
     resources :users, param: :account, only: [:show, :edit, :update] do
       member do
+        # いいねした一覧
         get :liked_posts
+        
+        # 退会機能
         get :withdraw_input
         patch :withdraw_process
+        
+        # フォロー機能
+        post :follow, to: "relationships#create"
+        delete :unfollow, to: "relationships#destroy"
       end
     end
   end

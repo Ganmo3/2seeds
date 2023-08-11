@@ -22,12 +22,21 @@
         <p><%= @user.introduction %></p>
       </div>
 
-        <span class="information d-flex">
-          <p class="mr-3">Views:</p>
-          <p class="mr-3">Likes:</p>
-          <p class="mr-3">Follow:</p>
-          <p>Follower:</p>
-        </span>
+      <span class="information d-flex">
+        <p class="mr-3">Views:<%= @total_views %></p>
+        <p class="mr-3">Likes:<%= @user.posts.joins(:post_favorites).count %></p>
+        <p class="mr-3">Follows:<%= @user.followings.count %></p>
+        <p>Followers:<%= @user.followers.count %></p>
+      </span>
+      
+      <% if current_user != @user %>
+        <% if current_user.following?(@user) %>
+          <%= link_to "フォロー外す", unfollow_user_path(@user.account), method: :delete, class: "btn btn-info" %>
+        <% else %>
+          <%= link_to "フォローする", follow_user_path(@user.account), method: :post, class: "btn btn-success" %>
+        <% end %>
+      <% end %>
+
 
     </div>
 
