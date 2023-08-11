@@ -1,41 +1,80 @@
-<%# <% set_meta_tags title: @post.title , description: @post.body, keywords: @post.tags.map { |hash| hash[:text] }.join(", ") %>
-<div class="post-detail row hidden-md-up mx-auto">
-  <% if user_signed_in? %>
-    <% if @post.user_id == current_user.id %>
-      <div class="post-detail__author-buttons">
-        <%= link_to post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn post-detail__comment-delete' do %>
-          <i class="fas fa-trash-alt" data-toggle=tooltip data-placement="bottom" title="Delete"></i>
-        <% end %>
-        <%= link_to edit_post_path(@post), class: 'btn post-detail__comment-edit' do %>
-          <i class="far fa-edit" data-toggle=tooltip data-placement="bottom" title="Edit"></i>
-        <% end %>
-      </div>
-    <% end %>
-  <% end %>
-  <div class="col-md-2"></div>
-  <div class="col-md-8">
-    <%#<%= render partial: 'shared/post_card', locals: { post: @post,post_comment: @post_comment, isDetail: true } %>
-
-<%# youtube link取得 %>
-<% video_id = extract_youtube_video_id(@post.link) %>
-<%= link_to @post.link, target: "_blank" do %>
-  <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 500px; height: auto;') %>
-<% end %>
-<h1><%= @title %></h1>
-
-
-  <h2><%= @post.title %></h2>
-  <p><%= @post.body %></p>
-    <% if user_signed_in? %>
-      <%= form_with model: @comment, url: post_comments_path(@post, @comment), local: false, class: 'post-detail__comment-form' do |f| %>
-        <%= f.text_area :comment, rows: '3', required: true, class:'form-control', id:"comment-form", placeholder: "コメントをここに" %>
-        <%= f.submit "送信する", class: 'btn post-detail__comment-submit' %>
+<div class="container">
+  <div class="row">
+    <!-- 左側の余白 -->
+    <div class="col-md"></div>
+    
+    <!-- youtubeカラム-->
+    <div class="col-md-8 justify-content-center">
+      <%# youtube link取得 %>
+      <% video_id = extract_youtube_video_id(@post.link) %>
+      <%= link_to @post.link, target: "_blank" do %>
+        <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 80%; height: auto;') %>
       <% end %>
-    <% end %>
-    <div class="post-detail__comment-wrapper" id="comment-card-list">
-      <%# <%= render partial: 'public/post_comments/comment_card_list', locals: { post: @post, post_comments: @post_comments} %>
+      <h1><%= @title %></h1>
     </div>
+    
+    <!-- 右側の余白 -->
+    <div class="col-md"></div>
   </div>
 </div>
-<div class="col-md-2"></div>
-</div>
+
+
+<div class="container">
+  <div class="row">
+    
+    <!-- いいね&twitter -->
+    <div class="col-md">
+      <div id="post_favorite_btn_<%= @post.id %>">
+        <%= render "public/post_favorites/btn", post: @post %>
+      </div>
+      <div class="twitter">
+        <%= link_to share_on_twitter_post_path(@post), method: :post do %>
+          <i class="fab fa-twitter" style="color: #00acee; font-size: 30px;"></i>
+        <% end %>
+      </div>
+    </div>
+    
+    
+    <div class="col-md-8">
+      <article class="post">
+        <article class="post-title text-center">
+          <h2><%= @post.title %></h2>
+        </article>
+        <article class="post-body">
+          <p><%= @post.body %></p>
+        </article>
+      </article>
+      
+      <div class="post-detail__comment-wrapper" id="comment-card-list">
+        <%= render partial: 'public/comments/comment_card_list', locals: { post: @post, comments: @comments} %>
+      </div>
+      <div class="comment-form">
+        <% if user_signed_in? %>
+          <%= form_with model: @comment, url: post_comments_path(@post, @comment), local: false, class: 'post-detail__comment-form' do |f| %>
+            <%= f.text_area :comment, rows: '3', required: true, class:'form-control', id:"comment-form", placeholder: "コメントをここに" %>
+            <%= f.submit "送信する", class: 'btn post-detail__comment-submit' %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    
+    <!-- プロフィール -->
+    <div class="col-md">
+      <%= render partial: 'public/shared/post_card', locals: { post: @post,comment: @comment, isDetail: true } %>
+    <div class="post-detail row hidden-md-up mx-auto">
+      <% if user_signed_in? %>
+        <% if @post.user_id == current_user.id %>
+          <div class="post-detail__author-buttons">
+            <%= link_to post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn post-detail__comment-delete' do %>
+              <i class="fas fa-trash-alt" data-toggle=tooltip data-placement="bottom" title="Delete"></i>
+            <% end %>
+            <%= link_to edit_post_path(@post), class: 'btn post-detail__comment-edit' do %>
+              <i class="far fa-edit" data-toggle=tooltip data-placement="bottom" title="Edit"></i>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+    
+    

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_06_132135) do
+ActiveRecord::Schema.define(version: 2023_08_09_122533) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -52,6 +52,15 @@ ActiveRecord::Schema.define(version: 2023_08_06_132135) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
 
+  create_table "comment_favorites", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "comment_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["comment_id"], name: "index_comment_favorites_on_comment_id"
+    t.index ["user_id"], name: "index_comment_favorites_on_user_id"
+  end
+
   create_table "comments", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "post_id", null: false
@@ -62,28 +71,29 @@ ActiveRecord::Schema.define(version: 2023_08_06_132135) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
-  create_table "favorites", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "post_id", null: false
-    t.integer "comment_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["comment_id"], name: "index_favorites_on_comment_id"
-    t.index ["post_id"], name: "index_favorites_on_post_id"
-    t.index ["user_id"], name: "index_favorites_on_user_id"
-  end
-
   create_table "notifications", force: :cascade do |t|
     t.integer "visiter_id", null: false
     t.integer "visited_id", null: false
     t.integer "post_id"
     t.integer "comment_id"
-    t.integer "favorite_id"
     t.integer "relationship_id"
     t.string "action", default: "", null: false
     t.boolean "is_checked", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "post_favorite_id"
+    t.integer "comment_favorite_id"
+    t.index ["comment_favorite_id"], name: "index_notifications_on_comment_favorite_id"
+    t.index ["post_favorite_id"], name: "index_notifications_on_post_favorite_id"
+  end
+
+  create_table "post_favorites", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "post_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["post_id"], name: "index_post_favorites_on_post_id"
+    t.index ["user_id"], name: "index_post_favorites_on_user_id"
   end
 
   create_table "post_tags", force: :cascade do |t|
@@ -149,11 +159,14 @@ ActiveRecord::Schema.define(version: 2023_08_06_132135) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "comment_favorites", "comments"
+  add_foreign_key "comment_favorites", "users"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
-  add_foreign_key "favorites", "comments"
-  add_foreign_key "favorites", "posts"
-  add_foreign_key "favorites", "users"
+  add_foreign_key "notifications", "comment_favorites"
+  add_foreign_key "notifications", "post_favorites"
+  add_foreign_key "post_favorites", "posts"
+  add_foreign_key "post_favorites", "users"
   add_foreign_key "post_tags", "posts"
   add_foreign_key "post_tags", "tags"
   add_foreign_key "posts", "users"

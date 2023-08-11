@@ -1,0 +1,63 @@
+// Place all the styles related to the public/favorites controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+
+.heart {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  background: url(https://cssanimation.rocks/images/posts/steps/heart.png) no-repeat;
+  background-position: 0 0;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.heart-link {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.heart.animate {
+  background-position: -2800px 0;
+  transition: background 1s steps(28);
+}
+
+
+@keyframes heartBlast {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
+}
+
+ .HeartAnimation {
+   display: inline-block;
+   background-position: right;
+   -webkit-animation-name: heartBlast;
+   animation-name: heartBlast;
+   -webkit-animation-duration: .8s;
+   animation-duration: .8s;
+   -webkit-animation-iteration-count: 1;
+   animation-iteration-count: 1;
+   -webkit-animation-timing-function: steps(28);
+   animation-timing-function: steps(28);
+ }
+
+.login-required-message {
+  display: none; /* 最初は非表示にする */
+  background-color: #f7f7f7;
+  border: 1px solid #ccc;
+  font-size: 6px;
+  color: #333;
+  text-align: center;
+}
+
+.heart-link:hover  .login-required-message {
+  display: block; /* ホバー時に表示する */
+}

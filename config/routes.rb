@@ -13,17 +13,16 @@ Rails.application.routes.draw do
     resources :posts do
       collection do
         get :drafts
-        post :create_draft
       end
       
       member do
-        get :edit_draft
-        patch :update_draft
-        delete :destroy_draft
+        post 'share_on_twitter'
       end
       
-      resource :favorite, only: [:create, :destroy]
-      resources :comments, only: [:create, :destroy]
+      resource :post_favorite, only: [:create, :destroy]
+      resources :comments, only: [:create, :destroy] do
+        resource :comment_favorite, only: [:create, :destroy]
+      end
       resources :post_tags, only: [:create, :destroy]
     end
     resources :tags, only: [:create, :show]

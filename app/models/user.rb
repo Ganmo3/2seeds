@@ -6,8 +6,9 @@ class User < ApplicationRecord
 
   # 投稿、いいね、コメントとのアソシエーション
   has_many :posts, dependent: :destroy
-  has_many :favorites, dependent: :destroy
+  has_many :post_favorites, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :comment_favorites, dependent: :destroy
 
   # 通報
   has_many :reporter, class_name: "Report", foreign_key: "reporter_id", dependent: :destroy

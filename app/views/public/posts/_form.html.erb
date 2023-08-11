@@ -26,12 +26,12 @@
 </div>
 
 <div class="form-group form-group__button-wrapper">
-  <% if @isDraft || post.new_record? || !post.draft? %>
+ <% if @post.is_draft || post.new_record? || !@post.is_draft? %>
     <%= f.submit '投稿する', name: 'commit', class: "btn form-group__submit" %>
-    <% if @isDraft || post.new_record? %>
-      <%= f.submit '下書き保存', name: 'commit', class: "btn form-group__draft" %>
-    <% end %>
+  <% if @post.is_draft || post.new_record? %>
+     <%= f.submit '下書き保存', name: 'commit', class: "btn form-group__draft" %>
+<% end %>
   <% else %>
     <%= f.submit '投稿する', name: 'commit', class: "btn form-group__submit" %>
-  <% end %>
+<% end %>
 </div>

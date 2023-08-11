@@ -1,0 +1,3 @@
+$('#comment-card-list').html("<%= j(render "public/comments/comment_card_list", post: @post, comments: @comments) %>")
+$('#comments-count').html("<%= j(render "public/comments/comments_count", post: @post) %>")
+$("#comment-form").val('');

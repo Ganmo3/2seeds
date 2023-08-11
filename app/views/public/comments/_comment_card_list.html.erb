@@ -1,0 +1,3 @@
+<% comments.each do |comment| %>
+  <%= render partial: 'public/shared/comment_card', locals: { post: post, comment: comment } %>
+<% end %>
