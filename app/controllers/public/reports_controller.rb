@@ -1,2 +1,38 @@
 class Public::ReportsController < ApplicationController
+  before_action :authenticate_user!
+
+  def create
+    content_type = params[:report][:content_type]
+    content_id = params[:report][:content_id]
+    @content = content_type.constantize.find(content_id)
+
+    if @content
+      @report = Report.new(report_params)
+      @report.reporter = current_user
+      @report.reported = @content.user
+
+      if @report.save
+        respond_to do |format|
+          format.js { render "create" } # 通報成功時のレスポンスファイルを指定
+        end
+      else
+        respond_to do |format|
+          format.js { render "create_failure" } # 通報失敗時のレスポンスファイルを指定
+        end
+      end
+    else
+      respond_to :js
+    end
+  end
+
+  private
+
+  def find_content(content_type, content_id)
+    content_class = content_type.classify.constantize
+    content_class.find_by(id: content_id)
+  end
+
+  def report_params
+    params.require(:report).permit(:content_type, :content_id, :reason)
+  end
 end

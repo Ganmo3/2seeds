@@ -1,0 +1,6 @@
+<%= simple_form_for Report.new, remote: true do |f| %>
+  <%= f.collection_radio_buttons :reason, Report.reasons, :first, :last %>
+  <%= f.hidden_field :content_id, value: params[:content_id] %>
+  <%= f.hidden_field :content_type, value: params[:content_type] %>
+  <%= f.submit "報告内容を送信する", class: "btn btn-primary" %>
+<% end %>

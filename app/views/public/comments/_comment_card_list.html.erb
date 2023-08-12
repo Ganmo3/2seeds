@@ -1,3 +1,69 @@
 <% comments.each do |comment| %>
   <%= render partial: 'public/shared/comment_card', locals: { post: post, comment: comment } %>
+
+  <!-- モーダルウィンドウのトリガーボタンを追加 -->
+  <%= link_to "#", class: "open-modal-button", data: { comment_id: comment.id, content_id: comment.id, content_type: "Comment" } do %>
+    <i class="fas fa-ellipsis-v"></i>
+  <% end %>
+
+  <!-- 通報成功メッセージのモーダルウィンドウ -->
+  <dialog id="success-modal-<%= comment.id %>">
+    <p>通報が成功しました。</p>
+    <button class="close-modal-button" data-comment-id="<%= comment.id %>">閉じる</button>
+  </dialog>
+
+  <!-- モーダルウィンドウ -->
+  <dialog id="modal-<%= comment.id %>">
+    <!-- モーダルウィンドウ内のテキストの指定 -->
+    <%= render partial: 'public/reports/report_form', locals: { comment: comment } %>
+    <!-- モーダルウィンドウ内を閉じるボタンの指定 -->
+    <button class="close-modal-button" data-comment-id="<%= comment.id %>">キャンセル</button>
+  </dialog>
+
+<script>
+  $(document).ready(function() {
+    const openButtons = document.querySelectorAll(".open-modal-button");
+    const closeButtons = document.querySelectorAll(".close-modal-button");
+
+    openButtons.forEach(function(button) {
+      button.addEventListener("click", function(event) {
+        event.preventDefault();
+        const commentId = button.getAttribute("data-comment-id");
+        const contentId = button.getAttribute("data-content-id"); // 修正: 正しいコメントIDを取得する
+        const contentType = button.getAttribute("data-content-type");
+        const modal = document.getElementById(`modal-${commentId}`);
+        modal.showModal();
+        modal.querySelector("[name='report[content_id]']").value = contentId;
+        modal.querySelector("[name='report[content_type]']").value = contentType;
+      });
+    });
+
+    closeButtons.forEach(function(button) {
+      button.addEventListener("click", function(event) {
+        event.preventDefault();
+        const commentId = button.getAttribute("data-comment-id");
+        const modal = document.getElementById(`modal-${commentId}`);
+        modal.close();
+      });
+    });
+
+    // モーダルウィンドウ外をクリックしたら閉じる
+    document.addEventListener("click", function(event) {
+      if (event.target.classList.contains("modal-overlay")) {
+        const modal = document.querySelector(".dialog[open]");
+        if (modal) {
+          modal.close();
+        }
+      }
+    });
+
+    // 通報フォームの送信成功時に通報成功のモーダルウィンドウを表示
+    $(".report-form").on("ajax:success", function(event, data, status, xhr) {
+      const commentId = $(this).data("comment-id");
+      const successModal = document.getElementById(`success-modal-${commentId}`);
+      successModal.showModal();
+    });
+  });
+</script>
+
 <% end %>
