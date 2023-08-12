@@ -26,6 +26,7 @@ Rails.application.routes.draw do
       resources :post_tags, only: [:create, :destroy]
     end
     resources :tags, only: [:create, :show]
+    resources :reports, only: [:create]
     
     # URLをaccount名に変更
     resources :users, param: :account, only: [:show, :edit, :update] do

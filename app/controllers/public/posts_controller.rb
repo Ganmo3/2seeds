@@ -2,18 +2,18 @@ class Public::PostsController < ApplicationController
   def index
     @posts = Post.all
   end
-  
+
   def new
     @post = Post.new
   end
-  
+
   def create
    @post = Post.new(post_params.merge(user_id: current_user.id))
 
     if params[:commit] == "下書き保存"
       @post.is_draft = true
     end
-  
+
     if @post.save
       save_tags
       if @post.is_draft
@@ -25,7 +25,7 @@ class Public::PostsController < ApplicationController
       render :new
     end
   end
-  
+
   def drafts
     @published_posts = Post.where(user_id: current_user.id, is_draft: false).order(created_at: :desc)
     @draft_posts = Post.where(user_id: current_user.id, is_draft: true).order(created_at: :desc).page(params[:page]).per(8)
@@ -38,32 +38,36 @@ class Public::PostsController < ApplicationController
 
     @comments = Comment.where(post_id: params[:id]).order(created_at: :desc)
     @post_tags = @post.tags
+
+    @report = Report.new
   end
 
   def edit
     @post = Post.find(params[:id])
     # @isdraft = is_draft?
   end
-  
+
   def update
     @post = Post.find(params[:id])
 
     if @post.update(post_params)
-     # tag_list = params[:post][:tag_name].split(nil)
+      tag_list = params[:post][:tag_name].split(nil)
+      @post.tag_list = tag_list
+      
       if params[:commit] == "下書き保存"
         @post.update(is_draft: true)
-        #update_tags
+        @post.save_tags
         redirect_to posts_path, notice: "下書きを保存しました。"
       else
         @post.update(is_draft: false)
-        #update_tags
+        @post.save_tags
         redirect_to @post, notice: "投稿を更新しました。"
       end
     else
       render :edit
     end
   end
-  
+
   def destroy
     @post = Post.find(params[:id])
     @post.destroy
@@ -78,12 +82,12 @@ class Public::PostsController < ApplicationController
       config.access_token = ENV['USER_ACCESS_TOKEN']
       config.access_token_secret = ENV['USER_ACCESS_TOKEN_SECRET']
     end
-    
+
     post = Post.find(params[:id])
     tweet_text = "Check out this post: #{post.title} - #{post.link}"
-    
+
     client.update(tweet_text)
-    
+
     redirect_to post_path(post), notice: 'Post successfully shared on Twitter!'
   end
 
@@ -92,8 +96,39 @@ class Public::PostsController < ApplicationController
   def post_params
     params.require(:post).permit(:title, :body, :link)
   end
-  
-  def save_tags
+
+def save_tags
+  sent_tags = params[:post][:tag_name].scan(/#\w+/).map(&:strip).uniq.map(&:downcase)
+  existing_tags = Tag.where(name: sent_tags)
+
+  existing_tags.each do |tag|
+    PostTag.find_or_create_by(post_id: @post.id, tag_id: tag.id)
   end
-    
+
+  new_tags = sent_tags - existing_tags.pluck(:name)
+  new_tags.each do |tag_name|
+    tag = Tag.create(name: tag_name)
+    PostTag.create(post_id: @post.id, tag_id: tag.id)
+  end
+end
+
+
+
+def update_or_save_tags
+  sent_tags = params[:post][:tag_name].scan(/#\w+/).map(&:strip).uniq.map(&:downcase)
+  existing_tags = Tag.where(name: sent_tags)
+
+  existing_tags.each do |tag|
+    PostTag.find_or_create_by(post_id: @post.id, tag_id: tag.id)
+  end
+
+  new_tags = sent_tags - existing_tags.pluck(:name)
+  new_tags.each do |tag_name|
+    tag = Tag.create(name: tag_name)
+    PostTag.create(post_id: @post.id, tag_id: tag.id)
+  end
+end
+
+
+
 end
