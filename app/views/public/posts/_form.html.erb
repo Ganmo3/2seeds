@@ -17,12 +17,8 @@
   <%= f.text_area :body, required: true, rows: 25, cols: 10, class: "form-control " %>
 </div>
 <div class="form-group form-group__hash">
-  <%= f.label :tag_name %>
-  <% if defined?(isEdit) && isEdit == true %>
-    <%= f.text_field :tag_name, value: post.tags.pluck(:tag_name).join(' '), class: "form-control" %>
-  <% else %>
-    <%= f.text_field :tag_name, class: "form-control" %>
-  <% end %>
+  <%= f.label :tag_list, "Tags" %>
+  <%= f.text_field :tag_list, value: @post.tag_list.join(', '), class: "form-control" %>
 </div>
 
 <div class="form-group form-group__button-wrapper">

@@ -15,7 +15,6 @@ class Public::PostsController < ApplicationController
     end
 
     if @post.save
-      save_tags
       if @post.is_draft
         redirect_to drafts_posts_path, notice: '下書きが保存されました。'
       else
@@ -35,9 +34,9 @@ class Public::PostsController < ApplicationController
     @post = Post.find(params[:id])
     impressionist(@post, nil, unique: [:session_hash]) # 同セッションでの重複閲覧をカウントしない
     @comment = Comment.new
-
     @comments = Comment.where(post_id: params[:id]).order(created_at: :desc)
-    @post_tags = @post.tags
+    
+    @tags = @post.tag_counts_on(:tags) # 投稿に紐付くタグの表示
 
     @report = Report.new
   end
@@ -51,16 +50,14 @@ class Public::PostsController < ApplicationController
     @post = Post.find(params[:id])
 
     if @post.update(post_params)
-      tag_list = params[:post][:tag_name].split(nil)
+      tag_list = params[:post][:tag_list].split(',').map(&:strip)
       @post.tag_list = tag_list
       
       if params[:commit] == "下書き保存"
         @post.update(is_draft: true)
-        @post.save_tags
         redirect_to posts_path, notice: "下書きを保存しました。"
       else
         @post.update(is_draft: false)
-        @post.save_tags
         redirect_to @post, notice: "投稿を更新しました。"
       end
     else
@@ -94,41 +91,6 @@ class Public::PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :body, :link)
+    params.require(:post).permit(:title, :body, :link, :tag_list)
   end
-
-def save_tags
-  sent_tags = params[:post][:tag_name].scan(/#\w+/).map(&:strip).uniq.map(&:downcase)
-  existing_tags = Tag.where(name: sent_tags)
-
-  existing_tags.each do |tag|
-    PostTag.find_or_create_by(post_id: @post.id, tag_id: tag.id)
-  end
-
-  new_tags = sent_tags - existing_tags.pluck(:name)
-  new_tags.each do |tag_name|
-    tag = Tag.create(name: tag_name)
-    PostTag.create(post_id: @post.id, tag_id: tag.id)
-  end
-end
-
-
-
-def update_or_save_tags
-  sent_tags = params[:post][:tag_name].scan(/#\w+/).map(&:strip).uniq.map(&:downcase)
-  existing_tags = Tag.where(name: sent_tags)
-
-  existing_tags.each do |tag|
-    PostTag.find_or_create_by(post_id: @post.id, tag_id: tag.id)
-  end
-
-  new_tags = sent_tags - existing_tags.pluck(:name)
-  new_tags.each do |tag_name|
-    tag = Tag.create(name: tag_name)
-    PostTag.create(post_id: @post.id, tag_id: tag.id)
-  end
-end
-
-
-
 end

@@ -23,9 +23,8 @@ Rails.application.routes.draw do
       resources :comments, only: [:create, :destroy] do
         resource :comment_favorite, only: [:create, :destroy]
       end
-      resources :post_tags, only: [:create, :destroy]
     end
-    resources :tags, only: [:create, :show]
+    resources :tags, only: [:show]
     resources :reports, only: [:create]
     
     # URLをaccount名に変更
