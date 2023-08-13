@@ -40,6 +40,19 @@
         <article class="post-title text-center">
           <h2><%= @post.title %></h2>
         </article>
+        <article class="tags">
+          <% if @tags.present? %>
+          <div class="d-flex flex-wrap">
+              <% @tags.each do |tag| %>
+                <span class="badge badge-primary mr-2 mb-2">
+                  <%= link_to "#{tag.name}(#{tag.taggings_count})", tag_path(tag.name), class: "text-white" %>
+                </span>
+              <% end %>
+            </div>
+          <% else %>
+            <p>登録されているタグはありません</p>
+          <% end %>
+        </article>
         <article class="post-body">
           <p><%= @post.body %></p>
         </article>

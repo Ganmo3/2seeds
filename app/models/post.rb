@@ -1,16 +1,16 @@
 class Post < ApplicationRecord
   # gem:impressionableの使用
   is_impressionable
+  
+  # gem:acts_as_taggableの使用
+  acts_as_taggable_on :tags
 
   belongs_to :user
   has_many :post_favorites, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :notifications, dependent: :destroy
 
-  # hashtag機能
-  has_many :post_tags, dependent: :destroy
-  has_many :tags, through: :post_tags
-  
+
   # 下書き機能
   attribute :is_draft, :boolean, default: false
   
