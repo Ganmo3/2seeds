@@ -2,11 +2,13 @@ class Public::UsersController < ApplicationController
   def show
     # アカウントのシンボル化
     account_str = params[:account] # ユーザーからの入力を取得
-    sanitized_account_str = account_str.gsub(/[^a-zA-Z0-9_]/, '') # 文字列から不要な文字（コロン以外の特殊文字など）を削除
+    sanitized_account_str = account_str.gsub(/[^a-zA-Z0-9_-]/, '') # 文字列から不要な文字（コロン以外の特殊文字など）を削除
     account_sym = sanitized_account_str.to_sym # 文字列をシンボルに変換
     @user = User.find_by(account: account_sym) # サニタイズされたシンボルを使用してクエリを実行
     # @user = User.find_by(account: params[:account])
-  
+
+    # @channel_id = extract_youtube_channel_id(@user.channel)
+
     @posts = @user.posts
     @total_views = @user.posts.sum(&:impressionist_count)
   end
@@ -17,18 +19,20 @@ class Public::UsersController < ApplicationController
 
   def update
     @user = current_user
+    # channel_id = extract_youtube_channel_id(user_params[:channel])
 
     if @user.update(user_params)
+      flash[:success] = "ユーザー情報を更新しました。"
       redirect_to user_path(@user)
     else
       render :edit
     end
   end
-  
+
   def withdraw_input
     @user = current_user
   end
-  
+
   def withdraw_process
     user = current_user
     user.update(status: :inactive)
@@ -39,6 +43,6 @@ class Public::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:nickname, :account, :email, :introduction, :icon)
+    params.require(:user).permit(:nickname, :account, :email, :introduction, :icon, :anniversary, :channel)
   end
 end

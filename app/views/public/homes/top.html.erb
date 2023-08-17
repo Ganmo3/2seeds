@@ -1,0 +1,118 @@
+
+<div class="container">
+  <div class="row">
+    <!-- 検索 -->
+    <div class="col-md-3"></div>
+     <!-- メインビジュアル -->
+    <div class="col-md-9"></div>
+  </div>
+</div>
+
+<!-- メイン -->
+<div class="container" id="popular-container">
+  <div class="row">
+    <div class="col-md-12">
+      <%= link_to "人気急上昇", "#", class: "btn top-btn", style: "background-color: #BDDF38; color: black; border-radius: 50px;" %>
+      <ul class="slider">
+        <% @daily_popular_posts.each do |post| %>
+          <li>
+            <%= link_to post_path(post) do %>
+              <% video_id = extract_youtube_video_id(post.link) %>
+              <% next unless video_id.present? %>
+              <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 250px; height: auto;', show_info: false) %>
+            <% end %>
+            <h4><%= link_to post.title, post_path(post) %></h4>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- デイリーベスト -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <%= link_to "Daily's Best", "#", class: "btn top-btn", style: "background-color: #BDDF38; color: black; border-radius: 50px;" %>
+      <% if @daily_most_viewed_post %>
+        <div class="daily-best">
+          <%= link_to post_path(@daily_most_viewed_post) do %>
+            <%= youtube_thumbnail(extract_youtube_video_id(@daily_most_viewed_post.link), size: '1280x720', style: 'width: 100%; height: auto;', show_info: false) %>
+          <% end %>
+          <h4 class="text-center"><%= link_to @daily_most_viewed_post.title, post_path(@daily_most_viewed_post) %></h4>
+          <p class="text-center"><%= @daily_most_viewed_post.body %></p>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- 急上昇クリエイター -->
+    <div class="col-md-4">
+      <%= link_to "急上昇クリエイター", "#", class: "btn top-btn", style: "background-color: #BDDF38; color: black; border-radius: 50px;" %>
+      <ul>
+        <% @ranking.each do |user| %>
+          <li>
+            <%= user.nickname %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 新着スライドショー -->
+<div class="container" id="new-posts-container">
+  <div class="row">
+    <div class="col-md-12">
+      <%= link_to "新着", "#", class: "btn top-btn", style: "background-color: #BDDF38; color: black; border-radius: 50px;" %>
+      <ul class="slider">
+        <% @daily_new_posts.each do |post| %>
+          <li>
+            <%= link_to post_path(post) do %>
+              <% video_id = extract_youtube_video_id(post.link) %>
+              <% next unless video_id.present? %>
+              <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 250px; height: auto;', show_info: false) %>
+            <% end %>
+            <h4><%= link_to post.title, post_path(post) %></h4>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  $(document).ready(function() {
+    $(".top-btn").hover(
+      function() {
+        $(this).css({
+          backgroundColor: "#FFC850",
+        });
+      },
+      function() {
+        $(this).css({
+          backgroundColor: "#BDDF38",
+        });
+      }
+    );
+  });
+  
+  // スライドショー
+$(document).ready(function() {
+  $('.slider').slick({
+    autoplay: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    prevArrow: '<div class="slick-prev"></div>',
+    nextArrow: '<div class="slick-next"></div>',
+    centerMode: true,
+    variableWidth: true,
+    dots: true,
+  });
+});
+  
+</script>

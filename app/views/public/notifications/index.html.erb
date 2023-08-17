@@ -1,0 +1,15 @@
+<% notifications = unchecked_notifications.where.not(visitor_id: current_user.id) %>
+<% # 未確認通知を表示 %>
+<% if @unchecked_notifications.any? %>
+  <%= render "notification", notifications: @unchecked_notifications %>
+<% end %>
+
+<% # 確認済み通知を表示 %>
+<% if @checked_notifications.any? %>
+  <%= render "notification", notifications: @checked_notifications %>
+<% end %>
+
+<% # 通知が一つもない場合の表示 %>
+<% if @unchecked_notifications.empty? && @checked_notifications.empty? %>
+  <p>通知はありません</p>
+<% end %>

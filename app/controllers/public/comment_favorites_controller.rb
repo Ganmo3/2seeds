@@ -4,6 +4,10 @@ class Public::CommentFavoritesController < ApplicationController
     @comment_favorite = current_user.comment_favorites.new(comment_id: @comment.id)
     @comment_favorite.save
     # redirect_to request.referer
+    
+    # いいね通知を作成
+    post = Comment.find(params[:comment_id]).post  # コメントから関連する投稿を取得
+    post.create_notification_favorite!(current_user)
   end
   
   def destroy

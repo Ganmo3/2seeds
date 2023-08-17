@@ -1,10 +1,16 @@
 class Public::PostsController < ApplicationController
   def index
     @posts = Post.all
+    @user = current_user
+    
+    @posts.each do |post|
+      impressionist(post, nil, unique: [:session_hash])
+    end
   end
 
   def new
     @post = Post.new
+    @user = current_user
   end
 
   def create
@@ -28,6 +34,7 @@ class Public::PostsController < ApplicationController
   def drafts
     @published_posts = Post.where(user_id: current_user.id, is_draft: false).order(created_at: :desc)
     @draft_posts = Post.where(user_id: current_user.id, is_draft: true).order(created_at: :desc).page(params[:page]).per(8)
+    @user = current_user
   end
 
   def show
@@ -39,11 +46,14 @@ class Public::PostsController < ApplicationController
     @tags = @post.tag_counts_on(:tags) # 投稿に紐付くタグの表示
 
     @report = Report.new
+    
+    @user = current_user
   end
 
   def edit
     @post = Post.find(params[:id])
     # @isdraft = is_draft?
+    @user = current_user
   end
 
   def update

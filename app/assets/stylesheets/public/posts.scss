@@ -3,13 +3,16 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
 .post-body {
-  border: 1px solid #ccc; /* 枠のスタイルを設定 */
-  padding: 100px; /* 枠内の余白を設定 */
+  border: 1px solid #ccc;
+  padding: 16px;
   position: relative;
+  overflow: hidden;
+  max-width: 800px;
+  width: 100%; 
+  box-sizing: border-box; 
 }
 
 .post-body p {
-  position: absolute;
   top: 0;
   left: 0;
 }

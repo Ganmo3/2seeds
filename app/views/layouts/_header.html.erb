@@ -1,15 +1,94 @@
 <header class="sticky-top">
   <nav class="navbar navbar-expand-lg py-4">
+    <a>
+      <%= link_to root_path, data: { "turbolinks" => false }, class: "mx-4" do %>
+        <%= image_tag "logo_2seeds.png", alt: "LOGO", size: "100x90" %>
+      <% end %>
+    </a>
+
     <ul class="navbar-nav mx-5 d-flex ml-auto">
       <li>
-        <%= link_to 'Sign in', new_user_registration_path, class: "btn mx-3", style: "background-color: #BDDF38; color: black;" %>
+        <% if user_signed_in? %>
+          <%= link_to notifications_path do %>
+            <% if unchecked_notifications.any? %>
+              <span class="fa-stack">
+                <i class="far fa-bell fa-lg fa-stack-2x" style="font-size: 1.5em;"></i>
+                <i class="fas fa-circle n-circle fa-stack-1x"></i>
+              </span>
+            <% else %>
+              <i class="far fa-bell fa-lg" style="font-size: 1.5em;"></i>
+            <% end %>
+          <% end %>
+        <% end %>
+      </li>
+
+      <li>
+        <% unless user_signed_in? %>
+          <%= link_to 'Sign up', new_user_registration_path, class: "btn mx-3", style: "background-color: #BDDF38; color: black; font-weight: bold;" %>
+        <% end %>
       </li>
       <li>
-        <%= link_to 'Log in', new_user_session_path, class: "btn mx-3", style: "background-color: #BDDF38; color: black;" %>
+        <% unless user_signed_in? %>
+          <%= link_to 'Log in', new_user_session_path, class: "btn mx-3", style: "background-color: #BDDF38; color: black; font-weight: bold;" %>
+        <% end %>
       </li>
+
+      <% if user_signed_in? %>
       <li>
-        <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: "btn mx-3", style: "background-color: #BDDF38; color: black;" %>
+        <div class="mypage-btn-container" id="mypageBtnContainer">
+          <% channel_id = extract_youtube_channel_id(@user.channel) %>
+          <% if channel_id.present? %>
+            <div class="icon cursor-pointer">
+              <%= youtube_channel_icon(channel_id, size: '40x40', class: 'channel-icon rounded-circle') %>
+            </div>
+          <% else %>
+            <div class="ico cursor-pointer">
+              <%= image_tag @user.get_icon, size: '40x40', class: "rounded-circle file-fluid" %>
+            </div>
+          <% end %>
+
+
+
+          <div class="mypage-dropdown" id="mypageDropdown">
+            <ul>
+              <li><%= link_to '新規投稿', new_post_path %></li>
+              <li><%= link_to 'アカウント設定', edit_user_path(@user) %></li>
+              <li><%= link_to 'いいねした投稿', "#" %></li>
+              <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %></li>
+            </ul>
+          </div>
+        </div>
+        <% end %>
       </li>
+
     </ul>
   </nav>
 </header>
+
+
+<%# mypageドロップダウンメニュー #%>
+<script>
+document.addEventListener('turbolinks:load', function() {
+  const mypageBtnContainer = document.getElementById('mypageBtnContainer');
+  const mypageDropdown = document.getElementById('mypageDropdown');
+
+  function toggleDropdown() {
+    if (mypageDropdown.style.display === 'none') {
+      $(mypageDropdown).slideDown(300);
+    } else {
+      $(mypageDropdown).slideUp(300);
+    }
+  }
+
+  if (mypageBtnContainer) {
+    mypageBtnContainer.addEventListener('click', toggleDropdown);
+
+    // ドキュメント全体にクリックイベントを追加
+    document.addEventListener('click', function(event) {
+      if (!mypageBtnContainer.contains(event.target)) {
+        mypageDropdown.style.display = 'none';
+      }
+    });
+  }
+});
+</script>

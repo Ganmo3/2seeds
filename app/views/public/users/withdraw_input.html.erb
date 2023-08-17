@@ -44,7 +44,8 @@
       </div>
 
       <div class="button">
-        <%= link_to "アカウントを削除", withdraw_process_user_path, method: :patch, class: "btn btn-outline-danger", id: "withdraw-button", disabled: true %>
+       <%= link_to "アカウントを削除", withdraw_process_user_path, method: :patch, class: "btn btn-outline-danger", id: "withdraw-button", disabled: true, data: { confirm: "本当によろしいですか？" } %>
+
       </div>
     </div>
 
