@@ -1,3 +1,99 @@
 // Place all the styles related to the public/homes controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+.top-btn {
+  transition: background-color 0.3s ease; /* アニメーションの設定 */
+}
+
+.-btn:hover {
+  background-color: #FFC850; /* ホバー時の背景色 */
+}
+
+/* 新着商品スライドショー */
+.slider {
+  width: 94%;
+  margin: 0 auto;
+}
+
+.slider img {
+  width: 300px;
+  height: 200px;
+}
+
+.slider .slick-slide {
+  transform: scale(0.8);
+  transition: all 0.5s;
+  opacity: 0.5;
+}
+
+.slider .slick-slide.slick-center {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* 新着商品リスト装飾 */
+.slider li {
+  background-color: #BDDF38;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.slider li p {
+  margin: 5px 0;
+}
+
+.slider li p.caption {
+  font-family: 'Sawarabi Mincho', sans-serif;
+  font-size: 16px;
+  color: #FF1493;
+  font-weight: bold;
+}
+
+.slick-prev,
+.slick-next {
+  position: absolute;
+  top: 42%;
+  cursor: pointer;
+  outline: none;
+  border-top: 2px solid #666;
+  border-right: 2px solid #666;
+  height: 15px;
+  width: 15px;
+}
+
+.slick-prev {
+  left: -1.5%;
+  transform: rotate(-135deg);
+}
+
+.slick-next {
+  right: -1.5%;
+  transform: rotate(45deg);
+}
+
+.slick-dots {
+  text-align: center;
+  margin: 20px 0 0 0;
+}
+
+.slick-dots li {
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.slick-dots button {
+  color: transparent;
+  width: 12px;
+  height: 12px;
+  display: block;
+  border-radius: 50%;
+  background: #FFC0CB;
+  border: none;
+}
+
+.slick-dots .slick-active button {
+  background: orange;
+}

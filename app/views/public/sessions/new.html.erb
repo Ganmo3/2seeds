@@ -1,26 +1,43 @@
-<h2>Log in</h2>
+<div class="container">
+  <div class="row mx-auto">
+    <div class="col-md-6 offset mx-auto">
+      <h2 class="auth-form-title text-center mt-5 mb-3">Log in</h2>
+      <div class="d-flex justify-content-center flex-column">
+        <div class="form-group mx-auto">
+  
+          <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+            <div class="row">
+              <div class="col-md-12 mb-2">
+                <%= f.label :email, "メールアドレス or アカウント名" %>
+                <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 mb-2">
+                <%= f.label :password, "パスワード" %>
+                <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
+              </div>
+            </div>
+    
+            <% if devise_mapping.rememberable? %>
+              <div class="row">
+                <div class="col-md-12 mb-2">
+                  <%= f.check_box :remember_me %>
+                  <%= f.label :remember_me %>
+                </div>
+              </div>
+            <% end %>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <%= f.button :submit, "Log in", class: "btn btn-primary" %>
+              </div>
+            </div>
+          <% end %>
 
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+          <%= render "public/shared/links" %>
+        </div>
+      </div>
     </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "Log in" %>
   </div>
-<% end %>
-
-<%= render "public/shared/links" %>
+</div>

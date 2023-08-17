@@ -42,6 +42,9 @@ Rails.application.routes.draw do
         delete :unfollow, to: "relationships#destroy"
       end
     end
+    
+    resources :notifications, only: [:index]
+    
   end
 
   post "/chatbots", to: "chatbots#create"

@@ -1,0 +1,15 @@
+<% if controller_name != 'sessions' %>
+  <div class="search_box" id="search-box">
+    <button class="btn btn-lg search_icon" id="search-icon" style="background-color: #FF9494; color: white;">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+    <div class="search_form pe-3" id="search-form" style="width: 0; direction: rtl;">
+      <% @q = Item.ransack %>
+      <%= search_form_for @q, url: search_path, class: "row justify-content-end" do |f| %>
+        <div class="col-md-8 p-0">
+          <%= f.search_field :name_cont, class: "form-control", id: "search-input", placeholder: "商品を検索" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

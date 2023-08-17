@@ -4,6 +4,10 @@ class Public::CommentsController < ApplicationController
     @comment = current_user.comments.new(comment_params)
     @comment.post_id = params[:post_id]
     @comment.save
+    
+    # コメントの投稿に対する通知を作成・保存
+    @post.create_notification_comment!(current_user, @comment.id)
+    
     @comments = Comment.where(post_id: params[:post_id]).order(created_at: :desc)
     #redirect_to post_path(@post)
   end

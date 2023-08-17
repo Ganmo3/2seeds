@@ -53,8 +53,9 @@
             <p>登録されているタグはありません</p>
           <% end %>
         </article>
-        <article class="post-body">
-          <p><%= @post.body %></p>
+        
+        <article class="post-body" id="dynamicSize">
+          <%= simple_format(@post.body) %>
         </article>
       </article>
       
@@ -89,5 +90,4 @@
       <% end %>
     </div>
   </div>
-    
     

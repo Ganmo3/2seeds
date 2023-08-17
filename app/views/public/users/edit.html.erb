@@ -4,14 +4,20 @@
     <div class="col-md"></div>
 
     <!-- アイコンカラム -->
-    <div class="col-md-2">
-      <div class="icon">
-        <%= link_to image_tag @user.get_icon, class: "rounded-circle file-fluid", id: "icon-image-link" %>
-      </div>
-      <div class="button">
-        <%= f.file_field :icon, accept: "image/*", style: "display: none;", id: "icon-file-field" %>
-      </div>
-    </div>
+<div class="col-md-2">
+  <div class="icon">
+    <% channel_id = extract_youtube_channel_id(@user.channel) %>
+    <% if channel_id.present? %>
+      <%= link_to youtube_channel_icon(channel_id, size: 'default', class: 'channel-icon rounded-circle'), "https://www.youtube.com/channel/#{channel_id}", target: "_blank" %>
+    <% else %>
+      <%= link_to image_tag @user.get_icon, class: "rounded-circle file-fluid", id: "icon-image-link" %>
+    <% end %>
+  </div>
+  <div class="button">
+    <%= f.file_field :icon, accept: "image/*", style: "display: none;", id: "icon-file-field" %>
+  </div>
+</div>
+
 
     <div class="col-md-8">
         <div class="form-group">
@@ -24,14 +30,16 @@
         </div>
         <div class="form-group">
           <i class="fas fa-link"></i>
-          <label>動画サイトリンク</label>
-          <%= f.text_field :link, class: "form-control", style: "width: 50%" %>
+          <label>YouTubeチャンネル</label>
+          <%= f.text_field :channel, class: "form-control", style: "width: 50%" %>
         </div>
 
         <div class="form-group form-group__button-wrapper">
           <%= f.submit "更新する", class: "btn", style: "background-color: #BDDF38; color: black;", data: { disable_with: "処理中..." } %>
         </div>
       <% end %>
+          <%= link_to "退会する", withdraw_input_user_path, class:"btn btn-danger" %>
+        
 
       <div class="col-md"></div>
     </div>
