@@ -1,10 +1,21 @@
 <article class="post-card card border-0">
-  <div class="post-card__author">
-    <%= image_tag post.user.icon, size: "30x30", class: "post-card__avatar" %>
-    <%= link_to post.user.nickname, user_path(post.user.account), class: 'post-card__username' %>
-    <%= link_to post.title, edit_post_path(post.id), class: 'post-card__username' %>
+  <div class="post-card_creator">
+    <div class="icon">
+      <%= link_to user_path(post.user.account) do %>
+        <%= user_icon_or_youtube(post.user.channel, size: '30x30', class: 'rounded-circle') %>
+        <%= post.user.nickname %>
+      <% end %>
+    </div>
+    <% if user_signed_in? && current_user != @user %>
+      <div class=follow-btn id="follow-btn-card">
+        <%= render "public/relationships/follow", user: @user %>
+      </div>
+    <% end %>
+
+
+    <%# <%= link_to post.title, edit_post_path(post.id), class: 'post-card__username' %>
   </div>
-  <ul class="post-card__stats">
+  <ul class="post-card_stats">
     <li>
       <time class="post-card__date" datetime="<%= post.created_at %>"><%= formatted_datetime(post.created_at) %></time>
     </li>
