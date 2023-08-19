@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md">
+
+      <h2 class="text-center">プレビュー</h2>
+
+      <div class="preview-thumbnail justify-content-center">
+        <%# youtube link取得 %>
+        <% video_id = extract_youtube_video_id(@preview_post.link) %>
+        <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 80%; height: auto;') %>
+        <h1 class="text-center"><%= @preview_post.title %></h1>
+      </div>
+
+       <div class="preview-post justify-content-center">
+    <article class="post">
+      <article class="post-title text-center">
+        <h2><%= @preview_post.title %></h2>
+      </article>
+      <article class="tags">
+        <% if preview_tags.present? %>
+          <div class="d-flex flex-wrap">
+            <% preview_tags.each do |tag| %>
+              <% if tag.present? %>
+                <span class="badge badge-primary mr-2 mb-2">
+                  <%= "#{tag}" %>
+                </span>
+              <% end %>
+            <% end %>
+          </div>
+        <% else %>
+          <p>登録されているタグはありません</p>
+        <% end %>
+      </article>
+      <article class="post-body" id="dynamicSize">
+        <%= @preview_post.body %>
+      </article>
+    </article>
+  </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h4>フォロー</h4>
+      <% if @user.followings.present? %>
+        <ul>
+          <% @user.followings.each do |following| %>
+            <li>
+              <%= link_to following.nickname, user_path(following.account) %>  <%= render "public/relationships/follow", user: following %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>フォローしているユーザーはいません。</p>
+      <% end %>
+    </div>
+  </div>
+</div>

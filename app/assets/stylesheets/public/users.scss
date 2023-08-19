@@ -2,3 +2,70 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
+
+#follower-count:hover {
+  cursor: pointer;
+}
+
+#following-count:hover {
+  cursor: pointer;
+}
+
+/* モーダルの背景 */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* モーダルコンテンツ */
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 80%;
+  width: 500px;
+}
+
+/* モーダルの閉じるボタン */
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+/* モーダルのアニメーション */
+.modal.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+.modal.fade-out {
+  animation: fadeOut 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* モーダル内のコンテンツが表示領域を超えた場合にスクロールが可能になるようにスタイルを設定 */
+.modal-content {
+  max-height: 400px; /* 適切な高さに調整 */
+  overflow-y: auto;
+}

@@ -19,4 +19,8 @@ module ApplicationHelper
     end
   end
   
+  def formatted_datetime(datetime)
+    datetime.strftime('%Y/%m/%d')
+  end
+  
 end

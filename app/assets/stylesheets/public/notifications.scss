@@ -7,4 +7,8 @@
   padding-left: 1rem;
   padding-top: 0rem;
   color: #efa04c;
+  /* 初期状態でオレンジ色を保持しないようにする */
+  &.orange {
+    color: #efa04c;
+  }
 }

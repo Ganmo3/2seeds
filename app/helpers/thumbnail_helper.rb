@@ -13,24 +13,26 @@ module ThumbnailHelper
       video_response = service.list_videos('snippet,statistics', id: video_id)
       video_item = video_response.items.first
 
-      # サムネイル、タイトル、再生回数、アップロード日の取得
-      thumbnail_url = video_item.snippet.thumbnails.maxres.url
-      title = video_item.snippet.title
-      view_count = video_item.statistics.view_count
-      upload_date = video_item.snippet.published_at.to_date.strftime('%Y/%m/%d')
-      
-      content = content_tag(:div, class: 'text-center') do
-        image_tag(thumbnail_url, alt: title, **options) +
-        if options[:show_info]
-          content_tag(:div, class: 'video-info') do
-            content_tag(:p, raw("#{title}<br>#{number_with_delimiter(view_count)} views #{upload_date}"))
+      if video_item
+        thumbnail_url = video_item.snippet.thumbnails.maxres.url
+        title = video_item.snippet.title
+        view_count = video_item.statistics&.view_count || 'N/A'  # nil の場合に 'N/A' をセット
+        upload_date = video_item.snippet.published_at.to_date.strftime('%Y/%m/%d')
+
+        content = content_tag(:div, class: 'text-center') do
+          image_tag(thumbnail_url, alt: title, **options) +
+          if options[:show_info]
+            content_tag(:div, class: 'video-info') do
+              content_tag(:p, raw("#{title}<br>#{number_with_delimiter(view_count)} views #{upload_date}"))
+            end
           end
         end
+
+        content
+      else
+        # ビデオが見つからない場合の処理をここに記述
+        content_tag(:div, "Video not found", class: 'text-center')
       end
-
-
-      content
     end
   end
 end
- 

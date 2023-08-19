@@ -4,6 +4,9 @@ class Post < ApplicationRecord
   
   # gem:acts_as_taggableの使用
   acts_as_taggable_on :tags
+  
+  # action textの使用
+  has_rich_text :body
 
   belongs_to :user
   has_many :post_favorites, dependent: :destroy

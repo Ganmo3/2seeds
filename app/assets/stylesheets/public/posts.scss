@@ -16,3 +16,17 @@
   top: 0;
   left: 0;
 }
+
+.list-unstyled li {
+  list-style: none;
+}
+
+.post-card {
+  padding: 10px;
+  background-color: rgba(189, 223, 56, 0.5); 
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.post-title {
+  font-size: 12px;
+}

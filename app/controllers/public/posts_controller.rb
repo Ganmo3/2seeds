@@ -1,4 +1,6 @@
 class Public::PostsController < ApplicationController
+  before_action :hide_header, only: [:new, :edit]
+  
   def index
     @posts = Post.all
     @user = current_user
@@ -14,7 +16,9 @@ class Public::PostsController < ApplicationController
   end
 
   def create
-   @post = Post.new(post_params.merge(user_id: current_user.id))
+   @user = current_user
+   @post = Post.new(post_params)
+   # post = Post.new(post_params.merge(user_id: current_user.id))
 
     if params[:commit] == "下書き保存"
       @post.is_draft = true
@@ -80,6 +84,15 @@ class Public::PostsController < ApplicationController
     @post.destroy
     redirect_to posts_path
   end
+  
+  def preview
+    @preview_post = Post.new(post_params)
+    @preview_tags = @preview_post.tag_list # Save tags temporarily
+    @preview_post.tag_list = [] # Clear the tags
+    render partial: 'preview', locals: { post: @preview_post, preview_tags: @preview_tags }
+  end
+
+
 
 
   def share_on_twitter
@@ -99,8 +112,12 @@ class Public::PostsController < ApplicationController
   end
 
   private
+  
+  def hide_header
+    @show_header = false
+  end
 
   def post_params
-    params.require(:post).permit(:title, :body, :link, :tag_list)
+    params.require(:post).permit(:title, :body, :link, :tag_list, :is_draft)
   end
 end
