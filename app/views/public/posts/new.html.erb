@@ -1,7 +1,7 @@
 <div class="post-form container">
   <div class="row justify-content-center">
     <div class="col-md-8">
-      <%= form_with model: Post  do |f| %>
+      <%= form_with model: @post do |f| %>
         <%= render partial: 'public/posts/form', locals: { f: f, post: @post } %>
       <% end %>
     </div>

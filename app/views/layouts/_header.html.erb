@@ -1,15 +1,18 @@
-<header class="sticky-top">
+<header class="sticky-top" id="header">
+  <div class="col-md-10 offset-md-1">
   <nav class="navbar navbar-expand-lg py-4">
+    
     <a>
       <%= link_to root_path, data: { "turbolinks" => false }, class: "mx-4" do %>
         <%= image_tag "logo_2seeds.png", alt: "LOGO", size: "100x90" %>
       <% end %>
     </a>
 
-    <ul class="navbar-nav mx-5 d-flex ml-auto">
-      <li>
+    <ul class="navbar-nav mx-5 d-flex align-items-center ml-auto">
+      <li class="mr-3">
         <% if user_signed_in? %>
-          <%= link_to notifications_path do %>
+          <%# <%= link_to notifications_path do %>
+          <a href="javascript:void(0)" id="notifications-link">
             <% if unchecked_notifications.any? %>
               <span class="fa-stack">
                 <i class="far fa-bell fa-lg fa-stack-2x" style="font-size: 1.5em;"></i>
@@ -19,8 +22,13 @@
               <i class="far fa-bell fa-lg" style="font-size: 1.5em;"></i>
             <% end %>
           <% end %>
-        <% end %>
+       
       </li>
+
+      <!-- 通知一覧を表示するモーダルウィンドウ -->
+      <div id="notifications-modal" class="modal">
+        <div class="modal-content"></div>
+      </div>
 
       <li>
         <% unless user_signed_in? %>
@@ -58,11 +66,13 @@
             </ul>
           </div>
         </div>
-        <% end %>
       </li>
+      <% end %>
 
     </ul>
+    
   </nav>
+  </div>
 </header>
 
 
@@ -91,4 +101,43 @@ document.addEventListener('turbolinks:load', function() {
     });
   }
 });
+</script>
+
+<script>
+$(document).ready(function() {
+  $('#notifications-link').click(function() {
+    // 通知を確認済みに更新するアクションを呼び出す
+    $.ajax({
+      url: '<%= update_checked_notifications_path %>',
+      type: 'POST',
+      success: function() {
+        // 更新が成功したら、未確認の通知のオレンジ色を消す
+        $('.n-circle').removeClass('orange');
+
+        // ベルのアイコンを切り替える
+        $('#notifications-link').empty();
+        $('#notifications-link').append('<i class="far fa-bell fa-lg" style="font-size: 1.5em;"></i>');
+
+        // 通知モーダルを表示する処理
+        $.ajax({
+          url: '<%= notifications_path(@user) %>',
+          type: 'GET',
+          success: function(response) {
+            $('#notifications-modal .modal-content').html(response);
+            $('#notifications-modal').addClass('fade-in').show();
+          }
+        });
+      }
+    });
+  });
+
+  // モーダルを閉じた際に通知モーダルの表示をリセット
+  $('#notifications-modal').on('click', function() {
+    $(this).addClass('fade-out');
+    setTimeout(() => {
+      $(this).hide().removeClass('fade-out');
+    }, 300); // アニメーションの時間に合わせて調整
+  });
+});
+
 </script>

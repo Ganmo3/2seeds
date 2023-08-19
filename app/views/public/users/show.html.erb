@@ -30,16 +30,18 @@
       <span class="information d-flex">
         <p class="mr-3">Views:<%= @total_views %></p>
         <p class="mr-3">Likes:<%= @user.posts.joins(:post_favorites).count %></p>
-        <p class="mr-3">Follows:<%= @user.followings.count %></p>
-        <p>Followers:<%= @user.followers.count %></p>
+        <p class="mr-3" id="following-count">
+          <%= render "public/relationships/following-count", user: @user %>
+        </p>
+        <p id="follower-count">
+          <%= render "public/relationships/follower-count", user: @user %>
+        </p>
       </span>
       
-<% if user_signed_in? && current_user != @user %>
-  <% if current_user.following?(@user) %>
-          <%= link_to "フォロー外す", unfollow_user_path(@user.account), method: :delete, class: "btn btn-info" %>
-        <% else %>
-          <%= link_to "フォローする", follow_user_path(@user.account), method: :post, class: "btn btn-success" %>
-        <% end %>
+      <% if user_signed_in? && current_user != @user %>
+      <div id="follow-btn">
+        <%= render "public/relationships//follow", user: @user %>
+      </div>
       <% end %>
     </div>
 
@@ -48,14 +50,71 @@
   </div>
 </div>
 
-<div class="container">
+<div class="container mt-3">
   <div class="row">
     <div class="col-md-8 offset-md-2">
+      <div class="">
       <%= link_to "投稿記事", "#", class: "btn top-btn", style: "background-color: #BDDF38; color: black; border-radius: 50px;" %>
-      <div class="list-group list-group-horizontal justify-content-around">
-        <%= render 'public/shared/post_index', posts: @posts %>
       </div>
+        <%= render 'public/shared/post_index', posts: @posts %>
+    
     </div>
   </div>
 </div>
 
+<!-- フォロー一覧のモーダルウィンドウ -->
+<div id="following-modal" class="modal">
+  <div class="modal-content"></div>
+</div>
+
+<!-- フォロワー一覧のモーダルウィンドウ -->
+<div id="follower-modal" class="modal">
+  <div class="modal-content"></div>
+</div>
+
+
+<script>
+$(document).ready(function() {
+  $('#following-count').click(function() {
+    $.ajax({
+      url: '<%= following_list_user_path(@user) %>',
+      type: 'GET',
+      success: function(response) {
+        $('#following-modal .modal-content').html(response);
+        $('#following-modal').addClass('fade-in').show();
+      }
+    });
+  });
+
+  $('#following-modal').on('click', function(event) {
+    if (event.target === this) {
+      $(this).addClass('fade-out');
+      setTimeout(() => {
+        $(this).hide().removeClass('fade-out');
+      }, 300); // アニメーションの時間に合わせて調整
+    }
+  });
+});
+</script>
+
+<script>
+$(document).ready(function() {
+  $('#follower-count').click(function() {
+    $.ajax({
+      url: '<%= follower_list_user_path(@user) %>',
+      type: 'GET',
+      success: function(response) {
+        $('#follower-modal .modal-content').html(response);
+        $('#follower-modal').addClass('fade-in').show();
+      }
+    });
+  });
+
+  $('#follower-modal').on('click', function() {
+    $(this).addClass('fade-out');
+    setTimeout(() => {
+      $(this).hide().removeClass('fade-out');
+    }, 300); // アニメーションの時間に合わせて調整
+  });
+});
+</script>

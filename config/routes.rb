@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :posts do
       collection do
         get :drafts
+        post :preview
       end
       
       member do
@@ -40,10 +41,14 @@ Rails.application.routes.draw do
         # フォロー機能
         post :follow, to: "relationships#create"
         delete :unfollow, to: "relationships#destroy"
+        get :follower_list
+        get :following_list
       end
     end
     
-    resources :notifications, only: [:index]
+    resources :notifications, only: [:index] do
+      post :update_checked, on: :collection
+    end
     
   end
 

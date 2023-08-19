@@ -21,16 +21,54 @@
   <label for="post_body">
     Body
   </label>
-  <%= f.text_area :body, required: true, rows: 25, cols: 10, class: "form-control " %>
+  <%= f.rich_text_area :body, required: true %>
 </div>
 
 <div class="form-group form-group__button-wrapper">
- <% if @post.is_draft || post.new_record? || !@post.is_draft? %>
+  <% if @post.is_draft || @post.new_record? || !@post.is_draft? %>
     <%= f.submit '投稿する', name: 'commit', class: "btn form-group__submit" %>
-  <% if @post.is_draft || post.new_record? %>
-     <%= f.submit '下書き保存', name: 'commit', class: "btn form-group__draft" %>
-<% end %>
+    <% if @post.is_draft || @post.new_record? %>
+      <%= f.submit '下書き保存', name: 'commit', class: "btn form-group__draft" %>
+    <% end %>
   <% else %>
     <%= f.submit '投稿する', name: 'commit', class: "btn form-group__submit" %>
-<% end %>
+  <% end %>
 </div>
+<button id="preview-button" type="button" class="btn form-group__preview">プレビュー</button>
+
+
+<!-- プレビューのモーダルウィンドウ -->
+<div id="preview-modal" class="modal">
+  <div class="modal-content"></div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('#preview-button').click(function() {
+      var formData = {
+        link: $('#post_link').val(),
+        tag_list: $('#post_tag_list').val(),
+        title: $('#post_title').val(),
+        body: $('#post_body').val()
+        // 他のフォームフィールドも同様に追加
+      };
+      
+      $.ajax({
+        url: '<%= preview_posts_path %>', // プレビューのURLを設定
+        type: 'POST', // プレビューにデータを送信するのでPOSTリクエストを使用
+        data: { post: formData }, // フォームデータをpostパラメータに含める
+        success: function(response) {
+          $('#preview-modal .modal-content').html(response);
+          $('#preview-modal').addClass('fade-in').show();
+        }
+      });
+    });
+
+    $('#preview-modal').on('click', function() {
+      $(this).addClass('fade-out');
+      setTimeout(() => {
+        $(this).hide().removeClass('fade-out');
+      }, 300); // アニメーションの時間に合わせて調整
+    });
+  });
+</script>

@@ -21,7 +21,11 @@
               <% next unless video_id.present? %>
               <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 250px; height: auto;', show_info: false) %>
             <% end %>
-            <h4><%= link_to post.title, post_path(post) %></h4>
+            <% if post.title.length > 5 %> <!-- 10文字以上の場合の条件分岐 -->
+              <h4><%= link_to truncate(post.title, length: 10), post_path(post) %></h4>
+            <% else %>
+              <h4><%= link_to post.title, post_path(post) %></h4>
+            <% end %>
           </li>
         <% end %>
       </ul>
