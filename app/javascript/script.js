@@ -61,3 +61,5 @@ document.addEventListener('DOMContentLoaded', function() {
     nicknameInput.addEventListener('input', () => checkInput('nickname', nicknameValidation));
   }
 });
+
+

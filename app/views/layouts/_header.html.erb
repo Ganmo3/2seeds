@@ -44,16 +44,7 @@
       <% if user_signed_in? %>
       <li>
         <div class="mypage-btn-container" id="mypageBtnContainer">
-          <% channel_id = extract_youtube_channel_id(@user.channel) %>
-          <% if channel_id.present? %>
-            <div class="icon cursor-pointer">
-              <%= youtube_channel_icon(channel_id, size: '40x40', class: 'channel-icon rounded-circle') %>
-            </div>
-          <% else %>
-            <div class="ico cursor-pointer">
-              <%= image_tag @user.get_icon, size: '40x40', class: "rounded-circle file-fluid" %>
-            </div>
-          <% end %>
+          <%= user_icon_or_youtube(@user.channel, size: '40x40', class: 'rounded-circle cursor-pointer') %>
 
 
 

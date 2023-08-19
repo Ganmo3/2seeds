@@ -40,7 +40,7 @@
       
       <% if user_signed_in? && current_user != @user %>
       <div id="follow-btn">
-        <%= render "public/relationships//follow", user: @user %>
+        <%= render "public/relationships/follow", user: @user %>
       </div>
       <% end %>
     </div>

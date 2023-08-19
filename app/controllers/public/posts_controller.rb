@@ -91,9 +91,15 @@ class Public::PostsController < ApplicationController
     @preview_post.tag_list = [] # Clear the tags
     render partial: 'preview', locals: { post: @preview_post, preview_tags: @preview_tags }
   end
-
-
-
+  
+  def autosave
+    @post = Post.find(params[:id])
+    if @post.update(autosave_params)
+      render json: { success: true, message: '自動保存が完了しました。' }
+    else
+      render json: { success: false, errors: @post.errors.full_messages }
+    end
+  end
 
   def share_on_twitter
     client = Twitter::REST::Client.new do |config|
@@ -115,6 +121,10 @@ class Public::PostsController < ApplicationController
   
   def hide_header
     @show_header = false
+  end
+  
+  def autosave_params
+    params.require(:post).permit(:title, :body, :link, :tag_list, :is_draft)
   end
 
   def post_params

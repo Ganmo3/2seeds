@@ -1,40 +1,48 @@
-<div class="form-group form-group__link">
-  <label for="post_link">
-    Link
-  </label>
+<div class="d-flex align-items-center justify-content-between mt-5">
+  <button id="preview-button" type="button" class="preview-btn">Preview</button>
+    <div id="link-message" class="link-message">リンクを入れてください。</div>
+  <div class="form-group_button-wrapper d-flex align-items-center">
+    <div class="toggle_switch mr-3">
+      <input type="checkbox" id="postTypeToggle" class="toggle_input">
+      <label for="postTypeToggle" class="toggle_label"></label>
+    </div>
+    <div class="btn-group" role="group">
+      <% if @post.persisted? %>
+        <%= f.submit '更新する', id: 'updateButton', name: 'commit', class: "submit-btn" %>
+      <% else %>
+        <%= f.submit '投稿する', id: 'postButton', name: 'commit', class: "submit-btn" %>
+        <%= f.submit '下書き保存', id: 'draftButton', name: 'commit', class: "draft-btn" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<div class="form-group form-group_link mt-4">
+  <%= f.label :link, "Link", class: "form-label" %>
   <%= f.text_field :link, required: true, class: 'form-control post_link' %>
 </div>
 
-<div class="form-group form-group__hash">
-  <%= f.label :tag_list, "Tags" %>
-  <%= f.text_field :tag_list, value: @post.tag_list.join(', '), class: "form-control" %>
+<div class="form-group form-group_tags">
+  <%= f.label :tag_list, "Tags", class: "form-label" %>
+  <%= f.text_field :tag_list, class: "form-control", data: { role: "tagsinput" } %>
 </div>
 
-<div class="form-group form-group__title">
-  <label for="post_title">
-    Title
-  </label>
+<div class="form-group form-group_title">
+  <%= f.label :title, "Title", class: "form-label" %>
   <%= f.text_field :title, required: true, class: 'form-control post_title' %>
 </div>
 
-<div class="form-group form-group__body">
-  <label for="post_body">
-    Body
-  </label>
+<div class="form-group form-group_body">
+  <%= f.label :body, "Body", class: "form-label" %>
   <%= f.rich_text_area :body, required: true %>
 </div>
 
-<div class="form-group form-group__button-wrapper">
-  <% if @post.is_draft || @post.new_record? || !@post.is_draft? %>
-    <%= f.submit '投稿する', name: 'commit', class: "btn form-group__submit" %>
-    <% if @post.is_draft || @post.new_record? %>
-      <%= f.submit '下書き保存', name: 'commit', class: "btn form-group__draft" %>
-    <% end %>
-  <% else %>
-    <%= f.submit '投稿する', name: 'commit', class: "btn form-group__submit" %>
-  <% end %>
-</div>
-<button id="preview-button" type="button" class="btn form-group__preview">プレビュー</button>
+
+
+
+
+
 
 
 <!-- プレビューのモーダルウィンドウ -->
@@ -52,11 +60,11 @@
         body: $('#post_body').val()
         // 他のフォームフィールドも同様に追加
       };
-      
+
       $.ajax({
-        url: '<%= preview_posts_path %>', // プレビューのURLを設定
-        type: 'POST', // プレビューにデータを送信するのでPOSTリクエストを使用
-        data: { post: formData }, // フォームデータをpostパラメータに含める
+        url: '<%= preview_posts_path %>',
+        type: 'POST',
+        data: { post: formData },
         success: function(response) {
           $('#preview-modal .modal-content').html(response);
           $('#preview-modal').addClass('fade-in').show();
@@ -70,5 +78,28 @@
         $(this).hide().removeClass('fade-out');
       }, 300); // アニメーションの時間に合わせて調整
     });
+
+    $('#postTypeToggle').change(function() {
+      if ($(this).is(':checked')) {
+        $('#postButton').show();
+        $('#draftButton').hide();
+        $('#updateButton').prop('disabled', false).show();
+      } else {
+        $('#postButton').hide();
+        $('#draftButton').show();
+        $('#updateButton').prop('disabled', true).show();
+      }
+    });
+
+    // 初期表示時の設定
+    if ($('#postTypeToggle').is(':checked')) {
+      $('#postButton').show();
+      $('#draftButton').hide();
+      $('#updateButton').prop('disabled', false).show();
+    } else {
+      $('#postButton').hide();
+      $('#draftButton').show();
+      $('#updateButton').prop('disabled', true).show();
+    }
   });
 </script>

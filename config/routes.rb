@@ -7,6 +7,9 @@ Rails.application.routes.draw do
     passwords: "public/passwords"
   }
   
+  # devise signup時のエラー解消
+  get "users" => redirect("/users/sign_up")
+  
   scope module: :public do
     root to: "homes#top"
     
@@ -14,6 +17,7 @@ Rails.application.routes.draw do
       collection do
         get :drafts
         post :preview
+        patch :autosave
       end
       
       member do
@@ -52,6 +56,7 @@ Rails.application.routes.draw do
     
   end
 
+  get "/search", to: "searches#search"
   post "/chatbots", to: "chatbots#create"
 
 
@@ -61,10 +66,5 @@ Rails.application.routes.draw do
   devise_for :admin, controllers: {
     sessions: "admin/sessions"
   }
-  
-  
-  
-  
-  
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+    # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

@@ -2,31 +2,326 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
-.post-body {
-  border: 1px solid #ccc;
-  padding: 16px;
-  position: relative;
-  overflow: hidden;
-  max-width: 800px;
-  width: 100%; 
-  box-sizing: border-box; 
-}
-
-.post-body p {
-  top: 0;
-  left: 0;
-}
 
 .list-unstyled li {
   list-style: none;
 }
 
+/* ラベル */
 .post-card {
   padding: 10px;
-  background-color: rgba(189, 223, 56, 0.5); 
+  background-color: rgba(189, 223, 56, 0.5);
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.post-title {
-  font-size: 12px;
+.form-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #555;
+  transition: color 0.3s;
 }
+
+.form-group {
+  position: relative;
+}
+
+.form-label::after {
+  content: "";
+  display: block;
+  height: 2px;
+  width: 100%;
+  background-color: #3CB371;
+  transform: scaleX(0);
+  transition: transform 0.3s;
+}
+
+.form-label:hover {
+  color: #3CB371;
+}
+
+.form-label:hover::after {
+  transform: scaleX(1);
+}
+
+.form-control {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s;
+}
+
+.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+
+
+/* 投稿body欄　*/
+.form-group_body .trix-content {
+  background-color: white;
+}
+
+.form-group.form-group_body .trix-content:focus {
+  outline: none; /* フォーカス時のデフォルトの枠を非表示にする */
+  border-color: #87CEEB; /* 明るい青の枠の色を設定 */
+  box-shadow: 0 0 5px #87CEEB; /* オプション: フォーカス時の影を追加 */
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #87CEEB;
+  box-shadow: 0 0 5px #87CEEB;
+}
+
+
+/* 投稿トグルスイッチ */
+.toggle_switch {
+  display: table;
+}
+
+.toggle_switch > input {
+  display: none;
+}
+
+.toggle_label {
+  display: block;
+  position: relative;
+  width: 3em;
+  height: 1.5em;
+  border-radius: 1.5em;
+  background-color: #ccc;
+  cursor: pointer;
+}
+
+.toggle_switch > input:checked + .toggle_label {
+  background-color: #BDDF38;
+}
+
+.toggle_label::before {
+  position: absolute;
+  top: 0.25em;
+  left: 0.25em;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  background-color: #fff;
+  transition: 0.3s;
+  content: "";
+}
+
+.toggle_switch > input:checked + .toggle_label::before {
+  left: calc(100% - 1.25em);
+}
+
+/* ボタン */
+.submit-btn, .draft-btn, .update-btn {
+  background-color: #BDDF38;
+  color: #fff;
+  border: none;
+  padding: 6px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
+
+.draft-btn {
+  background-color: #6c757d;
+}
+
+.submit-btn:hover, .draft-btn:hover, .update-btn:hover {
+  background-color: #9ECA2D;
+}
+
+.submit-btn[disabled], .draft-btn[disabled], .update-btn[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* プレビューボタンのスタイル */
+.preview-btn {
+  display: inline-block;
+  padding: 8px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #8CC63F;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.2s, background-color 0.3s;
+  position: relative;
+}
+
+.preview-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  opacity: 0;
+  transition: width 0.3s, height 0.3s, opacity 0.3s;
+}
+
+.preview-btn:hover {
+  background-color: #8CC63F;
+  transform: scale(1.05);
+}
+
+.preview-btn:hover::before {
+  width: 120%;
+  padding-top: 120%;
+  opacity: 1;
+}
+
+/* プレビューメッセージ */
+.link-message {
+  display: none;
+  position: absolute;
+  background-color: #ffcc00;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  color: #333;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* サムネイル */
+
+.youtube-thumbnail-container {
+  border: 2px solid #ccc; /* 外枠の設定 */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 影の設定 */
+  display: inline-block; /* インラインブロック要素として表示 */
+  margin-right: 20px; /* サムネイルの間隔を設定 */
+  padding: 10px; /* 外枠の余白を設定 */
+  border-radius: 8px;
+
+}
+
+.youtube-info {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #BDDF38; /* 背景色を設定 */
+  color: white; /* テキストカラーを設定 */
+  border-radius: 4px; /* 角丸を設定 */
+  text-decoration: none; /* 下線を削除 */
+  font-weight: bold; /* フォントを太字に設定 */
+  transition: background-color 0.3s, transform 0.3s; /* ホバーエフェクトのトランジションを設定 */
+}
+
+.youtube-info:hover {
+  background-color: #f44200; /* ホバー時の背景色を変更 */
+  transform: scale(1.05); /* ホバー時に少し拡大するエフェクト */
+}
+
+/* 投稿タイトル */
+.stylish-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* テキストシャドウを追加 */
+  animation: fadeInUp 0.5s ease; /* アニメーションを追加 */
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 投稿body */
+.post-body {
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+/* コメント欄 */
+.comment-section {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* コメントカードリストのスタイル（例） */
+.comment-card-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.comment-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* コメントフォーム */
+.comment-form {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.post-detail__comment-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#comment-form {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.comment-submit {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.comment-submit:hover {
+  background-color: #BDDF38;
+}
+
+/* プロフィールカード */

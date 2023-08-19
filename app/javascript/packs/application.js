@@ -13,6 +13,8 @@ import "popper.js";
 import "bootstrap";
 import "../stylesheets/application"; 
 import "script.js"
+import 'bootstrap-tagsinput';
+
 
 Rails.start()
 Turbolinks.start()
@@ -20,3 +22,7 @@ ActiveStorage.start()
 
 require("trix")
 require("@rails/actiontext")
+
+$(document).ready(function() {
+  $("input[data-role='tagsinput']").tagsinput();
+});
