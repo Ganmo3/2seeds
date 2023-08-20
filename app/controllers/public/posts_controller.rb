@@ -100,6 +100,12 @@ class Public::PostsController < ApplicationController
       render json: { success: false, errors: @post.errors.full_messages }
     end
   end
+  
+  # タグ検索
+  def search_by_tag
+    tag_name = params[:tag_name]
+    @posts = Post.tagged_with(tag_name)
+  end
 
   def share_on_twitter
     client = Twitter::REST::Client.new do |config|

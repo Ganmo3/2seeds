@@ -107,5 +107,15 @@ class User < ApplicationRecord
     end
   end
   
+  # 検索用
+  def self.search_content(content, method)
+    if method == "perfect"
+      where("nickname = ?", content)
+    elsif method == "partial"
+      where("nickname LIKE ?", "%#{content}%")
+    else
+      all
+    end
+  end
   
 end
