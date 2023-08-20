@@ -38,6 +38,17 @@ class Post < ApplicationRecord
     impressions.where("created_at >= ? AND created_at < ?", date.beginning_of_day, date.end_of_day).count
   end
   
+  #　検索用
+  def self.search_content(content, method)
+    if method == "perfect"
+      where(title: content)
+    elsif method == "partial"
+      where("title LIKE ?", "%#{content}%")
+    else
+      all
+    end
+  end
+  
   # postへのいいね通知機能
   def create_notification_favorite_post!(current_user)
     # すでに「いいね」されている検索
