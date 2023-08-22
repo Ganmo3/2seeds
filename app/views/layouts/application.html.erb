@@ -7,6 +7,7 @@
     <%= csp_meta_tag %>
 
     <script src="https://kit.fontawesome.com/5f9cac3054.js" crossorigin="anonymous"></script>
+    <script src="https://rawgit.com/kimmobrunfeldt/progressbar.js/master/dist/progressbar.min.js"></script>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -18,6 +19,7 @@
       <%= render 'layouts/header' %>
     <% end %>
     <main>
+      <%= notice %>
       <%= yield %>
     </main>
     <%= render 'layouts/footer' %>

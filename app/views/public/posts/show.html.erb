@@ -2,15 +2,20 @@
   <div class="row">
 
     <!-- youtubeカラム-->
-    <div class="col-md-6 offset-3 justify-content-center">
-      <%# youtube link取得 %>
-      <% video_id = extract_youtube_video_id(@post.link) %>
-      <%= link_to @post.link, target: "_blank", class: "youtube-info" do %>
-       <div class="youtube-thumbnail-container">
+<div class="col-md-6 offset-3 justify-content-center">
+  <% video_id = extract_youtube_video_id(@post.link) %>
+  
+  <% if video_id.present? %>
+    <%= link_to @post.link, target: "_blank", class: "youtube-info" do %>
+      <div class="youtube-thumbnail-container">
         <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 80%; height: auto;') %>
-      <% end %>
       </div>
-    </div>
+    <% end %>
+  <% else %>
+    <p>表示ができません</p>
+  <% end %>
+</div>
+
 
   </div>
 </div>
@@ -54,7 +59,7 @@
         </article>
         
         <article class="post-body" id="dynamicSize">
-          <%= @post.body %>
+          <%= @post.content %>
         </article>
       </article>
       

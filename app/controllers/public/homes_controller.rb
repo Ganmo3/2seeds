@@ -13,9 +13,10 @@ class Public::HomesController < ApplicationController
     @ranking = User.all.sort_by { |user| calculate_score(user) }.reverse.take(3)
     
     # 本日の新着投稿を取得
-    @daily_new_posts = Post.where(created_at: today.beginning_of_day..today.end_of_day).order(created_at: :desc).take(10)
+    @daily_new_posts = Post.order(created_at: :desc).take(5)
 
-    @user = current_user
+    @user = User.find_by(params[:account]) 
+
   end
 
   def about

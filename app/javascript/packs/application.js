@@ -13,6 +13,7 @@ import "popper.js";
 import "bootstrap";
 import "../stylesheets/application"; 
 import "script.js"
+import "relative_time.js"
 import 'bootstrap-tagsinput';
 
 

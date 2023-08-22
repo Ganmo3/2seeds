@@ -1,32 +1,45 @@
 class Public::PostsController < ApplicationController
   before_action :hide_header, only: [:new, :edit]
-  
+
   def index
-    @posts = Post.all
-    @user = current_user
+    @user = User.find_by(params[:account])
     
-    @posts.each do |post|
-      impressionist(post, nil, unique: [:session_hash])
+    if params[:sort] == 'favorites'
+      @posts = Post.includes(:post_favorites).sort_by { |post| -post.post_favorites.count }
+    else
+      @posts = Post.all.order(created_at: :desc)
     end
+
+    @posts.each do |post|
+      impressionist(post, nil, unique: [:session_hash, :user_id])
+    end
+  end
+
+  def dashboard
+    @user = current_user
+    @published_posts = current_user.posts.published
+    @draft_posts = current_user.posts.draft
+    @unpublished_posts = current_user.posts.unpublished
   end
 
   def new
     @post = Post.new
-    @user = current_user
   end
 
   def create
-   @user = current_user
-   @post = Post.new(post_params)
-   # post = Post.new(post_params.merge(user_id: current_user.id))
+    @user = current_user
+    @post = Post.new(post_params)
+    @post.user_id = @user.id
 
     if params[:commit] == "下書き保存"
-      @post.is_draft = true
+      @post.status = :draft
+    else
+      @post.status = :published
     end
-
-    if @post.save
-      if @post.is_draft
-        redirect_to drafts_posts_path, notice: '下書きが保存されました。'
+  
+    if @post.save!
+      if @post.draft?
+        redirect_to dashboard_posts_path, notice: '下書きが保存されました。'
       else
         redirect_to post_path(@post), notice: '投稿が公開されました。'
       end
@@ -34,6 +47,7 @@ class Public::PostsController < ApplicationController
       render :new
     end
   end
+
 
   def drafts
     @published_posts = Post.where(user_id: current_user.id, is_draft: false).order(created_at: :desc)
@@ -46,12 +60,9 @@ class Public::PostsController < ApplicationController
     impressionist(@post, nil, unique: [:session_hash]) # 同セッションでの重複閲覧をカウントしない
     @comment = Comment.new
     @comments = Comment.where(post_id: params[:id]).order(created_at: :desc)
-    
     @tags = @post.tag_counts_on(:tags) # 投稿に紐付くタグの表示
-
     @report = Report.new
-    
-    @user = current_user
+    @user = User.find_by(params[:account])
   end
 
   def edit
@@ -61,18 +72,23 @@ class Public::PostsController < ApplicationController
   end
 
   def update
+    @user = current_user
     @post = Post.find(params[:id])
 
     if @post.update(post_params)
       tag_list = params[:post][:tag_list].split(',').map(&:strip)
       @post.tag_list = tag_list
-      
-      if params[:commit] == "下書き保存"
-        @post.update(is_draft: true)
-        redirect_to posts_path, notice: "下書きを保存しました。"
+
+      case params[:commit]
+      when "下書き保存"
+        @post.update(status: :draft)
+        redirect_to dashboard_posts_path, notice: "下書きを保存しました。"
+      when "非公開にする"
+        @post.update(status: :unpublished)
+        redirect_to dashboard_posts_path, notice: "非公開にしました。"
       else
-        @post.update(is_draft: false)
-        redirect_to @post, notice: "投稿を更新しました。"
+        @post.update(status: :published)
+        redirect_to post_path(@post), notice: "投稿を更新しました。"
       end
     else
       render :edit
@@ -82,9 +98,9 @@ class Public::PostsController < ApplicationController
   def destroy
     @post = Post.find(params[:id])
     @post.destroy
-    redirect_to posts_path
+    redirect_to dashboard_posts_path, notice: '投稿を削除しました。'
   end
-  
+
   def preview
     @preview_post = Post.new(post_params)
     @preview_tags = @preview_post.tag_list # Save tags temporarily
@@ -100,7 +116,7 @@ class Public::PostsController < ApplicationController
       render json: { success: false, errors: @post.errors.full_messages }
     end
   end
-  
+
   # タグ検索
   def search_by_tag
     tag_name = params[:tag_name]
@@ -124,16 +140,16 @@ class Public::PostsController < ApplicationController
   end
 
   private
-  
+
   def hide_header
     @show_header = false
   end
-  
-  def autosave_params
-    params.require(:post).permit(:title, :body, :link, :tag_list, :is_draft)
-  end
+
+  #def autosave_params
+  #  params.require(:post).permit(:title, :body, :link, :tag_list, :is_draft)
+  #end
 
   def post_params
-    params.require(:post).permit(:title, :body, :link, :tag_list, :is_draft)
+    params.require(:post).permit(:title, :content, :link, :tag_list, :status)
   end
 end

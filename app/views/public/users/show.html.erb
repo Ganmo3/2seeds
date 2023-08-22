@@ -5,43 +5,58 @@
 
     <!-- アイコンカラム -->
     <div class="col-md-2">
-      <div class="icon">
-        <% channel_id = extract_youtube_channel_id(@user.channel) %>
-        <% if channel_id.present? %>
-          <%= link_to youtube_channel_icon(channel_id, size: 'default', class: 'channel-icon rounded-circle'), "https://www.youtube.com/channel/#{channel_id}", target: "_blank" %>
-        <% else %>
-          <%= image_tag @user.get_icon, class: "rounded-circle file-fluid" %>
-        <% end %>
-      </div>
-      <div class="button">
-        <%= link_to "Edit", edit_user_path(@user), class:"btn", style: "background-color: #BDDF38; color: black; ml-3" %>
+      <div class="profile-container">
+        <div class="icon">
+          <% channel_id = extract_youtube_channel_id(@user.channel) %>
+          <% if channel_id.present? %>
+            <%= link_to youtube_channel_icon(channel_id, size: 'default', class: 'channel-icon rounded-circle'), "https://www.youtube.com/channel/#{channel_id}", target: "_blank" %>
+            <div class="channel-name">
+              <%= link_to youtube_channel_name(channel_id), "https://www.youtube.com/channel/#{channel_id}", target: "_blank" %>
+            </div>
+          <% else %>
+            <%= image_tag @user.get_icon, class: "rounded-circle file-fluid" %>
+          <% end %>
+        </div>
+        
+    
       </div>
     </div>
+
+    
     
     <!-- Introductionカラム -->
     <div class="col-md-6">
-      <div class="nickname">
-        <h5><%= @user.nickname %></h5>
+      <div class="profile-info d-flex align-items-center justify-content-between">
+        <div class="nickname">
+          <h5><%= @user.nickname %></h5>
+        </div>
+        
+        <% if current_user == @user %>
+          <div class="edit-container ml-3">
+            <%= link_to "Edit", edit_user_path(@user), class: "edit-btn" %>
+          </div>
+        <% end %>
       </div>
+      
       <div class="introduction">
         <p><%= @user.introduction %></p>
       </div>
-    
-      <span class="information d-flex">
-        <p class="mr-3">Views:<%= @total_views %></p>
-        <p class="mr-3">Likes:<%= @user.posts.joins(:post_favorites).count %></p>
+      
+       <div class="information">
+        <p class="mr-3"><span class="info-label">Views:</span> <%= @total_views %></p>
+        <p class="mr-3"><span class="info-label">Likes:</span> <%= @user.posts.joins(:post_favorites).count %></p>
         <p class="mr-3" id="following-count">
           <%= render "public/relationships/following-count", user: @user %>
         </p>
         <p id="follower-count">
           <%= render "public/relationships/follower-count", user: @user %>
         </p>
-      </span>
+      </div>
       
       <% if user_signed_in? && current_user != @user %>
-      <div id="follow-btn">
-        <%= render "public/relationships/follow", user: @user %>
-      </div>
+        <div id="follow-btn">
+          <%= render "public/relationships/follow", user: @user %>
+        </div>
       <% end %>
     </div>
 
