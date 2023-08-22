@@ -1,0 +1,81 @@
+
+<ul class="post-list list-unstyled mt-3">
+  <div class="d-flex flex-wrap">
+    <% posts.each do |post| %>
+      <% video_id = extract_youtube_video_id(post.link) %>
+      <% next unless video_id.present? %>
+      <li class="post-card m-2">
+        <div class="post-details">
+          <div class="post-thumbnail">
+            <%= link_to post_path(post) do %>
+              <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 200px; height: auto;', show_info: false) %>
+            <% end %>
+          </div>
+          <div class="post-title text-center">
+            <%= link_to truncate(post.title, length: 15), post_path(post) %>
+            <ul class="post-icons d-flex justify-content-around list-unstyled">
+              <li class="post-icon post-icon-views d-inline-block">
+                <i class="fas fa-eye"></i> <%= post.impressionist_count %>
+              </li>
+              <li class="post-icon post-icon-favorites d-inline-block">
+                <i class="fa fa-heart"></i> <%= post.post_favorites.count %>
+              </li>
+              <li class="post-icon post-icon-comments d-inline-block">
+                <i class="fas fa-comment"></i> <%= post.comments.count %>
+              </li>
+              <li class="post-icon post-icon-tag">
+                <% post.tag_list.first(1).each do |tag| %>
+                  <%= link_to tag_path(tag), class: "tag-btn" do %>
+                    <%= tag %>
+                  <% end %>
+                <% end %>
+              </li>
+            </ul>
+          </div>
+          <div class="post-user d-flex mb-0 mt-2">
+            <%= link_to user_path(post.user) do %>
+              <%= user_icon_or_youtube(post.user.channel, size: '30x30', class: 'rounded-circle mr-2') %>
+            <% end %>
+            <%= link_to user_path(post.user) do %>
+              <p class="info-user-nickname">by <%= post.user.nickname %></p>
+            <% end %>
+            <p class="post-cart-date text-muted small text-right">
+              <time class="post-card-date text-muted small"><%= formatted_datetime(post.created_at) %></p></time>
+            </p>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </div>
+</ul>
+
+
+<!--
+<script>
+function formatRelativeTime(date) {
+  var now = new Date();
+  var diff = Math.floor((now - date) / 1000); // 差を秒単位で計算
+
+  if (diff < 60) {
+    return "たった今";
+  } else if (diff < 3600) {
+    return Math.floor(diff / 60) + "分前";
+  } else if (diff < 86400) {
+    return Math.floor(diff / 3600) + "時間前";
+  } else {
+    return Math.floor(diff / 86400) + "日前";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  var dateElements = document.querySelectorAll("[data-created-at]");
+
+  dateElements.forEach(function(element) {
+    var createdAt = new Date(element.getAttribute("data-created-at"));
+    var relativeCreatedAt = formatRelativeTime(createdAt);
+
+    element.textContent = relativeCreatedAt;
+  });
+});
+</script>
+-->

@@ -13,7 +13,8 @@
     <% end %>
 
 
-    <%# <%= link_to post.title, edit_post_path(post.id), class: 'post-card__username' %>
+     <%= link_to post.title, post_path(post.id), class: 'post-card__username' %>
+      <%= link_to "削除", post_path(post), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
   </div>
   <ul class="post-card_stats">
     <li>

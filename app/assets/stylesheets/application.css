@@ -14,10 +14,31 @@
  *= require_self
  */
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #6c6b6b;
+}
+
 main {
   background-color: rgba(189, 223, 56, 0.22);
 }
 
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Raleway', sans-serif; 
+}
+
+a {
+  font-family: 'Montserrat', sans-serif;
+}
 
 .input-validation {
   display: inline-block;
@@ -37,30 +58,101 @@ main {
 }
 
 
-/* mypage*/
+/* mypage dropdown menu */
 .mypage-dropdown {
   display: none;
   position: absolute;
   top: 100%;
   left: -70px;
-  background-color: #fff;
-  padding: 26px;
-  border: 1px solid #ccc;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   z-index: 999;
-  width: 150px;
+  width: 200px;
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 14px;
 }
 
-.mypage-btn-container {
-  position: relative;
-}
-
-.mypage-btn-container ul {
+.mypage-dropdown ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
+.mypage-dropdown li {
+  margin-bottom: 10px;
+}
+
+.mypage-dropdown a {
+  color: #333;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease-in-out; 
+}
+
+.mypage-dropdown a i {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.mypage-dropdown a:hover {
+  background-color: #BDDF38; 
+  color: #fff; 
+}
+
+/* Mypage button container */
+.mypage-btn-container {
+  position: relative;
+  display: inline-block;
+}
+
+
+
+
 .cursor-pointer:hover {
   cursor: pointer;
 }
 
+.custom-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #50BFA9;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  text-decoration: none;
+}
+
+.custom-btn.signup-btn {
+  background-color: #BDDF38;
+}
+
+.custom-btn.login-btn {
+  background-color: #BDDF38;
+}
+
+.custom-btn:hover {
+  background-color: #9ECA2D;
+  transform: scale(1.05);
+}
+
+.custom-btn[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.custom-btn.disabled-btn {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.custom-btn.disabled-btn:hover {
+  background-color: #ccc;
+  transform: none;
+}

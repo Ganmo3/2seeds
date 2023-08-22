@@ -12,6 +12,7 @@
   padding: 10px;
   background-color: rgba(189, 223, 56, 0.5);
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 220px;
 }
 
 .form-label {
@@ -116,7 +117,7 @@
 }
 
 /* ボタン */
-.submit-btn, .draft-btn, .update-btn {
+.submit-btn, .draft-btn, .update-btn, .unpublish-btn {
   background-color: #BDDF38;
   color: #fff;
   border: none;
@@ -128,15 +129,15 @@
   transition: background-color 0.3s;
 }
 
-.draft-btn {
+.draft-btn, .unpublish-btn {
   background-color: #6c757d;
 }
 
-.submit-btn:hover, .draft-btn:hover, .update-btn:hover {
+.submit-btn:hover, .draft-btn:hover, .update-btn:hover, .unpublish-btn:hover {
   background-color: #9ECA2D;
 }
 
-.submit-btn[disabled], .draft-btn[disabled], .update-btn[disabled] {
+.submit-btn[disabled], .draft-btn[disabled], .update-btn[disabled], .unpublish-btn[disabled] {
   background-color: #ccc;
   cursor: not-allowed;
 }
@@ -325,3 +326,198 @@
 }
 
 /* プロフィールカード */
+
+
+
+/* ダッシュボード */
+/* ステータスボタンのスタイリング */
+.status-button {
+  border: none;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.status-button:hover {
+  transform: translateY(-5px);
+}
+
+.status-button.published {
+  background-color: #BDDF38;
+}
+
+.status-button.draft {
+  background-color: #ffbb33;
+}
+
+.status-button.unpublished {
+  background-color: #ff4444;
+}
+
+/* ステータスラベルのスタイリング */
+.status-label {
+  display: inline-block;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  color: white;
+  background-color: #333;
+}
+
+/* ステータスアイコンのスタイリング */
+.status-icon {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: white;
+}
+
+/* リンクアイコンのスタイリング */
+.link-icon {
+  margin-right: 5px;
+  font-size: 18px;
+  color: #555;
+}
+
+/* 作成日または更新日のスタイリング */
+.post-date {
+  font-size: 12px;
+  color: #777;
+}
+
+/* タブ */
+.tabs {
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-tabs {
+  background-color: transparent;
+  border: none;
+  margin-bottom: 20px;
+}
+
+.nav-tabs .nav-item {
+  margin-right: 10px;
+}
+
+.nav-tabs .nav-link {
+  font-size: 16px;
+  color: #555;
+  border: none;
+  border-radius: 0;
+  padding: 10px 20px;
+  background-color: transparent;
+  transition: color 0.2s ease-in-out;
+}
+
+.nav-tabs .nav-link.active {
+  color: #007bff;
+  background-color: transparent;
+  border-bottom: 2px solid #007bff;
+}
+
+.tab-content {
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tab-pane.fade {
+  display: none;
+}
+
+.tab-pane.fade.show {
+  display: block;
+}
+
+.new-post-btn {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: white; /* 最初は白 */
+  color: #BDDF38;
+  border: 2px solid #BDDF38;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.new-post-btn:hover {
+  background-color: #BDDF38; /* ホバー時に背景色を #BDDF38 に変更 */
+  color: white;
+}
+
+
+/* 投稿ボタン・いいね一覧*/
+.shine-btn {
+  /* キラッと光るボタンのスタイル */
+  position: relative;
+  display: inline-block;
+  background: #BDDF38;
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  outline: none;
+  overflow: hidden;
+  border-radius: 25px;
+}
+
+.shine-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 100%);
+  transform: skewX(-25deg);
+}
+
+.shine-btn:hover::before {
+  animation: shine 0.7s;
+}
+
+@keyframes shine {
+  100% {
+    left: 125%;
+  }
+}
+
+/* ソート */
+.sort-links {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.sort-links a {
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #BDDF38;
+  transition: color 0.3s;
+}
+
+.sort-links a.active,
+.sort-links a:hover {
+  color: #333;
+}
+
+.post-thumbnail {
+  object-fit: cover;
+  margin: 0 auto;
+  display: block;
+  border-radius: 10px; /* 丸みを持たせる */
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s; /* アニメーションの追加 */
+}
+
+.post-thumbnail:hover {
+  transform: scale(1.05); /* ホバー時に少し拡大するアニメーション */
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15); /* ホバー時の影を強化 */
+}

@@ -1,10 +1,10 @@
 <header class="sticky-top" id="header">
   <div class="col-md-10 offset-md-1">
-  <nav class="navbar navbar-expand-lg py-4">
+  <nav class="navbar navbar-expand-lg py-2">
     
     <a>
       <%= link_to root_path, data: { "turbolinks" => false }, class: "mx-4" do %>
-        <%= image_tag "logo_2seeds.png", alt: "LOGO", size: "100x90" %>
+        <%= image_tag "logo_2seedsr1.png", alt: "LOGO", width: "10%", height: "auto" %>
       <% end %>
     </a>
     
@@ -34,29 +34,31 @@
 
       <li>
         <% unless user_signed_in? %>
-          <%= link_to 'Sign up', new_user_registration_path, class: "btn mx-3", style: "background-color: #BDDF38; color: black; font-weight: bold;" %>
+          <%= link_to 'Sign up', new_user_registration_path, class: "custom-btn signup-btn mx-3", style: "font-weight: bold;" %>
         <% end %>
       </li>
       <li>
         <% unless user_signed_in? %>
-          <%= link_to 'Log in', new_user_session_path, class: "btn mx-3", style: "background-color: #BDDF38; color: black; font-weight: bold;" %>
+          <%= link_to 'Log in', new_user_session_path, class: "custom-btn login-btn mx-3", style: "font-weight: bold;" %>
         <% end %>
       </li>
+
 
       <% if user_signed_in? %>
       <li>
         <div class="mypage-btn-container" id="mypageBtnContainer">
-          <%= user_icon_or_youtube(@user.channel, size: '40x40', class: 'rounded-circle cursor-pointer') %>
-
-
+          <%= user_icon_or_youtube(current_user.channel, size: '40x40', class: 'rounded-circle cursor-pointer') %>
 
           <div class="mypage-dropdown" id="mypageDropdown">
             <ul>
-              <li><%= link_to '新規投稿', new_post_path %></li>
-              <li><%= link_to 'アカウント設定', edit_user_path(@user) %></li>
-              <li><%= link_to 'いいねした投稿', "#" %></li>
-              <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %></li>
+              <li><%= link_to user_path(current_user) do %><i class="fas fa-user-circle"></i>マイページ<% end %></li>
+              <li><%= link_to new_post_path do %><i class="fas fa-pen"></i>新規投稿<% end %></li>
+              <li><%= link_to dashboard_posts_path do %><i class="fas fa-clipboard-list"></i>ダッシュボード<% end %></li>
+              <li><%= link_to edit_user_path(current_user) do %><i class="fas fa-user-cog"></i>アカウント設定<% end %></li>
+              <li><%= link_to liked_posts_user_path(current_user) do %><i class="fas fa-thumbs-up"></i>いいねした投稿<% end %></li>
+              <li><%= link_to destroy_user_session_path, method: :delete do %><i class="fas fa-sign-out-alt"></i>ログアウト<% end %></li>
             </ul>
+
           </div>
         </div>
       </li>
@@ -68,23 +70,28 @@
   </div>
 </header>
 
-
-<%# mypageドロップダウンメニュー #%>
+<!-- mypageドロップダウンメニュー -->
 <script>
 document.addEventListener('turbolinks:load', function() {
   const mypageBtnContainer = document.getElementById('mypageBtnContainer');
   const mypageDropdown = document.getElementById('mypageDropdown');
 
   function toggleDropdown() {
-    if (mypageDropdown.style.display === 'none') {
-      $(mypageDropdown).slideDown(300);
-    } else {
-      $(mypageDropdown).slideUp(300);
-    }
+    $(mypageDropdown).slideToggle(300);
   }
 
   if (mypageBtnContainer) {
     mypageBtnContainer.addEventListener('click', toggleDropdown);
+
+    // ページ遷移前にドロップダウンメニューを閉じる
+    document.addEventListener('turbolinks:before-visit', function() {
+      $(mypageDropdown).slideUp(300);
+    });
+
+    // ドロップダウンメニュー内部のクリックイベントをキャンセル
+    mypageDropdown.addEventListener('click', function(event) {
+      event.stopPropagation();
+    });
 
     // ドキュメント全体にクリックイベントを追加
     document.addEventListener('click', function(event) {
@@ -94,43 +101,38 @@ document.addEventListener('turbolinks:load', function() {
     });
   }
 });
+
 </script>
 
 <script>
-$(document).ready(function() {
-  $('#notifications-link').click(function() {
-    // 通知を確認済みに更新するアクションを呼び出す
-    $.ajax({
-      url: '<%= update_checked_notifications_path %>',
-      type: 'POST',
-      success: function() {
-        // 更新が成功したら、未確認の通知のオレンジ色を消す
-        $('.n-circle').removeClass('orange');
+  $(document).ready(function() {
+    $('#notifications-link').click(function() {
+      // 通知を確認済みに更新するアクションを呼び出す
+      $.ajax({
+        url: '<%= update_checked_notifications_path %>',
+        type: 'POST',
+        success: function() {
+          $('.n-circle').removeClass('orange');
+          $('#notifications-link').html('<i class="far fa-bell fa-lg" style="font-size: 1.5em;"></i>');
 
-        // ベルのアイコンを切り替える
-        $('#notifications-link').empty();
-        $('#notifications-link').append('<i class="far fa-bell fa-lg" style="font-size: 1.5em;"></i>');
+          // 通知モーダルを表示する処理
+          $.ajax({
+            url: '<%= notifications_path(@user) %>',
+            type: 'GET',
+            success: function(response) {
+              $('#notifications-modal .modal-content').html(response);
+              $('#notifications-modal').addClass('fade-in').show();
+            }
+          });
+        }
+      });
+    });
 
-        // 通知モーダルを表示する処理
-        $.ajax({
-          url: '<%= notifications_path(@user) %>',
-          type: 'GET',
-          success: function(response) {
-            $('#notifications-modal .modal-content').html(response);
-            $('#notifications-modal').addClass('fade-in').show();
-          }
-        });
-      }
+    $('#notifications-modal').on('click', function() {
+      $(this).addClass('fade-out');
+      setTimeout(() => {
+        $(this).hide().removeClass('fade-out');
+      }, 300);
     });
   });
-
-  // モーダルを閉じた際に通知モーダルの表示をリセット
-  $('#notifications-modal').on('click', function() {
-    $(this).addClass('fade-out');
-    setTimeout(() => {
-      $(this).hide().removeClass('fade-out');
-    }, 300); // アニメーションの時間に合わせて調整
-  });
-});
-
 </script>

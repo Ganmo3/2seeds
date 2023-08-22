@@ -3,13 +3,6 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
 
-#follower-count:hover {
-  cursor: pointer;
-}
-
-#following-count:hover {
-  cursor: pointer;
-}
 
 /* モーダルの背景 */
 .modal {
@@ -68,4 +61,94 @@
 .modal-content {
   max-height: 400px; /* 適切な高さに調整 */
   overflow-y: auto;
+}
+
+/* editボタンスタイル */
+.edit-btn {
+  display: inline-block;
+  padding: 3px 6px;
+  border-radius: 5px;
+  text-decoration: none;
+  background-color: #BDDF38;
+  color: #fff;
+  border: none;
+  transition: background-color 0.3s ease-out;
+}
+
+.edit-btn:hover {
+  background-color: #9ECA2D;
+  text-decoration: none;
+}
+
+/* アイコンカラム */
+.profile-container {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  transition: background-color 0.3s ease-out;
+}
+
+.profile-container:hover {
+  background-color: #e0e0e0;
+}
+
+.icon {
+  margin-bottom: 10px;
+}
+
+.channel-name {
+  margin-top: 10px;
+}
+
+.edit-container {
+  margin-top: 20px;
+}
+
+/* introductionカラム */
+.profile-info {
+  text-align: center;
+}
+
+.nickname h5 {
+  margin: 0;
+  font-size: 20px; /* 大きめのフォントサイズ */
+  color: #333;
+  text-transform: uppercase; /* テキストを大文字に変換 */
+  letter-spacing: 1px; /* 文字間のスペースを調整 */
+  font-weight: bold; /* 太字 */
+  padding-bottom: 5px; /* 下線の余白 */
+}
+
+
+.introduction p {
+  margin-bottom: 20px;
+}
+
+.information {
+  margin-bottom: 10px;
+}
+
+.information p {
+  display: inline-block;
+  color: #666; /* ラベルのテキストカラー */
+}
+
+.info-label {
+  font-weight: bold;
+  margin-right: 5px;
+  color: #999; /* ラベルのテキストカラー */
+}
+
+#follow-btn {
+  margin-top: 20px;
+}
+
+#follower-count:hover {
+  cursor: pointer;
+}
+
+#following-count:hover {
+  cursor: pointer;
 }

@@ -7,19 +7,30 @@
       <label for="postTypeToggle" class="toggle_label"></label>
     </div>
     <div class="btn-group" role="group">
-      <% if @post.persisted? %>
-        <%= f.submit '更新する', id: 'updateButton', name: 'commit', class: "submit-btn" %>
+  <% if @post.persisted? %>
+    <% if @post.published? %>
+      <% if @post.draft? %>
+        <%= f.submit '公開する', id: 'publishButton', name: 'published', class: "publish-btn" %>
+        <%= f.submit '更新する', id: 'updateButton', name: 'update', class: "submit-btn" %>
       <% else %>
-        <%= f.submit '投稿する', id: 'postButton', name: 'commit', class: "submit-btn" %>
-        <%= f.submit '下書き保存', id: 'draftButton', name: 'commit', class: "draft-btn" %>
+        <%= f.submit '非公開にする', id: 'unpublishButton', name: 'unpublished', class: "unpublish-btn" %>
+        <%= f.submit '更新する', id: 'updateButton', name: 'update', class: "submit-btn" %>
       <% end %>
+    <% else %>
+      <%= f.submit '非公開にする', id: 'unpublishButton', name: 'unpublished', class: "unpublish-btn" %>
+      <%= f.submit '更新する', id: 'updateButton', name: 'update', class: "submit-btn" %>
+    <% end %>
+  <% else %>
+    <%= f.submit '公開する', id: 'postButton', name: 'post', class: "submit-btn" %>
+    <%= f.submit '下書き保存', id: 'draftButton', name: 'draft', class: "draft-btn" %>
+  <% end %>
     </div>
   </div>
 </div>
 
 
 <div class="form-group form-group_link mt-4">
-  <%= f.label :link, "Link", class: "form-label" %>
+  <%= f.label :link, "YouTube Link", class: "form-label" %>
   <%= f.text_field :link, required: true, class: 'form-control post_link' %>
 </div>
 
@@ -34,16 +45,9 @@
 </div>
 
 <div class="form-group form-group_body">
-  <%= f.label :body, "Body", class: "form-label" %>
-  <%= f.rich_text_area :body, required: true %>
+  <%= f.label :content, "Content", class: "form-label" %>
+  <%= f.rich_text_area :content, required: true %>
 </div>
-
-
-
-
-
-
-
 
 <!-- プレビューのモーダルウィンドウ -->
 <div id="preview-modal" class="modal">
@@ -57,7 +61,7 @@
         link: $('#post_link').val(),
         tag_list: $('#post_tag_list').val(),
         title: $('#post_title').val(),
-        body: $('#post_body').val()
+        body: $('#post_content').val()
         // 他のフォームフィールドも同様に追加
       };
 
@@ -79,27 +83,43 @@
       }, 300); // アニメーションの時間に合わせて調整
     });
 
+/*
     $('#postTypeToggle').change(function() {
-      if ($(this).is(':checked')) {
-        $('#postButton').show();
-        $('#draftButton').hide();
-        $('#updateButton').prop('disabled', false).show();
+       var isChecked = $(this).is(':checked');
+      var isDraft = $('#draftButton').is(':visible');
+      var isPublished = $('#publishButton').is(':visible');
+
+      if (isChecked) {
+        if (isPublished) {
+          $('#unpublishButton').hide();
+          $('#updateButton').prop('disabled', false).show();
+          $('#publishButton').prop('disabled', true).hide();
+          $('#postButton').hide();
+          $('#draftButton').hide();
+        } else if (isDraft) {
+          $('#unpublishButton').show();
+          $('#updateButton').prop('disabled', true).show();
+          $('#publishButton').prop('disabled', true).hide();
+          $('#postButton').hide();
+          $('#draftButton').hide();
+        }
       } else {
-        $('#postButton').hide();
-        $('#draftButton').show();
+        $('#unpublishButton').hide();
         $('#updateButton').prop('disabled', true).show();
+        $('#publishButton').prop('disabled', true).hide();
+
+        if (isPublished) {
+          $('#postButton').hide();
+          $('#draftButton').hide();
+        } else if (isDraft) {
+          $('#postButton').show();
+          $('#draftButton').show();
+        }
       }
     });
 
     // 初期表示時の設定
-    if ($('#postTypeToggle').is(':checked')) {
-      $('#postButton').show();
-      $('#draftButton').hide();
-      $('#updateButton').prop('disabled', false).show();
-    } else {
-      $('#postButton').hide();
-      $('#draftButton').show();
-      $('#updateButton').prop('disabled', true).show();
-    }
+    $('#postTypeToggle').change(); // 初期表示時にchangeイベントをトリガーする
+*/
   });
 </script>

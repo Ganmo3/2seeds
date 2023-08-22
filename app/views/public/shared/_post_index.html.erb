@@ -1,6 +1,6 @@
 <ul class="list-group list-unstyled mt-3">
   <div class="d-flex flex-wrap">
-    <% posts.sort_by(&:created_at).reverse.each do |post| %>
+    <% posts.each do |post| %>
       <% video_id = extract_youtube_video_id(post.link) %>
       <% next unless video_id.present? %>
       <li class="post-card m-2">
