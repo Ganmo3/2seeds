@@ -1,4 +1,5 @@
 class Public::UsersController < ApplicationController
+  #before_action :sign_out_user, only: :show
   before_action :set_user, except: [:edit, :update, :withdraw_input, :withdraw_process]
   before_action :hide_header, only: [:follower_list, :following_list]
 
@@ -51,11 +52,17 @@ class Public::UsersController < ApplicationController
     @show_header = false
   end
 
+  #def sign_out_user
+  #  sign_out(current_user) if user_signed_in?
+  #end
+
   def set_user
     account_str = params[:account]
     sanitized_account_str = account_str.gsub(/[^a-zA-Z0-9_-]/, '')
     account_sym = sanitized_account_str.to_sym
     @user = User.find_by(account: account_sym)
+    #@user = User.find_by(account: account_sym) if account_sym.present?
+    #byebug
   end
 
   def user_params
