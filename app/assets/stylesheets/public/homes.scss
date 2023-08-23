@@ -3,56 +3,20 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
 
-
-
-
-
-.catchphrase-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  z-index: 2;
-}
-
-.catchphrase {
-  font-size: 36px;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 20px;
-  border-radius: 10px;
-  opacity: 0; /* 初期状態では透明に */
-  animation: fadeIn 1s ease-in-out forwards; /* フェードインアニメーション */
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px); /* 上方向に移動 */
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
 .slideshow-container {
   width: 100%;
-  height: 600px;
+  height: 450px;
   overflow: hidden;
   position: relative;
 }
 
 .slide {
   width: 100%;
-  height: 600px;
+  height: 450px;
   object-fit: cover;
   position: absolute;
   opacity: 0;
   transition: opacity 1s ease-in-out;
-  left: 100px
 }
 
 .slide-content {
@@ -63,8 +27,8 @@
 }
 
 .slide img {
-  width: 100%; /* 画面の横幅いっぱいに表示 */
-  height: 100%; /* 画面の高さいっぱいに表示 */
+  width: inherit;
+  height: inherit;
   object-fit: cover; /* 画像を保ちつつ、コンテナに合わせて表示 */
   margin: 0;
   padding: 0;
@@ -80,7 +44,6 @@
 
 /* スライドショーのエフェクト */
 .slide.fade {
-  transform: scale(0.8);
   transition: transform 1s, opacity 1s ease-in-out;
   opacity: 0.5;
 }
@@ -88,6 +51,69 @@
 .slide.fade.slick-center {
   transform: scale(1);
   opacity: 1;
+}
+
+
+.top-section {
+  display: flex;
+  align-items: center;
+}
+
+.catchphrase-container {
+  position: absolute;
+  top: 45%; /* 割合値を調整 */
+  left: 17%; /* 割合値を調整 */
+  color: white;
+  transform: translateY(-55%);
+
+}
+
+.slogan {
+  font-size: 40px;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* テキストに影を追加 */
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+
+.catchphrase {
+  font-size: 18px;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+  font-weight: bold;
+}
+
+
+.round-button {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 50px;
+  color: #000;
+  font-size: 24px;
+  text-decoration: none;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.round-button:hover {
+  transform: translate(10px, -10px); /* 右上に移動 */
+  text-decoration: none;
+}
+
+.arrow {
+  display: block;
+  font-weight: bold;
+}
+
+
+/* メイン */
+#popular-container {
+  background-color: white;
 }
 
 
@@ -103,7 +129,7 @@
 
 /* 新着商品スライドショー */
 .slider {
-  width: 94%;
+  width: 97%;
   margin: 0 auto;
 }
   /* サムネイルのスタイル */
@@ -113,12 +139,11 @@
   object-fit: cover;
   margin: 0 auto;
   display: block;
-  border-radius: 10px; /* 丸みを持たせる */
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s, box-shadow 0.3s; /* アニメーションの追加 */
 }
 
-.slider img:hover {
+.thumbnail-wrapper:hover img {
   transform: scale(1.05); /* ホバー時に少し拡大するアニメーション */
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15); /* ホバー時の影を強化 */
 }
@@ -137,22 +162,19 @@
 
 
 .slider .slick-slide {
-  transform: scale(0.8);
+  transform: scale(1);
   transition: all 0.5s;
-  opacity: 0.5;
 }
 
 .slider .slick-slide.slick-center {
   transform: scale(1);
-  opacity: 1;
 }
 
 /* 新着商品リスト装飾 */
 .slider li {
-  background-color: #BDDF38;
   padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
@@ -205,13 +227,90 @@
   height: 12px;
   display: block;
   border-radius: 50%;
-  background: #FFC0CB;
+  background: #D1E7B5;
   border: none;
 }
 
 .slick-dots .slick-active button {
-  background: orange;
+  background: #BDDF38;
 }
+
+
+.thumbnail-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.thumbnail-container {
+  display: flex;
+  justify-content: center; /* 水平方向に中央寄せ */
+  align-items: center; /* 垂直方向に中央寄せ */
+}
+
+
+
+.view-count {
+  position: absolute;
+  bottom: 0px; /* 下部からの位置を調整 */
+  right: 15px; /* 右側からの位置を調整 */
+  background-color: white;
+  color: black;
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  align-items: center; /* 数字と "Views" を縦方向に中央揃え */
+}
+
+.number {
+  margin-right: 3px; /* 数字と "Views" の間隔を調整 */
+}
+
+.post-item:hover {
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15); /* ホバー時の影を強化 */
+  background-color: #BDDF38;
+}
+
+.user-info img {
+  width: 40px;
+  height: 40px;
+  object-fit: unset;
+  margin: 0;
+  display: inline;
+  box-shadow: none;
+  transition: none;
+}
+
+
+
+
+
+.post-favorites {
+  color: #333;
+}
+
+.post-favorites i {
+  color: #FF5733;
+}
+
+.tag-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.tag-btn {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: #9ECA2D;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 12px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
 
 /* トップボタン */
 
@@ -288,48 +387,6 @@
   box-shadow: 0 5px 6px rgba(0, 0, 0, 0.4); /* ホバー時の影の追加 */
 }
 
-
-.post-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.trend-user-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.trend.user-nickname {
-  font-weight: bold;
-  color: #333;
-}
-
-.post-favorites {
-  color: #333;
-}
-
-.post-favorites i {
-  color: #FF5733;
-}
-
-.tag-buttons {
-  display: flex;
-  gap: 5px;
-}
-
-.tag-btn {
-  display: inline-block;
-  padding: 5px 10px;
-  background-color: #9ECA2D;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  font-size: 12px;
-  transition: background-color 0.3s, color 0.3s;
-}
 
 /* Daily Best枠のスタイル */
 
@@ -505,23 +562,6 @@
   background-color: #f0f0f0;
 }
 
-/* ユーザーアイコンのスタイル */
-.user-icon {
-  margin-right: 10px;
-}
-
-/* ユーザー情報のスタイル */
-.user-info {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  border: 1px solid #e0e0e0;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  transition: background-color 0.3s;
-}
-
 .ranking-user:hover {
   background-color: #BDDF38;
 }
@@ -531,12 +571,6 @@
   flex: 1;
   display: flex;
   align-items: center;
-}
-
-.user-nickname {
-  font-size: 16px;
-  font-weight: bold;
-  margin-right: 10px;
 }
 
 .user-introduction {
