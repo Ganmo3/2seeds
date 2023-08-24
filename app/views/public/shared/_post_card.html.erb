@@ -2,7 +2,7 @@
   <div class="post-card_creator">
     <div class="icon">
       <%= link_to user_path(post.user.account) do %>
-        <%= user_icon_or_youtube(post.user.channel, size: '30x30', class: 'rounded-circle') %>
+        <%= user_icon_or_youtube(post.user, size: '30x30', class: 'rounded-circle') %>
         <%= post.user.nickname %>
       <% end %>
     </div>

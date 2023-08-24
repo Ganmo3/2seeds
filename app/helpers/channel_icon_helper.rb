@@ -5,23 +5,24 @@ module ChannelIconHelper
     # オプションをデフォルト値とマージ
     options = { size: 'default', alt: 'Channel Icon' }.merge(options)
 
-    # YouTube APIを使用してチャンネルの情報を取得
-    service = Google::Apis::YoutubeV3::YouTubeService.new
-    service.key = ENV['YOUTUBE_API_KEY']
-    channel_response = service.list_channels('snippet', id: channel_id)
-    channel_item = channel_response.items.first
+    # キャッシュからアイコンURLを取得
+    channel_icon_url = Rails.cache.fetch("channel_icon_#{channel_id}", expires_in: 1.day) do
+      service = Google::Apis::YoutubeV3::YouTubeService.new
+      service.key = ENV['YOUTUBE_API_KEY']
+      channel_response = service.list_channels('snippet', id: channel_id)
+      channel_item = channel_response.items.first
 
-    # チャンネルのアイコンURLを取得
-    channel_icon_url = case options[:size]
-                       when 'default'
-                         channel_item.snippet.thumbnails.default.url
-                       when 'medium'
-                         channel_item.snippet.thumbnails.medium.url
-                       when 'high'
-                         channel_item.snippet.thumbnails.high.url
-                       else
-                         channel_item.snippet.thumbnails.default.url
-                       end
+      case options[:size]
+      when 'default'
+        channel_item.snippet.thumbnails.default.url
+      when 'medium'
+        channel_item.snippet.thumbnails.medium.url
+      when 'high'
+        channel_item.snippet.thumbnails.high.url
+      else
+        channel_item.snippet.thumbnails.default.url
+      end
+    end
 
     # アイコンの画像タグを生成して返す
     image_tag(channel_icon_url, options)

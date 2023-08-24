@@ -3,6 +3,7 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
 
+/* メインスライド */
 .slideshow-container {
   width: 100%;
   height: 450px;
@@ -42,6 +43,41 @@
   opacity: 1;
 }
 
+/* 見出し */
+.headline {
+    display: inline-block;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #555;
+    position: relative;
+    transition: color 0.3s;
+}
+
+.headline::after {
+    content: "";
+    display: block;
+    height: 2px;
+    width: 0; /* 初めは幅を0に */
+    background-color: #3CB371;
+    transform: scaleX(0);
+    transition: transform 0.3s, width 0.3s; /* widthもトランジションに追加 */
+    position: absolute;
+    bottom: -5px; /* 下線の位置を調整 */
+    left: 0%; /* 左端から中央に変更 */
+    transform-origin: left; /* 変更点: transformの基準点を左端に設定 */
+}
+
+.headline:hover {
+    color: #3CB371;
+}
+
+.headline:hover::after {
+    transform: scaleX(1);
+    width: 45vw; /* ホバー時に下線の幅を画面幅いっぱいに広げる */
+}
+
+
+
 /* スライドショーのエフェクト */
 .slide.fade {
   transition: transform 1s, opacity 1s ease-in-out;
@@ -80,7 +116,7 @@
 .catchphrase {
   font-size: 18px;
   color: white;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   font-weight: bold;
 }
 
@@ -111,13 +147,10 @@
 }
 
 
-/* メイン */
+/* 人気記事ランキング */
 #popular-container {
   background-color: white;
 }
-
-
-
 
 .top-btn {
   transition: background-color 0.3s ease; /* アニメーションの設定 */
@@ -127,12 +160,11 @@
   background-color: #FFC850; /* ホバー時の背景色 */
 }
 
-/* 新着商品スライドショー */
 .slider {
   width: 97%;
   margin: 0 auto;
 }
-  /* サムネイルのスタイル */
+
 .slider img {
   width: 300px;
   height: 200px;
@@ -160,7 +192,6 @@
   color: #2C6627; /* ホバー時のリンクの色を指定 */
 }
 
-
 .slider .slick-slide {
   transform: scale(1);
   transition: all 0.5s;
@@ -170,7 +201,6 @@
   transform: scale(1);
 }
 
-/* 新着商品リスト装飾 */
 .slider li {
   padding: 10px;
   border-radius: 5px;
@@ -247,20 +277,15 @@
   align-items: center; /* 垂直方向に中央寄せ */
 }
 
-
-
 .view-count {
   position: absolute;
   bottom: 0px; /* 下部からの位置を調整 */
-  right: 15px; /* 右側からの位置を調整 */
+  right: 13px; /* 右側からの位置を調整 */
   background-color: white;
   color: black;
-  padding: 5px 10px;
-  font-size: 14px;
+  width: 60px;
   font-weight: bold;
   text-align: center;
-  display: flex;
-  align-items: center; /* 数字と "Views" を縦方向に中央揃え */
 }
 
 .number {
@@ -281,9 +306,6 @@
   box-shadow: none;
   transition: none;
 }
-
-
-
 
 
 .post-favorites {
@@ -311,84 +333,86 @@
   transition: background-color 0.3s, color 0.3s;
 }
 
+/* 週間記事ランキング */
 
-/* トップボタン */
-
-.btntextchange {
+.post-item {
   position: relative;
-  border: 1px solid #555;
-  border-radius: 25px;
-  min-width: 210px;
-  padding: 20px;
-  text-align: center;
-  display: inline-block;
-  text-decoration: none;
-  color: #fff; /* テキストの色を白に変更 */
-  background-color: #BDDF38; /* ボタンの背景色を変更 */
-  outline: none;
-  transition: all .2s;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 影を追加 */
 }
 
-.btntextchange:hover {
-  background: #9ECA2D; /* ホバー時の背景色を変更 */
-  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2); /* ホバー時の影を強化 */
-}
-
-.btntextchange span {
+.ranking-number {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  transition: all .5s;
-  display: block;
-  white-space: nowrap;
+  top: 0px; /* サムネイルの上からの位置 */
+  left: 0px; /* サムネイルの左からの位置 */
+  background-color: black;
+  color: white;
+  padding: 5px 10px;
+  font-weight: bold;
+  z-index: 2; /* サムネイルの上に表示 */
+}
+
+.weekly-view-count {
+  position: absolute;
+  bottom: 0px; /* 下部からの位置を調整 */
+  right: 0px; /* 右側からの位置を調整 */
+  background-color: white;
+  color: black;
+  width: 60px; /* 枠の幅を固定 */
+  font-weight: bold;
+  text-align: center;
+}
+
+.count-style {
+  font-size: 1rem;;
+  color: black;
+  margin: 0;
+}
+
+.view-style {
+  font-size: 0.75rem;
+  color: gray;
+  margin: 0;
+}
+
+.date {
+  font-size: 0.8rem;
+}
+
+.weekly-post-title h6 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-decoration: none;
   color: black;
 }
 
-.btntextchange span:nth-child(2) {
-  opacity: 0;
+.user-nickname {
+  font-size: 0.8rem;
 }
 
-.btntextchange:hover span:nth-child(1) {
-  opacity: 0;
-  color: #9ECA2D;
+.post-meta {
+  align-items: center; /* 上下中央寄せ */
 }
 
-.btntextchange:hover span:nth-child(2) {
-  opacity: 1;
+.user-info {
+  display: flex; /* 要素を横並びに配置 */
+  align-items: center; /* 上下中央寄せ */
 }
 
-.trend-btn {
-  font-weight: bold;
+.user-info p {
+  margin: 0; /* デフォルトのマージンをリセット */
 }
 
-/* READ MOREボタン */
-.read-more-btn {
-  display: inline-block;
-  padding: 6px 12px;
-  font-size: 14px;
-  background-color: transparent; /* 背景色を透明に設定 */
-  color: #fff; /* テキストの色を調整 */
-  border: 2px solid #9ECA2D; /* ボーダーを追加 */
-  border-radius: 3px;
-  text-decoration: none;
-  transition: background-color 0.3s, color 0.3s; /* 色の変化にトランジションを追加 */
-  position: relative; /* ボタンの位置を指定 */
-  top: 0; /* 初期位置 */
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3); /* 影の追加 */
+.count-style {
+  color: grey;
+  font-size: 0.8rem; /* お好みのフォントサイズを指定 */
 }
 
-.read-more-btn:hover {
-  background-color: #BDDF38; /* ホバー時の背景色を調整 */
-  color: #fff; /* ホバー時のテキストの色を調整 */
-  border-color: #9ECA2D; /* ホバー時のボーダーの色を調整 */
-  top: -3px; /* ホバー時の上に移動 */
-  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.4); /* ホバー時の影の追加 */
+/* Daily Best */
+.daily-container-fluid {
+  background-color: white;
 }
 
 
-/* Daily Best枠のスタイル */
+
 
 /* アニメーションのキーフレームを定義 */
 @keyframes fadeInUp {
@@ -405,41 +429,6 @@
 /* クラスにアニメーションを適用 */
 .fadeInUp {
   animation: fadeInUp 0.5s ease-in-out; /* アニメーションのプロパティを指定 */
-}
-
-
-.daily-best {
-  border: 2px solid #9ECA2D; /* 枠の色を設定 */
-  background-color: #FFFBEB; /* 背景色を設定 */
-  padding: 20px; /* 内側の余白を設定 */
-  border-radius: 10px; /* 枠の角を丸める */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 影をつける */
-}
-
-.daily-best h4 {
-  margin-top: 10px; /* タイトルと本文の間隔を設定 */
-  font-size: 1.25rem; /* タイトルのフォントサイズを設定 */
-}
-
-.daily-best .user-info {
-  margin-top: 15px; /* ユーザー情報と本文の間隔を設定 */
-  text-align: center;
-}
-
-.daily-best .user-nickname {
-  font-weight: bold; /* ユーザー名のフォントを太くする */
-}
-
-.daily-best .post-favorites {
-  margin-top: 5px; /* お気に入り数とタグの間隔を設定 */
-}
-
-.daily-best .tag-buttons {
-  margin-top: 15px; /* タグと本文の間隔を設定 */
-}
-
-.daily-post-body {
-  margin-top: 20px; /* 本文の上の余白を設定 */
 }
 
 /* サムネイルコンテナ */
@@ -467,76 +456,92 @@
   filter: brightness(0.8); /* 明るさを調整してホバーエフェクトをかける */
 }
 
-/* タイトル */
-.daily-best h4 a {
-  font-size: 20px; /* フォントサイズを調整 */
-  font-weight: bold; /* テキストを太字に設定 */
-  color: #1E441E; /* リンクの色を指定（背景色に合う色） */
-  text-decoration: none; /* 下線を消去 */
-  transition: color 0.3s; /* カラーのトランジションを追加 */
-}
-
-.daily-best h4 a:hover {
-  color: #2C6627; /* ホバー時のリンクの色を指定 */
-}
-
-
-
-/* メタ情報 */
-.daily-best .post-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-}
-
-.daily-best .user-nickname {
-  font-size: 14px;
-  color: #666;
-}
-
-.daily-best .post-favorites i {
-  color: #FF5733;
-  margin-right: 5px;
-}
-
-.daily-post-body {
-  text-align: center; /* テキストを中央寄せにする */
-  font-size: 14px; /* フォントサイズを調整 */
-  color: #555; /* テキストの色を設定 */
-  max-height: 50px; /* 最大の表示高さを指定 */
-  overflow: hidden; /* 高さを超えた部分を非表示にする */
-  white-space: nowrap; /* テキストを改行しない */
-  text-overflow: ellipsis; /* 切り詰められたテキストに省略符号 (...) を追加 */
-}
-
-.daily-post-body p {
-  line-height: 1.4; /* 行間を調整 */
-  
-}
-
 .read-more-link {
   text-align: center; /* リンクを中央寄せにする */
   margin-top: 10px; /* 上部の余白を追加 */
 }
 
-.daily-read-more-btn {
-  display: inline-block; /* インラインブロック要素にする */
-  padding: 8px 16px; /* パディングを設定 */
-  background-color: #FFC107; /* 背景色を設定 */
-  color: white; /* テキストの色を白に設定 */
-  text-decoration: none; /* 下線をなくす */
-  border-radius: 5px; /* 角を丸める */
-  font-weight: bold; /* フォントを太字にする */
-  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s; /* カラー変化と影のアニメーションを追加 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 影を追加 */
+
+/* ボタン */
+
+.btntextchange {
+  position: relative;
+  border: 1px solid #555;
+  border-radius: 25px;
+  min-width: 210px;
+  padding: 20px;
+  text-align: center;
+  display: inline-block;
+  text-decoration: none;
+  background-color: #BDDF38; /* ボタンの背景色を変更 */
+  outline: none;
+  transition: all .2s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 影を追加 */
 }
 
-.daily-read-more-btn:hover {
-  background-color: #FFA000; /* ホバー時の背景色を設定 */
-  color: white; /* ホバー時のテキスト色を設定 */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* ホバー時の影を強化 */
-  transform: translateY(-2px); /* ホバー時に少し上に移動させることで浮き上がるエフェクトを演出 */
+.btntextchange:hover {
+  background: #fff; /* ホバー時の背景色を変更 */
+  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2); /* ホバー時の影を強化 */
+}
+
+.btntextchange span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: all .5s;
+  display: block;
+  white-space: nowrap;
+  color: black;
+}
+
+.btntextchange span:nth-child(2) {
+  opacity: 0;
+}
+
+.btntextchange:hover span:nth-child(1) {
+  opacity: 0;
+  color: #9ECA2D;
+}
+
+.btntextchange:hover span:nth-child(2) {
+  opacity: 1;
+}
+
+/* ボタンフェードイン */
+.trend-btn {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  font-weight: bold;
+}
+
+.trend-btn.fade-in {
+  opacity: 1;
+}
+
+
+/* READ MOREボタン */
+.read-more-btn {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 14px;
+  background-color: #BDDF38; /* 背景色を透明に設定 */
+  color: #fff; /* テキストの色を調整 */
+  border: 2px solid #9ECA2D; /* ボーダーを追加 */
+  border-radius: 3px;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s; /* 色の変化にトランジションを追加 */
+  position: relative; /* ボタンの位置を指定 */
+  top: 0; /* 初期位置 */
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3); /* 影の追加 */
+}
+
+.read-more-btn:hover {
+  background-color: #BDDF38; /* ホバー時の背景色を調整 */
+  color: #fff; /* ホバー時のテキストの色を調整 */
+  border-color: #9ECA2D; /* ホバー時のボーダーの色を調整 */
+  top: -3px; /* ホバー時の上に移動 */
+  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.4); /* ホバー時の影の追加 */
 }
 
 
@@ -551,31 +556,41 @@
   display: flex;
   align-items: center;
   padding: 10px;
-  border: 1px solid #e0e0e0;
   margin-bottom: 10px;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  transition: background-color 0.3s;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
 }
 
 .ranking-user:hover {
-  background-color: #f0f0f0;
-}
-
-.ranking-user:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   background-color: #BDDF38;
 }
 
-/* ユーザー詳細情報のスタイル */
 .user-details {
-  flex: 1;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  flex: 1;
+  margin-left: 15px;
+}
+
+.ranking-user-nickname {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s;
 }
 
 .user-introduction {
   font-size: 14px;
-  margin: 0;
+  margin: 5px 0 0;
+  color: #777;
+  opacity: 0.8;
+  transition: opacity 0.3s;
 }
 
 /* ユーザーリンクのスタイル */
@@ -585,13 +600,10 @@
 }
 
 
-/* ボタンフェードイン */
-.trend-btn {
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
+/* about */
+.site-description {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  margin-top: 20px;
 }
-
-.trend-btn.fade-in {
-  opacity: 1;
-}
-

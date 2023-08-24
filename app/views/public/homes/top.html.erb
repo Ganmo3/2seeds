@@ -18,200 +18,331 @@
     <div class="catchphrase-container">
       <h1 class="slogan">Seeding Success, <br>Growing Influence</h1>
       <p class="catchphrase">YouTubeで始まる、ブログで続く</p>
-        <a href="#" class="round-button">
-          <span class="arrow">↗</span>
-        </a>
+<%= link_to about_path, class: "round-button" do %>
+  <span class="arrow">↗</span>
+<% end %>
+
     </div>
   </div>
 
-<!-- メイン -->
+<!-- 人気記事 -->
 <div class="container-fluid" id="popular-container">
   <div class="row">
     <div class="col-md-12">
-      <span class="btntextchange trend-btn mt-5 ml-5">
-        <span>人気急上昇</span>
-        <span>トレンド中</span>
-      </span>
+      <h4 class="headline mt-5 ml-5">人気の記事</h4>
 
+      <ul class="slider mt-3">
+        <% @daily_popular_posts.each do |post| %>
+          <li class="post-item">
+            <%= link_to post_path(post), class: "link-to" do %>
+              <% video_id = extract_youtube_video_id(post.link) %>
+              <% next unless video_id.present? %>
+              <div class="thumbnail-wrapper">
+                <div class="thumbnail-container">
+                  <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 250px; height: auto;', show_info: false) %>
+                </div>
+                <div class="view-count">
+                  <div class="weekly-view-number">
+                    <p class="count-style"><%= post.impressionist_count %><br></p>
+                    <p class="view-style">Views</p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
 
-<ul class="slider mt-3">
-  <% @daily_popular_posts.each do |post| %>
-    <li class="post-item">
-      <%= link_to post_path(post) do %>
-        <% video_id = extract_youtube_video_id(post.link) %>
-        <% next unless video_id.present? %>
-        <div class="thumbnail-wrapper">
-          <div class="thumbnail-container">
-          <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 250px; height: auto;', show_info: false) %>
-          </div>
-          <div class="view-count">
-            <div class="number">
-              <p><%= post.impressionist_count %></p>
-            </div>
-            <p>Views</p>
-          </div>
-        </div>
-      <% end %>
-
-      <div class="post-content">
-        <div class="tag-buttons">
-          <% post.tag_list.first(2).each do |tag| %>
-            <span class="tag-btn ml-3"><%= tag %></span>
-          <% end %>
-          <div class="trend-date-container ml-auto">
-            <p class="trend-date mr-3"><%= formatted_datetime(post.created_at) %></p>
-          </div>
-        </div>
-        <div class="trend-post-title">
-          <% if post.title.length > 10 %>
-            <h6><%= link_to truncate(post.title, length: 10), post_path(post) %></h6>
-          <% else %>
-            <h6><%= link_to post.title, post_path(post) %></h6>
-          <% end %>
-        </div>
-        <div class="post-meta">
-          <%= link_to user_path(@user.account), class: 'user-link' do %>
-            <div class="user-info d-flex">
-              <%= user_icon_or_youtube(@user.channel, size: '20x20', class: 'rounded-circle ml-3') %>
-              <p class="user-nickname ml-1"><%= post.user.nickname %></p>
-              <div class="post-favorites-container ml-auto">
-                <p class="post-favorites mr-3"><i class="fa fa-heart"></i> <%= post.post_favorites.count %></p>
+            <div class="post-content mt-2">
+              <div class="tag-buttons">
+                <% post.tag_list.first(2).each do |tag| %>
+                  <span class="tag-btn ml-3"><%= link_to tag, tag_path(tag) %></span>
+                <% end %>
+                <div class="date-container ml-auto">
+                  <p class="date mr-3"><%= formatted_datetime(post.created_at) %></p>
+                </div>
+              </div>
+              <div class="trend-post-title mt-2">
+                <% if post.title.length > 10 %>
+                  <h6><%= link_to truncate(post.title, length: 10), post_path(post) %></h6>
+                <% else %>
+                  <h6><%= link_to post.title, post_path(post) %></h6>
+                <% end %>
+              </div>
+              <div class="post-meta">
+                <%= link_to user_path(post.user.account), class: 'user-link' do %>
+                <div class="user-info-container d-flex">
+                  <div class="user-info">
+                    <%= user_icon_or_youtube(post.user, size: '20x20', class: 'rounded-circle ml-3') %>
+                      <p class="user-nickname ml-1"><%= post.user.nickname %></p>
+                  </div>
+                <% end %>
+                  <div class="post-favorites-container ml-auto">
+                    <p class="post-favorites mr-3">
+                      <i class="fa fa-heart"></i>
+                      <span class="count-style mr-1"><%= post.post_favorites.count %></span>
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          <% end %>
-          
-  
-    </li>
-  <% end %>
-</ul>
+          </li>
+        <% end %>
+      </ul>
 
-
-
+      <div class="trend-btn-container text-center">
+        <%= link_to posts_path, class: "btntextchange trend-btn my-3" do %>
+          <span>View More </span>
+          <span>Trending</span>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
 
 
+<!-- 週間記事ランキング -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 class="headline mt-5 ml-5">週間記事ランキング</h4>
+
+      <div class="weekly-ranking-container mt-3 d-flex flex-wrap">
+        <% @weekly_most_viewed_posts.each_with_index do |post, index| %>
+          <div class="post-item mx-1 mx-auto">
+            <%= link_to post_path(post), class: "link-to" do %>
+              <div class="ranking-number">No. <%= index + 1 %></div> <!-- ランキングを表示する要素 -->
+              <% video_id = extract_youtube_video_id(post.link) %>
+              <% next unless video_id.present? %>
+              <div class="thumbnail-wrapper">
+                <div class="thumbnail-container">
+                  <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 380px; height: auto;', show_info: false) %>
+                </div>
+                <div class="weekly-view-count">
+                  <div class="weekly-view-number">
+                    <p class="count-style"><%= post.impressionist_count %><br></p>
+                    <p class="view-style">Views</p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+
+            <div class="post-content mt-2">
+              <div class="tag-buttons">
+                <% post.tag_list.first(2).each do |tag| %>
+                  <span class="tag-btn ml-3"><%= link_to tag, tag_path(tag) %></span>
+                <% end %>
+                <div class="date-container ml-auto">
+                  <p class="date mr-1"><%= formatted_datetime(post.created_at) %></p>
+                </div>
+              </div>
+              <div class="weekly-post-title text-center mt-2">
+                <%= link_to post_path(post) do %>
+                  <% if post.title.length > 30 %>
+                  <h6>  <%= truncate(post.title, length: 30) %></h6>
+                  <% else %>
+                  <h6>  <%= post.title %></h6>
+                  <% end %>
+                <% end %>
+              </div>
+              <div class="post-meta d-flex">
+                <%= link_to user_path(post.user.account), class: 'user-link' do %>
+                <div class="user-info">
+                  <%= user_icon_or_youtube(post.user, size: '20x20', class: 'rounded-circle ml-1') %>
+                  <p class="user-nickname ml-2"><%= post.user.nickname %></p>
+                </div>
+                  <% end %>
+                <div class="post-favorites-container ml-auto">
+                  <div class="post-favorites">
+                    <i class="fa fa-heart"></i>
+                    <span class="count-style"><%= post.post_favorites.count %></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="trend-btn-container text-center mt-5">
+        <%= link_to posts_path, class: "btntextchange trend-btn" do %>
+          <span>View More </span>
+          <span>Weekly Top</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <!-- デイリーベスト -->
-<div class="container mt-5">
+<div class="daily-container-fluid mt-5">
   <div class="row">
-    <div class="col-md-8">
-<%= link_to post_path(@daily_most_viewed_post), class: 'btntextchange trend-btn' do %>
-  <span>Daily's Best</span>
-  <span>最注目コンテンツ</span>
-<% end %>
+    <div class="col-md-6">
+      <h4 class="headline mt-5 ml-5">Daily's Best</h4>
 
+      <div class="daily-container mt-3">
+        <% if @daily_best %>
+          <div class="post-item mx-1 mx-auto">
+            <%= link_to post_path(@daily_best), class: "link-to" do %>
+              <% video_id = extract_youtube_video_id(@daily_best.link) %>
+              <% next unless video_id.present? %>
+              <div class="thumbnail-wrapper">
+                <div class="thumbnail-container">
+                  <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 740px; height: auto;', show_info: false) %>
+                </div>
+                <div class="weekly-view-count">
+                  <div class="weekly-view-number">
+                    <p class="count-style"><%= @daily_best.impressionist_count %><br></p>
+                    <p class="view-style">Views</p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
 
-      <% if @daily_most_viewed_post %>
-      <div class="daily-best mt-3 fadeInUp">
-        <%= link_to post_path(@daily_most_viewed_post) do %>
-          <div class="thumbnail-container">
-            <%= youtube_thumbnail(extract_youtube_video_id(@daily_most_viewed_post.link), size: '1280x720', style: 'width: 100%; height: auto;', show_info: false) %>
+            <div class="post-content mt-2">
+              <div class="tag-buttons">
+                <% @daily_best.tag_list.first(2).each do |tag| %>
+                  <span class="tag-btn ml-3"><%= link_to tag, tag_path(tag) %></span>
+                <% end %>
+                <div class="date-container ml-auto">
+                  <p class="date mr-1"><%= formatted_datetime(@daily_best.created_at) %></p>
+                </div>
+              </div>
+              <div class="weekly-post-title text-center mt-2">
+                <%= link_to post_path(@daily_best) do %>
+                  <% if @daily_best.title.length > 30 %>
+                    <h6><%= truncate(@daily_best.title, length: 30) %></h6>
+                  <% else %>
+                    <h6><%= @daily_best.title %></h6>
+                  <% end %>
+                <% end %>
+              </div>
+              <div class="post-meta d-flex">
+                <%= link_to user_path(@daily_best.user.account), class: 'user-link' do %>
+                <div class="user-info">
+                  <%= user_icon_or_youtube(@daily_best.user, size: '20x20', class: 'rounded-circle ml-1') %>
+                  <p class="user-nickname ml-2"><%= @daily_best.user.nickname %></p>
+                </div>
+                  <% end %>
+                <div class="post-favorites-container ml-auto">
+                  <div class="post-favorites">
+                    <i class="fa fa-heart"></i>
+                    <span class="count-style"><%= @daily_best.post_favorites.count %></span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
           </div>
         <% end %>
-        <h4 class="daily-title text-center">
-          <%= link_to @daily_most_viewed_post.title, post_path(@daily_most_viewed_post) %>
-        </h4>
-        <div class="post-meta">
-          <div class="user-info">
-            <%= user_icon_or_youtube(@user.channel, size: '40x40', class: 'rounded-circle') %>
-            <p class="user-nickname"><%= @daily_most_viewed_post.user.nickname %></p>
-            <p class="post-favorites">
-              <i class="fa fa-heart"></i> <%= @daily_most_viewed_post.post_favorites.count %>
-            </p>
-          </div>
-          <div class="tag-buttons">
-            <% @daily_most_viewed_post.tag_list.each do |tag| %>
-              <span class="tag-btn"><%= tag %></span>
-            <% end %>
-          </div>
-        </div>
-        <div class="daily-post-body">
-          <p class="text-center"><%= @daily_most_viewed_post.content %></p>
-        </div>
-        <p class="read-more-link">
-          <%= link_to '続きはコチラ', post_path(@daily_most_viewed_post), class: 'daily-read-more-btn' %>
-                </div>
-        <p><%= link_to 'READ MORE', post_path(@daily_most_viewed_post), class: 'read-more-btn' %></p>
       </div>
-        </p>
+
+      <div class="read-more-btn-container text-center">
+       <%= link_to 'READ MORE', post_path(@daily_best), class: 'read-more-btn' %>
+     </div>
+
+      <div class="trend-btn-container text-center mt-3">
+        <%= link_to post_path(@daily_best), class: 'btntextchange trend-btn' do %>
+          <span>Read More</span>
+          <span>最注目コンテンツ</span>
+        <% end %>
+
       </div>
     </div>
-    <% end %>
 
     <!-- 急上昇クリエイター -->
-    <div class="col-md-4">
-      <span class="btntextchange trend-btn">
+    <div class="col-md-6">
+      <h4 class="headline mt-5 ml-5">急上昇クリエイター</h4>
+        <ul class="ranking-list mt-3">
+          <% @ranking.each do |user| %>
+            <li class="ranking-user">
+              <%= link_to user_path(user.account), class: 'user-link' do %>
+                <div class="user-info-ranking d-flex align-items-center">
+                  <%= user_icon_or_youtube(user, size: '100x100', class: 'rounded-circle user-icon') %>
+                  <div class="user-details ml-3">
+                    <p class="ranking-user-nickname"><%= user.nickname %></p>
+                    <p class="user-introduction"><%= user.introduction %></p>
+                  </div>
+                </div>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <div class="trend-btn-container text-center mt-3">
+       <span class="btntextchange trend-btn">
         <span>急上昇クリエイター</span>
         <span>大注目!!!</span>
       </span>
-
-<ul class="ranking-list mt-3">
-  <% @ranking.each do |user| %>
-    <li class="ranking-user">
-      <%= link_to user_path(user.account), class: 'user-link' do %>
-        <div class="user-info">
-          <%= user_icon_or_youtube(user.channel, size: '70x70', class: 'rounded-circle user-icon') %>
-          <div class="user-details">
-            <p class="user-nickname"><%= user.nickname %></p>
-            <p class="user-introduction"><%= user.introduction %></p>
-          </div>
-        </div>
-      <% end %>
-    </li>
-  <% end %>
-</ul>
-
-
-    </div>
+    　</div>
+  　</div>
   </div>
 </div>
 
 
-<!-- 新着スライドショー -->
-<div class="container mt-5" id="new-posts-container">
+
+<!-- 新着記事 -->
+<div class="container-fluid" id="new-posts-container">
   <div class="row">
     <div class="col-md-12">
-   <%= link_to posts_path, class: 'btntextchange trend-btn' do %>
-      <span>新着</span>
-      <span>今すぐチェック</span>
-    <% end %>
-
+      <h4 class="headline mt-5 ml-5">新着記事</h4>
       <ul class="slider">
         <% @daily_new_posts.each do |post| %>
           <li class="post-item">
-          <%= link_to post_path(post) do %>
-            <% video_id = extract_youtube_video_id(post.link) %>
-            <% next unless video_id.present? %>
-            <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 250px; height: auto;', show_info: false) %>
-          <% end %>
-          <div class="post-content">
-            <% if post.title.length > 10 %> <!-- 10文字以上の場合の条件分岐 -->
-              <h6><%= link_to truncate(post.title, length: 10), post_path(post) %></h6>
-            <% else %>
-              <h6><%= link_to post.title, post_path(post) %></h6>
+            <%= link_to post_path(post), class: "link-to" do %>
+              <% video_id = extract_youtube_video_id(post.link) %>
+              <% next unless video_id.present? %>
+              <div class="thumbnail-wrapper">
+                <div class="thumbnail-container">
+                  <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 250px; height: auto;', show_info: false) %>
+                </div>
+                <div class="view-count">
+                  <div class="weekly-view-number">
+                    <p class="count-style"><%= post.impressionist_count %><br></p>
+                    <p class="view-style">Views</p>
+                  </div>
+                </div>
+              </div>
             <% end %>
-          <div class="post-meta">
-            <div class="trend-user-info">
-              <p class="user-nickname"><%= post.user.nickname %></p>
-              <p class="post-favorites"><i class="fa fa-heart"></i> <%= post.post_favorites.count %></p>
-            </div>
-            <div class="tag-buttons">
-              <% post.tag_list.first(2).each do |tag| %>
-                <span class="tag-btn"><%= tag %></span>
-              <% end %>
-            </div>
-          </div>
 
-            <p><%= link_to 'READ MORE', post_path(post), class: 'read-more-btn' %></p>
-          </div>
-        </li>
-
+            <div class="post-content mt-2">
+              <div class="tag-buttons">
+                <% post.tag_list.first(2).each do |tag| %>
+                  <span class="tag-btn ml-3"><%= link_to tag, tag_path(tag) %></span>
+                <% end %>
+                <div class="date-container ml-auto">
+                  <p class="date mr-3"><%= formatted_datetime(post.created_at) %></p>
+                </div>
+              </div>
+              <div class="trend-post-title mt-2">
+                <% if post.title.length > 10 %>
+                  <h6><%= link_to truncate(post.title, length: 10), post_path(post) %></h6>
+                <% else %>
+                  <h6><%= link_to post.title, post_path(post) %></h6>
+                <% end %>
+              </div>
+              <div class="post-meta">
+                <%= link_to user_path(post.user.account), class: 'user-link' do %>
+                <div class="user-info-container d-flex">
+                  <div class="user-info">
+                    <%= user_icon_or_youtube(post.user, size: '20x20', class: 'rounded-circle ml-3') %>
+                      <p class="user-nickname ml-1"><%= post.user.nickname %></p>
+                  </div>
+                <% end %>
+                  <div class="post-favorites-container ml-auto">
+                    <p class="post-favorites mr-3">
+                      <i class="fa fa-heart"></i>
+                      <span class="count-style mr-1"><%= post.post_favorites.count %></span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
         <% end %>
       </ul>
-    </div>
+       <div class="trend-btn-container text-center mt-3">
+         <%= link_to posts_path, class: 'btntextchange trend-btn' do %>
+          <span>view More</span>
+          <span>今すぐチェック</span>
+         <% end %>
+      </div>
   </div>
 </div>
 

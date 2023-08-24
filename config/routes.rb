@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   
   scope module: :public do
     root to: "homes#top"
+    get "/about" => "homes#about", as: "about"
     
     resources :posts do
       collection do
@@ -21,7 +22,7 @@ Rails.application.routes.draw do
       end
       
       member do
-        post 'share_on_twitter'
+        post "share_on_twitter"
       end
       
       resource :post_favorite, only: [:create, :destroy]
