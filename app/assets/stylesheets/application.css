@@ -40,6 +40,18 @@ a {
   font-family: 'Montserrat', sans-serif;
 }
 
+/* リンクスタイル */
+a.link-to {
+  text-decoration: none; /* 下線を消す */
+}
+
+/* ホバー時のリンクスタイル */
+a.link-to:hover {
+  text-decoration: none; /* 下線を消す */
+}
+
+
+
 .input-validation {
   display: inline-block;
   margin-left: 10px;

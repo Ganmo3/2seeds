@@ -4,6 +4,7 @@ class Public::UsersController < ApplicationController
   before_action :hide_header, only: [:follower_list, :following_list]
 
   def show
+    #byebug
     @posts = @user.posts.order(created_at: :desc)
     @total_views = @user.posts.sum(&:impressionist_count)
   end
@@ -61,7 +62,7 @@ class Public::UsersController < ApplicationController
     sanitized_account_str = account_str.gsub(/[^a-zA-Z0-9_-]/, '')
     account_sym = sanitized_account_str.to_sym
     @user = User.find_by(account: account_sym)
-    #@user = User.find_by(account: account_sym) if account_sym.present?
+
     #byebug
   end
 

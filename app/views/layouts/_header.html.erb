@@ -1,13 +1,13 @@
 <header class="sticky-top" id="header">
   <div class="col-md-10 offset-md-1">
   <nav class="navbar navbar-expand-lg py-2">
-    
+
     <a>
       <%= link_to root_path, data: { "turbolinks" => false }, class: "mx-4" do %>
         <%= image_tag "logo_2seedsr1.png", alt: "LOGO", width: "10%", height: "auto" %>
       <% end %>
     </a>
-    
+
     <%= render "searches/form" %>
 
     <ul class="navbar-nav mx-5 d-flex align-items-center ml-auto">
@@ -24,7 +24,7 @@
               <i class="far fa-bell fa-lg" style="font-size: 1.5em;"></i>
             <% end %>
           <% end %>
-       
+
       </li>
 
       <!-- 通知一覧を表示するモーダルウィンドウ -->
@@ -47,14 +47,14 @@
       <% if user_signed_in? %>
       <li>
         <div class="mypage-btn-container" id="mypageBtnContainer">
-          <%= user_icon_or_youtube(current_user.channel, size: '40x40', class: 'rounded-circle cursor-pointer') %>
+          <%= user_icon_or_youtube(current_user, size: '40x40', class: 'rounded-circle cursor-pointer') %>
 
           <div class="mypage-dropdown" id="mypageDropdown">
             <ul>
               <li><%= link_to user_path(current_user) do %><i class="fas fa-user-circle"></i>マイページ<% end %></li>
               <li><%= link_to new_post_path do %><i class="fas fa-pen"></i>新規投稿<% end %></li>
               <li><%= link_to dashboard_posts_path do %><i class="fas fa-clipboard-list"></i>ダッシュボード<% end %></li>
-              <li><%= link_to edit_user_path(current_user) do %><i class="fas fa-user-cog"></i>アカウント設定<% end %></li>
+              <li><%= link_to edit_user_path(current_user) do %><i class="fas fa-user-cog"></i>プロフィール設定<% end %></li>
               <li><%= link_to liked_posts_user_path(current_user) do %><i class="fas fa-thumbs-up"></i>いいねした投稿<% end %></li>
               <li><%= link_to destroy_user_session_path, method: :delete do %><i class="fas fa-sign-out-alt"></i>ログアウト<% end %></li>
             </ul>
@@ -65,7 +65,7 @@
       <% end %>
 
     </ul>
-    
+
   </nav>
   </div>
 </header>
@@ -89,9 +89,9 @@ document.addEventListener('turbolinks:load', function() {
     });
 
     // ドロップダウンメニュー内部のクリックイベントをキャンセル
-    mypageDropdown.addEventListener('click', function(event) {
-      event.stopPropagation();
-    });
+    // mypageDropdown.addEventListener('click', function(event) {
+    //   event.stopPropagation();
+    // });
 
     // ドキュメント全体にクリックイベントを追加
     document.addEventListener('click', function(event) {
