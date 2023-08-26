@@ -6,8 +6,8 @@ class Public::PostFavoritesController < ApplicationController
     # redirect_to request.referer
     
     # いいね通知を作成
-    post = Post.find(params[:post_id])
-    post.create_notification_favorite!(current_user)
+    #post = Post.find(params[:post_id])
+    #@post.create_notification_favorite_post!(current_user, @post_favorite.user_id, @post_favorite.post_id)
   end
   
   def destroy

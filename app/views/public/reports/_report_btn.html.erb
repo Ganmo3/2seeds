@@ -1,0 +1,34 @@
+ <!-- モーダルウィンドウのトリガーボタンを追加 -->
+<i class="fas fa-ellipsis-v open-report-modal-button" data-comment-id="<%= comment.id %>" data-content-id="<%= comment.id %>" data-content-type="Comment" data-report-success="true"  style="cursor: pointer;"></i>
+
+<div id="report-modal" class="modal">
+  <div class="modal-content"></div>
+</div>
+
+<script>
+$(document).ready(function() {
+  $('.open-report-modal-button').click(function() {
+    const commentId = $(this).data("comment-id");
+    
+    $.ajax({
+      url: '<%= new_report_path %>', // new_report_pathを使用
+      type: 'GET',
+      data: { content_id: commentId, content_type: "Comment" },
+      success: function(response) {
+        $('#report-modal .modal-content').html(response);
+        $('#report-modal').addClass('fade-in').show();
+      }
+    });
+  });
+
+  $('#report-modal').on('click', function(event) {
+    if (event.target === this) {
+      $(this).addClass('fade-out');
+      setTimeout(() => {
+        $(this).hide().removeClass('fade-out');
+      }, 300); // アニメーションの時間に合わせて調整
+    }
+  });
+});
+
+</script>

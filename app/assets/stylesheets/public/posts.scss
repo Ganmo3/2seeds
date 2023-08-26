@@ -197,53 +197,22 @@
   transform: translateX(-50%);
 }
 
+
+/* showページ */
 /* サムネイル */
 
-.youtube-thumbnail-container {
-  border: 2px solid #ccc; /* 外枠の設定 */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 影の設定 */
-  display: inline-block; /* インラインブロック要素として表示 */
-  margin-right: 20px; /* サムネイルの間隔を設定 */
-  padding: 10px; /* 外枠の余白を設定 */
-  border-radius: 8px;
-
+.show-thumbnail-container {
 }
 
 .youtube-info {
   display: inline-block;
-  padding: 8px 12px;
-  background-color: #BDDF38; /* 背景色を設定 */
-  color: white; /* テキストカラーを設定 */
-  border-radius: 4px; /* 角丸を設定 */
   text-decoration: none; /* 下線を削除 */
   font-weight: bold; /* フォントを太字に設定 */
-  transition: background-color 0.3s, transform 0.3s; /* ホバーエフェクトのトランジションを設定 */
 }
 
-.youtube-info:hover {
-  background-color: #f44200; /* ホバー時の背景色を変更 */
-  transform: scale(1.05); /* ホバー時に少し拡大するエフェクト */
-}
-
-/* 投稿タイトル */
-.stylish-title {
-  font-size: 24px;
+.show-post-title {
+  color: black;
   font-weight: bold;
-  color: #333;
-  margin-top: 20px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* テキストシャドウを追加 */
-  animation: fadeInUp 0.5s ease; /* アニメーションを追加 */
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 /* 投稿body */
@@ -253,15 +222,15 @@
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  border: 1px solid #ccc;
   position: relative;
   overflow: hidden;
   width: 100%;
   box-sizing: border-box;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* 調整可能な影の設定 */
   border-radius: 8px;
-  background-color: #fff;
+
 }
+
 
 /* コメント欄 */
 .comment-section {

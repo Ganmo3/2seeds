@@ -3,52 +3,6 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
 
-.heart {
-  width: 100px;
-  height: 100px;
-  position: relative;
-  display: inline-block;
-  vertical-align: middle;
-  background-image: url(https://cssanimation.rocks/images/posts/steps/heart.png) no-repeat;
-  background-position: 0 0;
-  cursor: pointer;
-  margin-right: -25px;
-}
-
-.heart-link {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.heart.animate {
-  background-position: -2800px 0;
-  transition: background 1s steps(28);
-}
-
-
-@keyframes heartBlast {
-  0% {
-    background-position: left;
-  }
-  100% {
-    background-position: right;
-  }
-}
-
- .HeartAnimation {
-   display: inline-block;
-   background-position: right;
-   -webkit-animation-name: heartBlast;
-   animation-name: heartBlast;
-   -webkit-animation-duration: .8s;
-   animation-duration: .8s;
-   -webkit-animation-iteration-count: 1;
-   animation-iteration-count: 1;
-   -webkit-animation-timing-function: steps(28);
-   animation-timing-function: steps(28);
- }
-
 .login-required-message {
   display: none; /* 最初は非表示にする */
   background-color: #f7f7f7;
@@ -60,4 +14,16 @@
 
 .heart-link:hover  .login-required-message {
   display: block; /* ホバー時に表示する */
+}
+
+.heart-icon {
+  display: inline-block;
+  padding: 10px; /* 必要に応じて調整 */
+  font-size: 24px; /* ハートアイコンの大きさを設定 */
+}
+
+.heart-count {
+  font-size: 12px; /* カウントのフォントサイズを設定 */
+  color: gray; /* カウントの色を設定 */
+  margin-left: 5px; /* 必要に応じて調整 */
 }

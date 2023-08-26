@@ -1,5 +1,10 @@
 class Public::ReportsController < ApplicationController
   before_action :authenticate_user!
+  before_action :hide_header, only: [:new]
+  
+  def new
+    @report = Report.new
+  end
 
   def create
     content_type = params[:report][:content_type]
@@ -10,10 +15,9 @@ class Public::ReportsController < ApplicationController
       @report = Report.new(report_params)
       @report.reporter = current_user
       @report.reported = @content.user
-
       if @report.save
         respond_to do |format|
-          format.js { render "create" } # 通報成功時のレスポンスファイルを指定
+          format.js { render "create_success" } # 通報成功時のレスポンスファイルを指定
         end
       else
         respond_to do |format|
@@ -26,6 +30,10 @@ class Public::ReportsController < ApplicationController
   end
 
   private
+
+  def hide_header
+    @show_header = false
+  end
 
   def find_content(content_type, content_id)
     content_class = content_type.classify.constantize

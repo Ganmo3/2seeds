@@ -1,29 +1,32 @@
-<div class="d-flex align-items-center justify-content-between mt-5">
-  <button id="preview-button" type="button" class="preview-btn">Preview</button>
+<div class="d-flex justify-content-center align-items-center mt-5">
+  <div class="back-button">
+    <%= link_to dashboard_posts_path do %>
+      <i class="fas fa-arrow-left fa-lg"></i>
+    <% end %>
+  </div>
+  <button id="preview-button" type="button" class="preview-btn ml-3">Preview</button>
     <div id="link-message" class="link-message">リンクを入れてください。</div>
-  <div class="form-group_button-wrapper d-flex align-items-center">
+  <div class="form-group_button-wrapper d-flex align-items-center ml-auto">
     <div class="toggle_switch mr-3">
       <input type="checkbox" id="postTypeToggle" class="toggle_input">
       <label for="postTypeToggle" class="toggle_label"></label>
     </div>
-    <div class="btn-group" role="group">
-  <% if @post.persisted? %>
-    <% if @post.published? %>
-      <% if @post.draft? %>
-        <%= f.submit '公開する', id: 'publishButton', name: 'published', class: "publish-btn" %>
-        <%= f.submit '更新する', id: 'updateButton', name: 'update', class: "submit-btn" %>
+    <div class="btn-group" role="group" id="buttonGroup">
+      <% if @post.persisted? %>
+        <% if @post.draft? %>
+          <%= f.submit '下書き保存', id: 'draftButton', name: 'draft', class: "draft-btn" %>
+          <%= f.submit '公開する', id: 'publishButton', name: 'published', class: "submit-btn" %>
+        <% elsif @post.unpublished? %>
+          <%= f.submit '更新する', id: 'updateButton', name: 'unpublished', class: "draft-btn" %>
+          <%= f.submit '公開する', id: 'publishButton', name: 'published', class: "submit-btn" %>
+        <% else %>
+          <%= f.submit '非公開にする', id: 'unpublishButton', name: 'unpublished', class: "unpublish-btn" %>
+          <%= f.submit '公開する', id: 'publishButton', name: 'published', class: "submit-btn" %>
+        <% end %>
       <% else %>
-        <%= f.submit '非公開にする', id: 'unpublishButton', name: 'unpublished', class: "unpublish-btn" %>
-        <%= f.submit '更新する', id: 'updateButton', name: 'update', class: "submit-btn" %>
+          <%= f.submit '下書き保存', id: 'draftButton', name: 'draft', class: "draft-btn" %>
+          <%= f.submit '公開する', id: 'postButton', name: 'post', class: "submit-btn" %>
       <% end %>
-    <% else %>
-      <%= f.submit '非公開にする', id: 'unpublishButton', name: 'unpublished', class: "unpublish-btn" %>
-      <%= f.submit '更新する', id: 'updateButton', name: 'update', class: "submit-btn" %>
-    <% end %>
-  <% else %>
-    <%= f.submit '公開する', id: 'postButton', name: 'post', class: "submit-btn" %>
-    <%= f.submit '下書き保存', id: 'draftButton', name: 'draft', class: "draft-btn" %>
-  <% end %>
     </div>
   </div>
 </div>
@@ -76,50 +79,53 @@
       });
     });
 
-    $('#preview-modal').on('click', function() {
-      $(this).addClass('fade-out');
-      setTimeout(() => {
-        $(this).hide().removeClass('fade-out');
-      }, 300); // アニメーションの時間に合わせて調整
-    });
+    // Define the button elements
+    var unpublishButton = $('<%= f.submit "非公開にする", id: "unpublishButton", name: "unpublished", class: "unpublish-btn" %>');
+    var publishButton = $('<%= f.submit "公開する", id: "publishButton", name: "published", class: "submit-btn" %>');
+    var updateButton = $('<%= f.submit "更新する", id: "updateButton", name: "update", class: "draft-btn" %>');
+    var draftButton = $('<%= f.submit "下書き保存", id: "draftButton", name: "draft", class: "draft-btn" %>');
+    var postButton = $('<%= f.submit "公開する", id: "postButton", name: "post", class: "submit-btn" %>');
 
-/*
+    // Initial setup
+    $('#buttonGroup').append(draftButton);
+    $('#buttonGroup').append(postButton);
+
     $('#postTypeToggle').change(function() {
-       var isChecked = $(this).is(':checked');
-      var isDraft = $('#draftButton').is(':visible');
-      var isPublished = $('#publishButton').is(':visible');
+      var isChecked = $(this).is(':checked');
+      var buttonGroup = $('#buttonGroup');
 
-      if (isChecked) {
-        if (isPublished) {
-          $('#unpublishButton').hide();
-          $('#updateButton').prop('disabled', false).show();
-          $('#publishButton').prop('disabled', true).hide();
-          $('#postButton').hide();
-          $('#draftButton').hide();
-        } else if (isDraft) {
-          $('#unpublishButton').show();
-          $('#updateButton').prop('disabled', true).show();
-          $('#publishButton').prop('disabled', true).hide();
-          $('#postButton').hide();
-          $('#draftButton').hide();
-        }
-      } else {
-        $('#unpublishButton').hide();
-        $('#updateButton').prop('disabled', true).show();
-        $('#publishButton').prop('disabled', true).hide();
+      buttonGroup.empty(); // Remove existing buttons
 
-        if (isPublished) {
-          $('#postButton').hide();
-          $('#draftButton').hide();
-        } else if (isDraft) {
-          $('#postButton').show();
-          $('#draftButton').show();
+      <% if @post.persisted? %>
+          <% if @post.draft? %>
+          if (isChecked) {
+            buttonGroup.append(publishButton);
+          } else {
+            buttonGroup.append(draftButton);
+          }
+        <% elsif @post.unpublished? %>
+          if (isChecked) {
+            buttonGroup.append(publishButton);
+          } else {
+            buttonGroup.append(unpublishButton);
+          }
+        <% else %>
+          if (isChecked) {
+            buttonGroup.append(publishButton);
+          } else {
+            buttonGroup.append(unpublishButton);
+          }
+        <% end %>
+      <% else %>
+        if (isChecked) {
+          buttonGroup.append(postButton);
+        } else {
+          buttonGroup.append(draftButton);
         }
-      }
+      <% end %>
     });
 
-    // 初期表示時の設定
-    $('#postTypeToggle').change(); // 初期表示時にchangeイベントをトリガーする
-*/
+    // Initial setup
+    $('#postTypeToggle').change();
   });
 </script>

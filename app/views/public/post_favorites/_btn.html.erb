@@ -1,48 +1,27 @@
 <% if current_user %>
   <% if @post.favorited_by?(current_user) %>
-    <%= link_to post_post_favorite_path(@post), method: :delete, remote: true, class: 'heart-link', id: 'unfavorite-link' do %>
-      <div class="heart animate">
-        <%= @post.post_favorites.count %>
+    <%= link_to post_post_favorites_path(@post), method: :delete, remote: true, class: 'heart-link' do %>
+      <div class="heart-icon">
+        <i class="fas fa-heart" aria-hidden="true" style="color: red;"></i>
+        <span class="heart-count"><%= @post.post_favorites.count %></span>
       </div>
     <% end %>
   <% else %>
-    <%= link_to post_post_favorite_path(@post), method: :post, remote: true, class: 'heart-link', id: 'favorite-link' do %>
-      <div class="heart">
-        <%= @post.post_favorites.count %>
+    <%= link_to post_post_favorites_path(@post), method: :post, remote: true, class: 'heart-link' do %>
+      <div class="heart-icon">
+        <i class="fas fa-heart" aria-hidden="true"></i>
+        <span class="heart-count"><%= @post.post_favorites.count %></span>
       </div>
     <% end %>
   <% end %>
 <% else %>
-  <%= link_to post_post_favorite_path(@post), method: :post, remote: true, class: 'heart-link', id: 'favorite-link' do %>
-    <div class="heart">
-      <%= @post.post_favorites.count %>
+  <%= link_to post_post_favorites_path(@post), method: :post, remote: true, class: 'heart-link', id: 'favorite-link' do %>
+    <div class="heart-icon">
+      <i class="fas fa-heart" aria-hidden="true"></i>
     </div>
+    <span class="heart-count"><%= @post.post_favorites.count %></span>
   <% end %>
   <div class="login-required-message">
     <p>いいねするには会員登録が必要です</p>
   </div>
 <% end %>
-
-
-<script>
-$(document).ready(function() {
-  $('#favorite-link').on('click', function() {
-    const heart = $(this).find('.heart');
-    heart.addClass('HeartAnimation');
-    setTimeout(function() {
-      heart.removeClass('HeartAnimation');
-    }, 10000);
-  });
-
-  $('.heart-link').hover(
-    function() { // マウスが要素にホバーしたときの処理
-      if (!<%= current_user.present? %>) {
-        $('.login-required-message').fadeIn();
-      }
-    },
-    function() { // マウスが要素から外れたときの処理
-      $('.login-required-message').fadeOut();
-    }
-  );
-});
-</script>
