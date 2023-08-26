@@ -5,10 +5,10 @@ class Report < ApplicationRecord
   
   enum reason: {
     malicious_expression: 0,
-    promoting_terrorism: 1,
-    harassment_bullying: 2,
-    self_harm: 3,
-    explicit_content: 4,
-    misinformation: 5
+    inappropriate_content: 1,
+    misinformation: 2,
+    commercial_purposes: 3,
+    spam: 4,
+    other: 5
   }
 end

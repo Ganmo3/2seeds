@@ -25,13 +25,13 @@ Rails.application.routes.draw do
         post "share_on_twitter"
       end
       
-      resource :post_favorite, only: [:create, :destroy]
+      resource :post_favorites, only: [:create, :destroy]
       resources :comments, only: [:create, :destroy] do
-        resource :comment_favorite, only: [:create, :destroy]
+        resource :comment_favorites, only: [:create, :destroy]
       end
     end
     resources :tags, only: [:show]
-    resources :reports, only: [:create]
+    resources :reports, only: [:new, :create]
     
     # URLをaccount名に変更
     resources :users, param: :account, only: [:show, :edit, :update] do

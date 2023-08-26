@@ -1,0 +1,10 @@
+
+// 通報成功メッセージを表示
+$("#reportSuccessMessage").text("通報が成功しました。");
+
+// モーダルウィンドウを閉じてページを更新
+$('#report-modal').addClass('fade-out');
+setTimeout(() => {
+  $('#report-modal').hide().removeClass('fade-out');
+  location.reload(); // ページを更新
+}, 300);

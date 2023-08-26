@@ -89,9 +89,9 @@ document.addEventListener('turbolinks:load', function() {
     });
 
     // ドロップダウンメニュー内部のクリックイベントをキャンセル
-    // mypageDropdown.addEventListener('click', function(event) {
-    //   event.stopPropagation();
-    // });
+     mypageDropdown.addEventListener('click', function(event) {
+       event.stopPropagation();
+     });
 
     // ドキュメント全体にクリックイベントを追加
     document.addEventListener('click', function(event) {

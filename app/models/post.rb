@@ -7,7 +7,7 @@ class Post < ApplicationRecord
 
   # action textの使用
   has_rich_text :content
-  validate :content_presence
+  # validate :content_presence
 
   belongs_to :user
   has_many :post_favorites, dependent: :destroy
@@ -15,10 +15,7 @@ class Post < ApplicationRecord
   has_many :notifications, dependent: :destroy
 
 
-  # 下書き機能
-  # attribute :is_draft, :boolean, default: false
   enum status: { published: 0, draft: 1,  unpublished: 2 }
-
 
 
   # いいね機能
@@ -48,40 +45,44 @@ class Post < ApplicationRecord
   end
 
   # postへのいいね通知機能
-  def create_notification_favorite_post!(current_user)
-    # すでに「いいね」されている検索
-    existing_notification = Notification.find_by(visitor_id: current_user.id, visited_id: user_id, post_id: id, action: "favorite_post")
-    # いいねされていない場合のみ、通知レコード作成
-    if existing_notification = current_user.active_notifications.new(
+def create_notification_favorite_post!(current_user, user_id, id)
+  # すでに「いいね」されているかを検索
+  existing_notification = Notification.find_by(visitor_id: current_user.id, visited_id: user_id, post_id: id, action: "favorite_post")
+
+  # いいねされていない場合のみ、通知レコード作成
+  if existing_notification.nil?
+    notification = current_user.active_notifications.build(
       post_id: id,
       visited_id: user_id,
       action: "favorite_post"
-      )
-      # 自分の投稿に対するいいねの場合は、通知済みとする
-      notification.checked = true if notification.visitor_id == notification.visited_id
+    )
+    
+    # 自分の投稿に対するいいねの場合は、通知済みとする
+    notification.checked = true if notification.visitor_id == notification.visited_id
 
-      if notification.valid?
-        notification.save
-        # 通知の履歴を残すために通知を保存
-        notification.reload
-      end
+    if notification.valid?
+      notification.save
+      # 通知の履歴を残すために通知を保存
+      notification.reload
     end
   end
+end
+
 
   # commentへのいいね通知機能
   def create_notification_favorite_comment!(current_user, comment_id)
     # すでに「いいね」されている検索
-    existing_notification = Notification.find_by(visitor_id: current_user.id, visited_id: user_id, post_id: id, action: "favorite_comment")
+    existing_notification = Notification.find_by(visitor_id: current_user.id, visited_id: @comment.user_id, comment_id: comment_id, action: "favorite_comment")
     # いいねされていない場合のみ、通知レコード作成
-    if existing_notification = current_user.active_notifications.new(
-      post_id: id,
-      comment_id: comment_id,
-      visited_id: user_id,
-      action: "favorite_comment"
+    if existing_notification.blank?
+      notification = current_user.active_notifications.new(
+        comment_id: comment_id,
+        visited_id: comment.user_id,
+        action: "favorite_comment"
       )
-      # 自分の投稿に対するいいねの場合は、通知済みとする
+      # 自分のコメントに対するいいねの場合は、通知済みとする
       notification.checked = true if notification.visitor_id == notification.visited_id
-
+  
       if notification.valid?
         notification.save
         # 通知の履歴を残すために通知を保存
@@ -89,6 +90,7 @@ class Post < ApplicationRecord
       end
     end
   end
+
 
   # コメントが投稿された際に通知を作成するメソッド
   def create_notification_comment!(current_user, comment_id)
@@ -114,7 +116,7 @@ class Post < ApplicationRecord
     )
 
     # 自分の投稿に対するコメントの場合は、通知済みとする
-    notification.checked = true if notification.visitor_id == notification.visited_id
+    notification.is_checked = true if notification.visitor_id == notification.visited_id
 
     # 通知を保存（バリデーションが成功する場合のみ）
     notification.save if notification.valid?
@@ -122,7 +124,7 @@ class Post < ApplicationRecord
   
   private
   
-  def content_presence
-    errors.add(:content, "can't be blank") if content.blank?
-  end
+  #def content_presence
+   # errors.add(:content, "can't be blank") if content.blank?
+  #end
 end

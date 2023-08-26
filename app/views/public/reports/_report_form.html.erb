@@ -1,6 +1,30 @@
-<%= simple_form_for Report.new, remote: true do |f| %>
-  <%= f.collection_radio_buttons :reason, Report.reasons, :first, :last %>
+<%= simple_form_for report, remote: true do |f| %>
+  <div class="form-check">
+    <%= f.radio_button :reason, "malicious_expression" %>
+    <%= f.label :reason_malicious_expression, I18n.t("enums.report.reason.malicious_expression"), class: "form-check-label" %>
+  </div>
+  <div class="form-check">
+    <%= f.radio_button :reason, "inappropriate_content" %>
+    <%= f.label :reason_inappropriate_content, I18n.t("enums.report.reason.inappropriate_content"), class: "form-check-label" %>
+  </div>
+  <div class="form-check">
+    <%= f.radio_button :reason, "misinformation" %>
+    <%= f.label :reason_misinformation, I18n.t("enums.report.reason.misinformation"), class: "form-check-label" %>
+  </div>
+  <div class="form-check">
+    <%= f.radio_button :reason, "commercial_purposes" %>
+    <%= f.label :reason_commercial_purposes, I18n.t("enums.report.reason.commercial_purposes"), class: "form-check-label" %>
+  </div>
+  <div class="form-check">
+    <%= f.radio_button :reason, "spam" %>
+    <%= f.label :reason_spam, I18n.t("enums.report.reason.spam"), class: "form-check-label" %>
+  </div>
+  <div class="form-check">
+    <%= f.radio_button :reason, "other" %>
+    <%= f.label :reason_other, I18n.t("enums.report.reason.other"), class: "form-check-label" %>
+  </div>
+  
   <%= f.hidden_field :content_id, value: params[:content_id] %>
   <%= f.hidden_field :content_type, value: params[:content_type] %>
-  <%= f.submit "報告内容を送信する", class: "btn btn-primary" %>
+  <%= f.submit "報告", class: "btn btn-primary" %>
 <% end %>

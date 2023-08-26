@@ -23,20 +23,18 @@
 .slide-content {
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   height: 100%;
 }
 
 .slide img {
   width: inherit;
   height: inherit;
-  object-fit: cover; /* 画像を保ちつつ、コンテナに合わせて表示 */
+  object-fit: cover;
+  object-position : 50% 80%;
   margin: 0;
   padding: 0;
   border: none;
-  border: 2px solid #ccc; /* 枠のスタイルを指定 */
-  border-radius: 5px; /* 枠の角を丸くする */
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* 影のスタイルを指定 */
 }
 
 .slide.fade:first-child {

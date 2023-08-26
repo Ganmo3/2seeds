@@ -9,24 +9,20 @@
   <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
 
     <% fields = [
-      { attribute: :nickname, label: "表示名", error_message: 'Nickname is mandatory, please specify one', autocomplete: "nickname", validations: ["1字以上25字以下"] },
-      { attribute: :account, label: "ユーザー名", error_message: 'Account is mandatory, please specify one', autocomplete: "accountname", validations: ["3字以上25字以下", "半角英数字", "利用可能なユーザー名"] },
-      { attribute: :email, label: "メールアドレス", error_message: 'Email is mandatory, please specify one', validations: ["1字以上256字以下", "適切なフォーマット"] },
-      { attribute: :password, label: "パスワード", validations: ["6字以上72字以下"] },
-      { attribute: :password_confirmation, label: "パスワード(確認用)", validations: ["パスワードと同じ"] }
+      { attribute: :nickname, label: "表示名" },
+      { attribute: :account, label: "アカウント名" },
+      { attribute: :email, label: "メールアドレス" },
+      { attribute: :password, label: "パスワード" },
+      { attribute: :password_confirmation, label: "パスワード(確認用)" }
     ] %>
 
     <% fields.each do |field| %>
       <div class="d-flex justify-content-center flex-column">
         <div class="form-group mx-auto">
-          <div class="input-validation" id="<%= "#{field[:attribute]}-validation" %>"></div>
           <h6 class=""><%= field[:label] %></h6>
           <div class="flex items-center">
-            <%= f.input field[:attribute], label: field[:label], error: field[:error_message], autofocus: field[:attribute] == :nickname, autocomplete: field[:autocomplete], class: 'form-control', label: false %>
+            <%= f.input field[:attribute], label: field[:label], autofocus: field[:attribute] == :nickname, class: 'form-control', label: false %>
           </div>
-          <% field[:validations].each do |validation| %>
-            <span class="validation-text"><%= validation %></span>
-          <% end %>
         </div>
       </div>
     <% end %>

@@ -3,7 +3,7 @@ class Public::PostsController < ApplicationController
 
   def index
     @user = User.find_by(params[:account])
-    
+
     if params[:sort] == 'favorites'
       @posts = Post.includes(:post_favorites).sort_by { |post| -post.post_favorites.count }
     else
@@ -31,13 +31,13 @@ class Public::PostsController < ApplicationController
     @post = Post.new(post_params)
     @post.user_id = @user.id
 
-    if params[:commit] == "下書き保存"
+    if params[:draft].present?
       @post.status = :draft
     else
       @post.status = :published
     end
-  
-    if @post.save!
+
+    if @post.save
       if @post.draft?
         redirect_to dashboard_posts_path, notice: '下書きが保存されました。'
       else
@@ -47,7 +47,6 @@ class Public::PostsController < ApplicationController
       render :new
     end
   end
-
 
   def drafts
     @published_posts = Post.where(user_id: current_user.id, is_draft: false).order(created_at: :desc)
@@ -63,6 +62,7 @@ class Public::PostsController < ApplicationController
     @tags = @post.tag_counts_on(:tags) # 投稿に紐付くタグの表示
     @report = Report.new
     @user = User.find_by(params[:account])
+    @latest_posts = @user.posts.order(created_at: :desc).limit(4)
   end
 
   def edit
@@ -71,29 +71,36 @@ class Public::PostsController < ApplicationController
     @user = current_user
   end
 
-  def update
-    @user = current_user
-    @post = Post.find(params[:id])
+def update
+  @user = current_user
+  @post = Post.find(params[:id])
+  tag_list = params[:post][:tag_list].split(',').map(&:strip)
 
-    if @post.update(post_params)
-      tag_list = params[:post][:tag_list].split(',').map(&:strip)
-      @post.tag_list = tag_list
+  @post.assign_attributes(post_params)
+  @post.tag_list = tag_list
 
-      case params[:commit]
-      when "下書き保存"
-        @post.update(status: :draft)
-        redirect_to dashboard_posts_path, notice: "下書きを保存しました。"
-      when "非公開にする"
-        @post.update(status: :unpublished)
-        redirect_to dashboard_posts_path, notice: "非公開にしました。"
-      else
-        @post.update(status: :published)
-        redirect_to post_path(@post), notice: "投稿を更新しました。"
-      end
-    else
-      render :edit
-    end
+  if params[:draft].present?
+    @post.status = :draft
+    notice_message = "下書きを保存しました。"
+    redirect_path = dashboard_posts_path
+  elsif params[:unpublished].present?
+    @post.status = :unpublished
+    notice_message = "非公開にしました。"
+    redirect_path = dashboard_posts_path
+  else
+    @post.status = :published
+    notice_message = "投稿を更新しました。"
+    redirect_path = post_path(@post)
   end
+
+  if @post.save
+    redirect_to redirect_path, notice: notice_message
+  else
+    render :edit
+  end
+end
+
+
 
   def destroy
     @post = Post.find(params[:id])
@@ -106,15 +113,6 @@ class Public::PostsController < ApplicationController
     @preview_tags = @preview_post.tag_list # Save tags temporarily
     @preview_post.tag_list = [] # Clear the tags
     render partial: 'preview', locals: { post: @preview_post, preview_tags: @preview_tags }
-  end
-  
-  def autosave
-    @post = Post.find(params[:id])
-    if @post.update(autosave_params)
-      render json: { success: true, message: '自動保存が完了しました。' }
-    else
-      render json: { success: false, errors: @post.errors.full_messages }
-    end
   end
 
   # タグ検索
@@ -144,10 +142,6 @@ class Public::PostsController < ApplicationController
   def hide_header
     @show_header = false
   end
-
-  #def autosave_params
-  #  params.require(:post).permit(:title, :body, :link, :tag_list, :is_draft)
-  #end
 
   def post_params
     params.require(:post).permit(:title, :content, :link, :tag_list, :status)

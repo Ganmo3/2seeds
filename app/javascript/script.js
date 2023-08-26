@@ -1,4 +1,4 @@
-// sign upバリデーション
+/* sign upバリデーション
 
 document.addEventListener('DOMContentLoaded', function() {
   const accountValidation = /^[a-zA-Z0-9]{3,25}$/;
@@ -61,5 +61,5 @@ document.addEventListener('DOMContentLoaded', function() {
     nicknameInput.addEventListener('input', () => checkInput('nickname', nicknameValidation));
   }
 });
-
+*/
 
