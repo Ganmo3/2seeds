@@ -67,8 +67,6 @@ ActiveRecord::Schema.define(version: 2023_08_19_165140) do
     t.integer "comment_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["comment_id"], name: "index_comment_favorites_on_comment_id"
-    t.index ["user_id"], name: "index_comment_favorites_on_user_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -77,8 +75,6 @@ ActiveRecord::Schema.define(version: 2023_08_19_165140) do
     t.text "comment", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["post_id"], name: "index_comments_on_post_id"
-    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "impressions", force: :cascade do |t|
@@ -119,13 +115,6 @@ ActiveRecord::Schema.define(version: 2023_08_19_165140) do
     t.boolean "is_checked", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["comment_favorite_id"], name: "index_notifications_on_comment_favorite_id"
-    t.index ["comment_id"], name: "index_notifications_on_comment_id"
-    t.index ["post_favorite_id"], name: "index_notifications_on_post_favorite_id"
-    t.index ["post_id"], name: "index_notifications_on_post_id"
-    t.index ["relationship_id"], name: "index_notifications_on_relationship_id"
-    t.index ["visited_id"], name: "index_notifications_on_visited_id"
-    t.index ["visitor_id"], name: "index_notifications_on_visitor_id"
   end
 
   create_table "post_favorites", force: :cascade do |t|
@@ -133,8 +122,6 @@ ActiveRecord::Schema.define(version: 2023_08_19_165140) do
     t.integer "post_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["post_id"], name: "index_post_favorites_on_post_id"
-    t.index ["user_id"], name: "index_post_favorites_on_user_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -144,7 +131,6 @@ ActiveRecord::Schema.define(version: 2023_08_19_165140) do
     t.integer "status", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "relationships", force: :cascade do |t|
@@ -152,8 +138,6 @@ ActiveRecord::Schema.define(version: 2023_08_19_165140) do
     t.integer "followed_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["followed_id"], name: "index_relationships_on_followed_id"
-    t.index ["follower_id"], name: "index_relationships_on_follower_id"
   end
 
   create_table "reports", force: :cascade do |t|
@@ -165,9 +149,6 @@ ActiveRecord::Schema.define(version: 2023_08_19_165140) do
     t.boolean "is_checked", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["content_id"], name: "index_reports_on_content_id"
-    t.index ["reported_id"], name: "index_reports_on_reported_id"
-    t.index ["reporter_id"], name: "index_reports_on_reporter_id"
   end
 
   create_table "searches", force: :cascade do |t|
@@ -226,23 +207,5 @@ ActiveRecord::Schema.define(version: 2023_08_19_165140) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "comment_favorites", "comments"
-  add_foreign_key "comment_favorites", "users"
-  add_foreign_key "comments", "posts"
-  add_foreign_key "comments", "users"
-  add_foreign_key "notifications", "comment_favorites"
-  add_foreign_key "notifications", "comments"
-  add_foreign_key "notifications", "post_favorites"
-  add_foreign_key "notifications", "posts"
-  add_foreign_key "notifications", "relationships"
-  add_foreign_key "notifications", "users", column: "visited_id"
-  add_foreign_key "notifications", "users", column: "visitor_id"
-  add_foreign_key "post_favorites", "posts"
-  add_foreign_key "post_favorites", "users"
-  add_foreign_key "posts", "users"
-  add_foreign_key "relationships", "users", column: "followed_id"
-  add_foreign_key "relationships", "users", column: "follower_id"
-  add_foreign_key "reports", "users", column: "reported_id"
-  add_foreign_key "reports", "users", column: "reporter_id"
   add_foreign_key "taggings", "tags"
 end
