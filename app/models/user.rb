@@ -27,6 +27,8 @@ class User < ApplicationRecord
 
   has_many :followings, through: :active_relationships, source: :followed # フォローしているユーザーを取得
   has_many :followers, through: :passive_relationships, source: :follower # フォロワーを取得
+  
+  validates :account, presence: true, length: { minimum: 2 }
 
   # 指定したユーザーをフォローする
   def follow(user)

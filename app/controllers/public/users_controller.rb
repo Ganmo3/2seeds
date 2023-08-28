@@ -4,9 +4,10 @@ class Public::UsersController < ApplicationController
   before_action :hide_header, only: [:follower_list, :following_list]
 
   def show
-    #byebug
-    @posts = @user.posts.order(created_at: :desc)
+    @latest_post = @user.posts.order(created_at: :desc).first
+    @posts = @user.posts.where.not(id: @latest_post&.id).order(created_at: :desc)
     @total_views = @user.posts.sum(&:impressionist_count)
+    @post_ranking = @user.posts.order(impressionist_count: :desc).limit(5)
   end
 
   def edit

@@ -3,66 +3,6 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
 
-
-/* モーダルの背景 */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-/* モーダルコンテンツ */
-.modal-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  max-width: 80%;
-  width: 500px;
-}
-
-/* モーダルの閉じるボタン */
-.modal-close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-}
-
-/* モーダルのアニメーション */
-.modal.fade-in {
-  animation: fadeIn 0.3s ease-in;
-}
-
-.modal.fade-out {
-  animation: fadeOut 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-
-/* モーダル内のコンテンツが表示領域を超えた場合にスクロールが可能になるようにスタイルを設定 */
-.modal-content {
-  max-height: 400px; /* 適切な高さに調整 */
-  overflow-y: auto;
-}
-
 /* editボタンスタイル */
 .edit-btn {
   display: inline-block;
@@ -152,3 +92,58 @@
 #following-count:hover {
   cursor: pointer;
 }
+
+/* showページ */
+.banner-container {
+  width: 100%;
+  height: 150px;
+  position: relative;
+}
+
+.banner {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  position: absolute;
+}
+
+.banner img {
+  width: inherit;
+  height: inherit;
+  object-fit: cover;
+  object-position : 50% 56%;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.pickup-badge {
+  position: absolute;
+  top: 10px; /* 上側に位置 */
+  left: 10px; /* 左側に位置 */
+  padding: 6px 12px; /* パディング */
+  border-radius: 10px; /* 丸みを持たせる */
+  font-size: 14px; /* フォントサイズ */
+  color: #fff; /* テキストの色 */
+  background: linear-gradient(-45deg, #ff9900, #ff5e00); /* グラデーション背景 */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* テキストの影 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* バッジ全体に影を追加 */
+  transform: rotate(-3deg); /* バッジをわずかに傾ける */
+  transform-origin: center; /* 基準点を中心に設定 */
+  z-index: 1; /* 前面に表示 */
+  overflow: hidden; /* 要素内のオーバーフローを隠す */
+}
+
+.pickup-badge::before {
+  content: "";
+  position: absolute;
+  top: -10px; /* 上方向に配置 */
+  left: -10px; /* 左方向に配置 */
+  width: 120%; /* オーバーフローさせる */
+  height: 120%; /* オーバーフローさせる */
+  background: rgba(255, 255, 255, 0.2); /* 光沢のある白い背景 */
+  transform: rotate(45deg); /* 背景を回転 */
+  z-index: -1; /* 背景よりも後ろに表示 */
+}
+
+

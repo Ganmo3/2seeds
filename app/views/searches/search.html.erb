@@ -19,7 +19,7 @@
     <h3>Tags search for "<%= @content %>"</h3>
     <% if @results.present? %>
       <% @results.each do |tag| %>
-        <%= render partial: 'public/posts/index', locals: { posts: @results }  %>
+        <%= render partial: 'public/shared/tag_post', locals: { results: @results } %>
       <% end %>
     <% else %>
       <p>タグの検索結果がありません</p>

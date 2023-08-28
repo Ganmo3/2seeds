@@ -183,6 +183,31 @@
   opacity: 1;
 }
 
+
+  #preview-modal {
+    /* 他のスタイル */
+    position: fixed;
+    top: 50%; /* 上端から中央に配置 */
+    left: 50%; /* 左端から中央に配置 */
+    transform: translate(-50%, -50%); /* 中央揃え */
+  }
+
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 50px;
+    color: #999; /* ボタンの色 */
+    background-color: transparent;
+    border: none;
+    transition: color 0.3s;
+  }
+
+  .close-button:hover {
+    color: #333; /* ホバー時の色 */
+  }
+
 /* プレビューメッセージ */
 .link-message {
   display: none;
@@ -200,6 +225,10 @@
 
 /* showページ */
 /* サムネイル */
+
+.youtube-container-fluid {
+  background-color: #BDDF38;
+}
 
 .show-thumbnail-container {
 }
@@ -295,6 +324,31 @@
 }
 
 /* プロフィールカード */
+.show-headline {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 5px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333; 
+}
+
+.show-headline::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-image: linear-gradient(to right, #00c853, #00796b); 
+  transform: scaleX(0);
+  transform-origin: 0% 100%;
+  transition: transform 0.3s ease-in-out;
+}
+
+.show-headline:hover::after {
+  transform: scaleX(1);
+}
 
 
 
