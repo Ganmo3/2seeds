@@ -235,16 +235,20 @@
       </div>
 
       <div class="read-more-btn-container text-center">
-       <%= link_to 'READ MORE', post_path(@daily_best), class: 'read-more-btn' %>
-     </div>
+        <% if @daily_best %>
+          <%= link_to 'READ MORE', post_path(@daily_best), class: 'read-more-btn' %>
+        <% end %>
+      </div>
 
       <div class="trend-btn-container text-center mt-3">
-        <%= link_to post_path(@daily_best), class: 'btntextchange trend-btn' do %>
-          <span>Read More</span>
-          <span>最注目コンテンツ</span>
+        <% if @daily_best %>
+          <%= link_to post_path(@daily_best), class: 'btntextchange trend-btn' do %>
+            <span>Read More</span>
+            <span>最注目コンテンツ</span>
+          <% end %>
         <% end %>
-
       </div>
+
     </div>
 
     <!-- 急上昇クリエイター -->

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_21_130049) do
+ActiveRecord::Schema.define(version: 2023_08_19_165140) do
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -112,15 +112,20 @@ ActiveRecord::Schema.define(version: 2023_08_21_130049) do
     t.integer "visited_id", null: false
     t.integer "post_id"
     t.integer "comment_id"
+    t.integer "post_favorite_id"
+    t.integer "comment_favorite_id"
     t.integer "relationship_id"
     t.string "action", default: "", null: false
     t.boolean "is_checked", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "post_favorite_id"
-    t.integer "comment_favorite_id"
     t.index ["comment_favorite_id"], name: "index_notifications_on_comment_favorite_id"
+    t.index ["comment_id"], name: "index_notifications_on_comment_id"
     t.index ["post_favorite_id"], name: "index_notifications_on_post_favorite_id"
+    t.index ["post_id"], name: "index_notifications_on_post_id"
+    t.index ["relationship_id"], name: "index_notifications_on_relationship_id"
+    t.index ["visited_id"], name: "index_notifications_on_visited_id"
+    t.index ["visitor_id"], name: "index_notifications_on_visitor_id"
   end
 
   create_table "post_favorites", force: :cascade do |t|
@@ -136,9 +141,9 @@ ActiveRecord::Schema.define(version: 2023_08_21_130049) do
     t.integer "user_id", null: false
     t.string "title", null: false
     t.string "link", null: false
+    t.integer "status", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "status", default: 0, null: false
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -147,6 +152,8 @@ ActiveRecord::Schema.define(version: 2023_08_21_130049) do
     t.integer "followed_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["followed_id"], name: "index_relationships_on_followed_id"
+    t.index ["follower_id"], name: "index_relationships_on_follower_id"
   end
 
   create_table "reports", force: :cascade do |t|
@@ -155,8 +162,12 @@ ActiveRecord::Schema.define(version: 2023_08_21_130049) do
     t.string "content_type", null: false
     t.integer "content_id", null: false
     t.integer "reason", null: false
+    t.boolean "is_checked", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["content_id"], name: "index_reports_on_content_id"
+    t.index ["reported_id"], name: "index_reports_on_reported_id"
+    t.index ["reporter_id"], name: "index_reports_on_reporter_id"
   end
 
   create_table "searches", force: :cascade do |t|
@@ -204,11 +215,10 @@ ActiveRecord::Schema.define(version: 2023_08_21_130049) do
     t.string "account", null: false
     t.string "nickname", null: false
     t.string "introduction"
-    t.date "anniversary"
     t.integer "status", default: 0, null: false
+    t.string "channel"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "channel"
     t.index ["account"], name: "index_users_on_account", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -221,9 +231,18 @@ ActiveRecord::Schema.define(version: 2023_08_21_130049) do
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "notifications", "comment_favorites"
+  add_foreign_key "notifications", "comments"
   add_foreign_key "notifications", "post_favorites"
+  add_foreign_key "notifications", "posts"
+  add_foreign_key "notifications", "relationships"
+  add_foreign_key "notifications", "users", column: "visited_id"
+  add_foreign_key "notifications", "users", column: "visitor_id"
   add_foreign_key "post_favorites", "posts"
   add_foreign_key "post_favorites", "users"
   add_foreign_key "posts", "users"
+  add_foreign_key "relationships", "users", column: "followed_id"
+  add_foreign_key "relationships", "users", column: "follower_id"
+  add_foreign_key "reports", "users", column: "reported_id"
+  add_foreign_key "reports", "users", column: "reporter_id"
   add_foreign_key "taggings", "tags"
 end

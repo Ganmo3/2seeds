@@ -18,7 +18,7 @@ class Public::HomesController < ApplicationController
     # デイリーで一番視聴数が多い投稿を取得
     @daily_best = Post.all.max_by { |post| post.impressionist_count(filter: :all, start_date: Time.zone.now.beginning_of_day, end_date: Time.zone.now.end_of_day) }
     # 新規ユーザーや成長中のユーザーを含むランキングを算出
-    @ranking = User.all.sort_by { |user| calculate_score(user) }.reverse.take(3)
+    @ranking = User.where.not(account: "guest").sort_by { |user| calculate_score(user) }.reverse.take(3)
 
     # 新着投稿を取得
     @daily_new_posts = Post.order(created_at: :desc).take(5)

@@ -72,6 +72,7 @@
     <div class="col-md-8">
       <h5 class="show-headline mt-5">投稿記事</h5>
       
+      <% if @latest_post %>
             <div class="daily-container mt-3">
           <div class="post-item mx-1 mx-auto">
             <%= link_to post_path(@latest_post), class: "link-to" do %>
@@ -131,7 +132,9 @@
       <div class="read-more-btn-container text-center">
        <%= link_to 'READ MORE', post_path(@latest_post), class: 'read-more-btn' %>
      </div>
-      
+        <% else %>
+    <p class="text-center mt-3">投稿記事がありません。</p>
+  <% end %>
         <%= render 'public/shared/post_index', posts: @posts %>
     
     </div>
