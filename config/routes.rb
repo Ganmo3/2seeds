@@ -9,7 +9,8 @@ Rails.application.routes.draw do
   
   # devise signout時のエラー解消
   devise_scope :user do
-    get '/users/sign_out' => 'devise/sessions#destroy'
+    get "/users/sign_out" => "devise/sessions#destroy"
+    post "users/guest_sign_in", to: "public/sessions#guest_sign_in"
   end
   
   # devise signup時のエラー解消
@@ -73,5 +74,15 @@ Rails.application.routes.draw do
   devise_for :admin, controllers: {
     sessions: "admin/sessions"
   }
+  
+  namespace :admin do
+    root to: "homes#top"
+    resources :posts do
+      resources :comments, only: [:destroy]
+    end
+    resources :users, only: [:index, :show, :edit, :update]
+    resources :reports, only: [:show, :update]
+  end
+  
     # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

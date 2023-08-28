@@ -6,7 +6,8 @@ class CreateReports < ActiveRecord::Migration[6.1]
       t.string :content_type, null: false
       t.references :content, null: false
       t.integer :reason, null: false
-
+      t.boolean :is_checked, default: false
+      
       t.timestamps
     end
   end

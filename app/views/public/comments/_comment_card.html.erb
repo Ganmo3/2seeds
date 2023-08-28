@@ -21,13 +21,13 @@
         <%= render "public/comment_favorites/btn", comment: comment %>
       </div>
       
-      <% if user_signed_in? %>
-        <% if comment.user == current_user %>
+      
+       <% if user_signed_in? && (current_user == comment.user || admin_signed_in?) %>
           <div class="text-right">
             <%= link_to "削除", post_comment_path(post, comment), method: :delete, remote: true, data: { confirm: '本当に削除しますか?', cancel: 'やめる', commit: '削除する' }, title: '削除確認' %>
           </div>
         <% end %>
-      <% end %>
+      
     </div>
   </div>
 </div>

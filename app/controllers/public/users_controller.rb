@@ -16,13 +16,20 @@ class Public::UsersController < ApplicationController
 
   def update
     @user = current_user
-    if @user.update(user_params)
-      flash[:success] = "ユーザー情報を更新しました。"
-      redirect_to user_path(@user)
+
+    if current_user.guest_user?
+      flash[:error] = "ゲストユーザーは更新できません。"
+      redirect_to request.referer
     else
-      render :edit
+      if @user.update(user_params)
+        flash[:success] = "ユーザー情報を更新しました。"
+        redirect_to user_path(@user)
+      else
+        render :edit
+      end
     end
   end
+
 
   def withdraw_input
     @user = current_user
@@ -30,10 +37,17 @@ class Public::UsersController < ApplicationController
 
   def withdraw_process
     user = current_user
-    user.update(status: :inactive)
-    reset_session
-    redirect_to root_path, notice: "退会しました"
+  
+    if user.guest_user?
+      flash[:error] = "ゲストユーザーは退会できません。"
+      redirect_to request.referer
+    else
+      user.update(status: :inactive)
+      reset_session
+      redirect_to root_path, notice: "退会しました"
+    end
   end
+
 
   def follower_list
     @followers = @user.followers

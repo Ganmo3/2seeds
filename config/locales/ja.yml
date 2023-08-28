@@ -8,6 +8,11 @@ ja:
         commercial_purposes: 商業目的
         spam: スパム
         other: その他
+    user:
+      status:
+        active: 有効
+        banned: 凍結中
+        inactive: 無効
   activerecord:
     errors:
       messages:

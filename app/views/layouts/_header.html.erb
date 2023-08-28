@@ -32,17 +32,27 @@
         <div class="modal-content"></div>
       </div>
 
-      <li>
-        <% unless user_signed_in? %>
-          <%= link_to 'Sign up', new_user_registration_path, class: "custom-btn signup-btn mx-3", style: "font-weight: bold;" %>
-        <% end %>
-      </li>
-      <li>
-        <% unless user_signed_in? %>
-          <%= link_to 'Log in', new_user_session_path, class: "custom-btn login-btn mx-3", style: "font-weight: bold;" %>
-        <% end %>
-      </li>
-
+      <% if admin_signed_in? %>
+        <li>
+          <%= link_to 'Log out', destroy_admin_session_path, method: :delete, class: "custom-btn logout-btn mx-3", style: "font-weight: bold;" %>
+        </li>
+      <% else %>
+        <li>
+          <% unless user_signed_in? %>
+            <%= link_to 'Sign up', new_user_registration_path, class: "custom-btn signup-btn mx-3", style: "font-weight: bold;" %>
+          <% end %>
+        </li>
+        <li>
+          <% unless user_signed_in? %>
+            <%= link_to 'Log in', new_user_session_path, class: "custom-btn login-btn mx-3", style: "font-weight: bold;" %>
+          <% end %>
+        </li>
+        <li>
+          <% unless user_signed_in? || admin_signed_in? %>
+            <%= link_to 'Guest Login', users_guest_sign_in_path, method: :post, class: "custom-btn login-btn mx-3", style: "font-weight: bold;" %>
+          <% end %>
+        </li>
+      <% end %>
 
       <% if user_signed_in? %>
       <li>
