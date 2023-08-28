@@ -3,7 +3,7 @@ class Post < ApplicationRecord
   is_impressionable
 
   # gem:acts_as_taggableの使用
-  acts_as_taggable_on :tags
+ # acts_as_taggable_on :tags
 
   # action textの使用
   has_rich_text :body

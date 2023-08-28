@@ -64,7 +64,7 @@ gem 'google-api-client', '~> 0.48'
 gem 'ruby-openai'
 gem 'twitter'
 gem 'impressionist'
-gem 'acts-as-taggable-on'
+# gem 'acts-as-taggable-on'
 gem 'dotenv-rails'
 group :production do
   gem 'mysql2'
