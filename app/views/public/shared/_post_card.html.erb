@@ -1,9 +1,14 @@
-<article class="post-card card border-0">
-  <div class="post-card_creator">
+  <div class="post-card-creator">
     <div class="icon">
       <%= link_to user_path(post.user.account) do %>
         <%= user_icon_or_youtube(post.user, size: '30x30', class: 'rounded-circle') %>
         <%= post.user.nickname %>
+      <% end %>
+    </div>
+    <div class="channel-name">
+      <% channel_id = extract_youtube_channel_id(post.user.channel) %>
+      <% if channel_id.present? %>
+        <%= link_to youtube_channel_name(channel_id), "https://www.youtube.com/channel/#{channel_id}", target: "_blank", data: { toggle: "tooltip", placement: "bottom" }, title: "YouTubeチャンネルへ" %>
       <% end %>
     </div>
     <% if user_signed_in? && current_user != @user %>
@@ -11,26 +16,9 @@
         <%= render "public/relationships/follow", user: @user %>
       </div>
     <% end %>
-
-
-     <%= link_to post.title, post_path(post.id), class: 'post-card__username' %>
-      <%= link_to "削除", post_path(post), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
   </div>
-  <ul class="post-card_stats">
-    <li>
-      <time class="post-card__date" datetime="<%= post.created_at %>"><%= formatted_datetime(post.created_at) %></time>
-    </li>
-    <% unless request.fullpath.include? "drafts" %>
-      <li id="comments-count"  class="post-card__comments" <%= "data-toggle=tooltip" unless user_signed_in? || admin_signed_in? %>  data-placement="bottom" title="コメントをするには、ログインしてください。">
-        <%= render partial: 'public/comments/comments_count', locals: { post: post } %>
-      </li>
-      <li id="favorites-<%= post.id %>" class="post-card__likes" <%= "data-toggle=tooltip" unless user_signed_in? || admin_signed_in? %> data-placement="bottom" title="いいねをするには、ログインしてください。">
-        <%= render partial: 'public/post_favorites/post_favorite', locals: { post: post } %>
-      </li>
-      <li>
-        <i class="fas fa-eye"></i>
-         <%= post.impressionist_count %> Views
-      </li>
-    <% end %>
-  </ul>
-</article>
+  <div class="post-card-creator-introduction">
+    <%= post.user.introduction %>
+  </div>
+
+

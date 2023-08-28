@@ -7,6 +7,11 @@ Rails.application.routes.draw do
     passwords: "public/passwords"
   }
   
+  # devise signout時のエラー解消
+  devise_scope :user do
+    get '/users/sign_out' => 'devise/sessions#destroy'
+  end
+  
   # devise signup時のエラー解消
   get "users" => redirect("/users/sign_up")
   
@@ -53,6 +58,7 @@ Rails.application.routes.draw do
     
     resources :notifications, only: [:index] do
       post :update_checked, on: :collection
+      get :load_more_notifications, on: :collection
     end
     
   end

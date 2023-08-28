@@ -4,6 +4,7 @@ class Public::ReportsController < ApplicationController
   
   def new
     @report = Report.new
+    render :layout => false
   end
 
   def create

@@ -8,7 +8,7 @@
           <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
             <div class="row">
               <div class="col-md-12 mb-2">
-                <%= f.label :email, "メールアドレス or アカウント名" %>
+                <%= f.label :email, "メールアドレス" %>
                 <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
               </div>
             </div>

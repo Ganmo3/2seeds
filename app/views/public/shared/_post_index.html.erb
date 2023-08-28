@@ -1,6 +1,7 @@
 <ul class="list-group list-unstyled mt-3">
   <div class="d-flex flex-wrap">
     <% posts.each do |post| %>
+    <% if post.published? %>
       <% video_id = extract_youtube_video_id(post.link) %>
       <% next unless video_id.present? %>
       <li class="post-card m-2">
@@ -30,6 +31,7 @@
           <% end %>
         </ul>
       </li>
+    <% end %>
     <% end %>
   </div>
 </ul>

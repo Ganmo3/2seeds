@@ -1,42 +1,55 @@
+<div class="youtube-container-fluid">
+  <div class="row">
+    <div class="col-md-12 justify-content-center">
+      <h2 class="text-center">プレビュー</h2>
+      <% video_id = extract_youtube_video_id(@preview_post.link) %>
+      <% if video_id.present? %>
+        <div class="show-thumbnail-container">
+          <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 65%; height: auto;') %>
+        </div>
+      <% else %>
+        <p>表示ができません</p>
+      <% end %>
+    </div>
+  </div>
+</div>
+
 <div class="container">
   <div class="row">
-    <div class="col-md">
-
-      <h2 class="text-center">プレビュー</h2>
-
-      <div class="preview-thumbnail justify-content-center">
-        <%# youtube link取得 %>
-        <% video_id = extract_youtube_video_id(@preview_post.link) %>
-        <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 80%; height: auto;') %>
-        <h1 class="text-center"><%= @preview_post.title %></h1>
-      </div>
-
-       <div class="preview-post justify-content-center">
-    <article class="post">
-      <article class="post-title text-center">
-        <h2><%= @preview_post.title %></h2>
-      </article>
-      <article class="tags">
-        <% if preview_tags.present? %>
-          <div class="d-flex flex-wrap">
-            <% preview_tags.each do |tag| %>
-              <% if tag.present? %>
-                <span class="badge badge-primary mr-2 mb-2">
+    <div class="col-md-8 offset-md-2">
+      <article class="post">
+        <article class="tags">
+          <% if preview_tags.present? %>
+            <div class="d-flex flex-wrap">
+              <% preview_tags.each do |tag| %>
+                <span class="badge badge-info mr-2 mb-2">
                   <%= "#{tag}" %>
                 </span>
               <% end %>
-            <% end %>
-          </div>
-        <% else %>
-          <p>登録されているタグはありません</p>
-        <% end %>
-      </article>
-      <article class="post-body" id="dynamicSize">
-        <%= @preview_post.content %>
-      </article>
-    </article>
-  </div>
+            </div>
+          <% else %>
+            <p>登録されているタグはありません</p>
+          <% end %>
+        </article>
 
+        <article class="show-post-title-container d-flex justify-content-between">
+          <h3 class="show-post-title"><%= @preview_post.title %></h3>
+        </article>
+
+        <div class="post-meta">
+          <%= @preview_post.user.account %>
+          <div class="user-info d-flex justify-content-between">
+            <div class="d-flex align-items-center">
+              <%= user_icon_or_youtube(@preview_post.user, size: '20x20', class: 'rounded-circle ml-3') %>
+              <p class="user-nickname ml-1"><%= @preview_post.user.nickname %></p>
+            </div>
+          </div>
+        </div>
+
+        <article class="post-body" id="dynamicSize">
+          <%= @preview_post.body %>
+        </article>
+      </article>
     </div>
   </div>
 </div>

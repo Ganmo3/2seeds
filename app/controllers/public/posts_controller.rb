@@ -1,5 +1,6 @@
 class Public::PostsController < ApplicationController
   before_action :hide_header, only: [:new, :edit]
+  before_action :authenticate_user!, only: [:new, :edit, :share_on_twitter]
 
   def index
     @user = User.find_by(params[:account])
@@ -7,13 +8,14 @@ class Public::PostsController < ApplicationController
     if params[:sort] == 'favorites'
       @posts = Post.includes(:post_favorites).sort_by { |post| -post.post_favorites.count }
     else
-      @posts = Post.all.order(created_at: :desc)
+      @posts = Post.where(status: 'published').order(created_at: :desc)
     end
 
     @posts.each do |post|
       impressionist(post, nil, unique: [:session_hash, :user_id])
     end
   end
+
 
   def dashboard
     @user = current_user
@@ -62,7 +64,7 @@ class Public::PostsController < ApplicationController
     @tags = @post.tag_counts_on(:tags) # 投稿に紐付くタグの表示
     @report = Report.new
     @user = User.find_by(params[:account])
-    @latest_posts = @user.posts.order(created_at: :desc).limit(4)
+    @latest_posts = Post.order(created_at: :desc).limit(4)
   end
 
   def edit
@@ -71,35 +73,34 @@ class Public::PostsController < ApplicationController
     @user = current_user
   end
 
-def update
-  @user = current_user
-  @post = Post.find(params[:id])
-  tag_list = params[:post][:tag_list].split(',').map(&:strip)
+  def update
+    @user = current_user
+    @post = Post.find(params[:id])
+    tag_list = params[:post][:tag_list].split(',').map(&:strip)
 
-  @post.assign_attributes(post_params)
-  @post.tag_list = tag_list
+    @post.assign_attributes(post_params)
+    @post.tag_list = tag_list
 
-  if params[:draft].present?
-    @post.status = :draft
-    notice_message = "下書きを保存しました。"
-    redirect_path = dashboard_posts_path
-  elsif params[:unpublished].present?
-    @post.status = :unpublished
-    notice_message = "非公開にしました。"
-    redirect_path = dashboard_posts_path
-  else
-    @post.status = :published
-    notice_message = "投稿を更新しました。"
-    redirect_path = post_path(@post)
+    if params[:draft].present?
+      @post.status = :draft
+      notice_message = "下書きを保存しました。"
+      redirect_path = dashboard_posts_path
+    elsif params[:unpublished].present?
+      @post.status = :unpublished
+      notice_message = "非公開にしました。"
+      redirect_path = dashboard_posts_path
+    else
+      @post.status = :published
+      notice_message = "投稿を更新しました。"
+      redirect_path = post_path(@post)
+    end
+
+    if @post.save
+      redirect_to redirect_path, notice: notice_message
+    else
+      render :edit
+    end
   end
-
-  if @post.save
-    redirect_to redirect_path, notice: notice_message
-  else
-    render :edit
-  end
-end
-
 
 
   def destroy
@@ -110,10 +111,12 @@ end
 
   def preview
     @preview_post = Post.new(post_params)
-    @preview_tags = @preview_post.tag_list # Save tags temporarily
+    @preview_post.user = current_user
+    @preview_tags = @preview_post.tag_list.clone # Save tags temporarily
     @preview_post.tag_list = [] # Clear the tags
     render partial: 'preview', locals: { post: @preview_post, preview_tags: @preview_tags }
   end
+
 
   # タグ検索
   def search_by_tag
@@ -144,6 +147,6 @@ end
   end
 
   def post_params
-    params.require(:post).permit(:title, :content, :link, :tag_list, :status)
+    params.require(:post).permit(:title, :body, :link, :tag_list, :status)
   end
 end

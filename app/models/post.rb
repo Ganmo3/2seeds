@@ -6,7 +6,7 @@ class Post < ApplicationRecord
   acts_as_taggable_on :tags
 
   # action textの使用
-  has_rich_text :content
+  has_rich_text :body
   # validate :content_presence
 
   belongs_to :user

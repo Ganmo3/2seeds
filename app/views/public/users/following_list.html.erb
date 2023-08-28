@@ -6,7 +6,10 @@
         <ul>
           <% @user.followings.each do |following| %>
             <li>
-              <%= link_to following.nickname, user_path(following.account) %>  <%= render "public/relationships/follow", user: following %>
+              <%= link_to following.nickname, user_path(following.account) %>
+              <% if @user == @current_user %>
+                <%= render "public/relationships/follow", user: following %>
+              <% end %>
             </li>
           <% end %>
         </ul>

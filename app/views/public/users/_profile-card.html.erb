@@ -1,7 +1,7 @@
 <article class="profile-card">
   <div class="profile-card__image">
     <%= user_icon_or_youtube(@user, size: "100x100", class: "img-fluid rounded-circle") %>
-
+  </div>
     
   <div class="profile-card__information">
     <div class="profile-card__data profile-card__data--name">
@@ -17,33 +17,31 @@
       <% end %>
     </div>
   </div>
+  
   <div class="profile-card__relation-wrapper">
     <div class="profile-card__relation profile-card__relation--follows">
       <h5>フォロー</h5>
-     
-        <%= user.followings.count %>
-    
+      <%= user.followings.count %>
     </div>
     <div class="profile-card__relation profile-card__relation--followers">
       <h5>フォロアー</h5>
-    
-        <%= user.followers.count %>
-  
+      <%= user.followers.count %>
     </div>
   </div>
+  
   <% if user_signed_in? || admin_signed_in? %>
     <div class="profile-card__button-wrapper">
       <% if current_user != user %>
         <% if current_user.following?(user) %>
-          <%= link_to 'フォロー外す', unfollow_user_path(@user.account), method: :delete, class: "profile-card__button  profile-card__button--followed btn" %>
+          <%= link_to 'フォロー外す', unfollow_user_path(@user.account), method: :delete, class: "profile-card__button profile-card__button--followed btn" %>
         <% else %>
-          <%= link_to 'フォローする', follow_user_path(@user.account), method: :post, class: "profile-card__button  profile-card__button--follow btn" %>
+          <%= link_to 'フォローする', follow_user_path(@user.account), method: :post, class: "profile-card__button profile-card__button--follow btn" %>
         <% end %>
        <%# <% if user_signed_in? && user != current_user %>
        <%#   <% if current_user.reporter.exists?(reported_id: user.id) %>
           <%#  <%= button_tag "通報済み", disabled: true, class: "profile-card__button profile-card__button--reported btn" %>
         <%#  <% else %>
-           <%# <%= link_to "ユーザーを通報", profile_reports_new_users_path(user), class: "profile-card__button  profile-card__button--report btn" %>
+           <%# <%= link_to "ユーザーを通報", profile_reports_new_users_path(user), class: "profile-card__button profile-card__button--report btn" %>
         <%#  <% end %>
         <%#<% end %>
       <% end %>

@@ -48,13 +48,14 @@
 </div>
 
 <div class="form-group form-group_body">
-  <%= f.label :content, "Content", class: "form-label" %>
-  <%= f.rich_text_area :content, required: true %>
+  <%= f.label :body, "Content", class: "form-label" %>
+  <%= f.rich_text_area :body, required: true %>
 </div>
 
 <!-- プレビューのモーダルウィンドウ -->
 <div id="preview-modal" class="modal">
   <div class="modal-content"></div>
+  <button id="close-preview-modal" class="close-button">×</button>
 </div>
 
 <script>
@@ -64,8 +65,7 @@
         link: $('#post_link').val(),
         tag_list: $('#post_tag_list').val(),
         title: $('#post_title').val(),
-        body: $('#post_content').val()
-        // 他のフォームフィールドも同様に追加
+        body: $('#post_body').val()
       };
 
       $.ajax({
@@ -79,14 +79,31 @@
       });
     });
 
-    // Define the button elements
+    $('#preview-modal').on('click', function(event) {
+      if (event.target === this) {
+        closePreviewModal();
+      }
+    });
+
+    $('#close-preview-modal').on('click', function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      closePreviewModal();
+    });
+
+    function closePreviewModal() {
+      $('#preview-modal').addClass('fade-out');
+      setTimeout(() => {
+        $('#preview-modal').hide().removeClass('fade-out');
+      }, 300); // アニメーションの時間に合わせて調整
+    }
+
     var unpublishButton = $('<%= f.submit "非公開にする", id: "unpublishButton", name: "unpublished", class: "unpublish-btn" %>');
     var publishButton = $('<%= f.submit "公開する", id: "publishButton", name: "published", class: "submit-btn" %>');
-    var updateButton = $('<%= f.submit "更新する", id: "updateButton", name: "update", class: "draft-btn" %>');
+    var updateButton = $('<%= f.submit "更新する", id: "updateButton", name: "unpublished", class: "unpublish-btn" %>');
     var draftButton = $('<%= f.submit "下書き保存", id: "draftButton", name: "draft", class: "draft-btn" %>');
     var postButton = $('<%= f.submit "公開する", id: "postButton", name: "post", class: "submit-btn" %>');
 
-    // Initial setup
     $('#buttonGroup').append(draftButton);
     $('#buttonGroup').append(postButton);
 
@@ -94,10 +111,10 @@
       var isChecked = $(this).is(':checked');
       var buttonGroup = $('#buttonGroup');
 
-      buttonGroup.empty(); // Remove existing buttons
+      buttonGroup.empty();
 
       <% if @post.persisted? %>
-          <% if @post.draft? %>
+        <% if @post.draft? %>
           if (isChecked) {
             buttonGroup.append(publishButton);
           } else {
@@ -125,7 +142,6 @@
       <% end %>
     });
 
-    // Initial setup
     $('#postTypeToggle').change();
   });
 </script>

@@ -1,13 +1,13 @@
-<div class="container">
+<div class="youtube-container-fluid">
   <div class="row">
     <!-- youtubeカラム-->
     <div class="col-md-12 justify-content-center">
       <% video_id = extract_youtube_video_id(@post.link) %>
-      
+
       <% if video_id.present? %>
         <%= link_to @post.link, target: "_blank", class: "youtube-info" do %>
           <div class="show-thumbnail-container">
-            <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width:70%; height: auto;') %>
+            <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width:65%; height: auto;') %>
           </div>
         <% end %>
       <% else %>
@@ -23,18 +23,34 @@
     <!-- いいね&twitter -->
     <div class="col-md-1">
        <div class="col-md-2 mt-5 d-flex flex-column align-items-center justify-content-center fixed-content">
-         <div id="post_favorite_btn_<%= @post.id %>">
+         <div id="post_favorite_btn_<%= @post.id %>" class="post-favorite-btn" <%= "data-toggle=tooltip" unless user_signed_in? || admin_signed_in? %> data-placement="bottom" title="<%= 'いいねをするには、ログインしてください。' unless user_signed_in? || admin_signed_in? %>">
           <%= render "public/post_favorites/btn", post: @post %>
      　   </div>
-         <div class="twitter mr-2">
+         <div class="twitter" <%= "data-toggle=tooltip" unless user_signed_in? %> data-placement="bottom" title="シェアするには、ログインしてください。">
             <%= link_to share_on_twitter_post_path(@post), method: :post do %>
-              <i class="fab fa-twitter" style="color: #00acee; font-size: 30px;"></i>
+              <i class="fab fa-twitter" style="color: #00acee; font-size: 25px;"></i>
             <% end %>
           </div>
+          <% if user_signed_in? %>
+          <% if @post.user_id == current_user.id %>
+          <div class="post-edit-container">
+            <div class="post-edit-icon mt-4">
+            <%= link_to edit_post_path(@post) do %>
+              <i class="far fa-edit fa-lg" data-toggle=tooltip data-placement="bottom" title="Edit"></i>
+            </div>
+            <% end %>
+            <div class="post-delete-icon mt-4">
+            <%= link_to post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' } do %>
+              <i class="fas fa-trash-alt fa-lg" data-toggle=tooltip data-placement="bottom" title="Delete"></i>
+            </div>
+            <% end %>
+          </div>
+          <% end %>
+          <% end %>
          </div>
       </div>
-  
-    
+
+
     <div class="col-md-7">
       <article class="post">
         <article class="tags">
@@ -50,11 +66,23 @@
             <p>登録されているタグはありません</p>
           <% end %>
         </article>
-        
-        <article class="show-post-title-container">
+
+        <article class="show-post-title-container d-flex justify-content-between">
           <h3 class="show-post-title"><%= @post.title %></h3>
+          <div class="post-detail-container d-flex align-items-center">
+            <div class="post-views">
+              <i class="fas fa-eye"></i>
+              <%= @post.impressionist_count %>
+            </div>
+            <div id="favorites_<%= @post.id %>" class="post-card-likes mx-2" <%= "data-toggle=tooltip" unless user_signed_in? || admin_signed_in? %> data-placement="bottom" title="いいねをするには、ログインしてください。">
+              <%= render partial: 'public/post_favorites/post_favorite', locals: { post: @post } %>
+            </div>
+            <div id="comments-count" class="post-card__comments" <%= "data-toggle=tooltip" unless user_signed_in? || admin_signed_in? %>  data-placement="bottom" title="コメントをするには、ログインしてください。">
+              <%= render partial: 'public/comments/comments_count', locals: { post: @post } %>
+            </div>
+          </div>
         </article>
-        
+
         <div class="post-meta">
           <%= link_to user_path(@post.user.account), class: 'user-link' do %>
           <div class="user-info d-flex justify-content-between">
@@ -65,28 +93,26 @@
             <% end %>
             <p class="date">Published: <%= formatted_datetime(@post.created_at) %></p>
           </div>
-          
+
         </div>
 
         <article class="post-body" id="dynamicSize">
-          <%= @post.content %>
+          <%= @post.body %>
         </article>
       </article>
-      
-      <div classs="comment-container">
-   
-   
-    <% if @comments.present? %>
-  <div class="comment-section mt-5" id="comment-card-list">
-    <%= render partial: 'public/comments/comment_card_list', locals: { post: @post, comments: @comments} %>
-  </div>
-<% else %>
-  <div class="comment-section mt-5" id="comment-card-list">
-    No comments yet.
-  </div>
-<% end %>
 
-      
+      <div classs="comment-container">
+      <% if @comments.present? %>
+        <div class="comment-section mt-5" id="comment-card-list">
+          <%= render partial: 'public/comments/comment_card_list', locals: { post: @post, comments: @comments} %>
+        </div>
+        <% else %>
+        <div class="comment-section mt-5" id="comment-card-list">
+          No comments yet.
+        </div>
+      <% end %>
+
+
       <div class="comment-form mt-2">
         <% if user_signed_in? %>
           <%= form_with model: @comment, url: post_comments_path(@post, @comment), local: false, class: 'post-detail__comment-form' do |f| %>
@@ -98,47 +124,23 @@
       </div>
     </div>
 
-    
+
     <!-- プロフィール -->
     <div class="col-md-4 mt-5">
-      <%= render partial: 'public/shared/post_card', locals: { post: @post,comment: @comment, isDetail: true } %>
-    <div class="post-detail row hidden-md-up mx-auto">
-      <% if user_signed_in? %>
-        <% if @post.user_id == current_user.id %>
-          <div class="post-detail__author-buttons">
-            <%= link_to post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn post-detail__comment-delete' do %>
-              <i class="fas fa-trash-alt" data-toggle=tooltip data-placement="bottom" title="Delete"></i>
-            <% end %>
-            <%= link_to edit_post_path(@post), class: 'btn post-detail__comment-edit' do %>
-              <i class="far fa-edit" data-toggle=tooltip data-placement="bottom" title="Edit"></i>
-            <% end %>
-          </div>
-        <% end %>
-      <% end %>
-    </div>
-    </div>
-    
-    <div class="latest-post-container">
-     <h4 class="headline mt-5 ml-5">最新の記事</h4>
-        <ul class="ranking-list mt-3">
-          <% @latest_posts.each do |post| %>
-            <li class="ranking-user">
-              <%= link_to user_path(post.user.account), class: 'user-link' do %>
-                <div class="user-info-ranking d-flex align-items-center">
-                  <%= user_icon_or_youtube(post.user, size: '100x100', class: 'rounded-circle user-icon') %>
-                  <div class="user-details ml-3">
-                    <p class="ranking-user-nickname"><%= post.user.nickname %></p>
-                    <p class="user-introduction"><%= post.user.introduction %></p>
-                  </div>
-                </div>
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
+      <h5 class="show-headline">Creator Profile</h5>
+      <div class="post-card-container">
+        <%= render partial: 'public/shared/post_card', locals: { post: @post,comment: @comment, isDetail: true } %>
+      </div>
+      <h5 class="show-headline mt-5">最新の記事</h5>
+    　<div class="latest-post-container d-flex flex-wrap">
+    　 
+    　  <% @latest_posts.each do |post| %>
+    　   <%= render "side.post", post: post %>
+  　    <% end %>
+    　</div>
 
-  　</div>
-    
     <div class="col-md"></div>
-    
+
   </div>
+</div>
 </div>
