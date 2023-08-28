@@ -3,12 +3,17 @@ class Public::RelationshipsController < ApplicationController
   
   def create
     @user = User.find_by(account: params[:account])
-    current_user.follow(@user)
     
-    # フォロー通知を作成・保存
-    @user.create_notification_follow!(current_user)
-    
-    #redirect_to request.referer, notice: "フォローしました"
+    if current_user.guest_user?
+      flash[:alert] = "ゲストユーザーはフォローできません。"
+    else
+      current_user.follow(@user)
+      
+      # フォロー通知を作成・保存
+      @user.create_notification_follow!(current_user)
+      
+      #redirect_to request.referer, notice: "フォローしました"
+    end
   end
   
   def destroy

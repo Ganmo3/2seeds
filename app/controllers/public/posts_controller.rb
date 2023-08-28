@@ -33,20 +33,30 @@ class Public::PostsController < ApplicationController
     @post = Post.new(post_params)
     @post.user_id = @user.id
 
-    if params[:draft].present?
-      @post.status = :draft
-    else
-      @post.status = :published
-    end
-
-    if @post.save
-      if @post.draft?
-        redirect_to dashboard_posts_path, notice: '下書きが保存されました。'
+    if current_user.guest_user?
+    # ゲストユーザーの場合は保存せずにリダイレクト
+      if params[:draft].present?
+        redirect_to dashboard_posts_path, notice: 'ゲストユーザーは下書き保存できません。'
       else
-        redirect_to post_path(@post), notice: '投稿が公開されました。'
+        redirect_to dashboard_posts_path, notice: 'ゲストユーザーは公開できません。'
       end
     else
-      render :new
+    # 通常のユーザーの場合の保存処理
+      if params[:draft].present?
+        @post.status = :draft
+      else
+        @post.status = :published
+      end
+
+      if @post.save
+        if @post.draft?
+          redirect_to dashboard_posts_path, notice: '下書きが保存されました。'
+        else
+          redirect_to post_path(@post), notice: '投稿が公開されました。'
+        end
+      else
+        render :new
+      end
     end
   end
 

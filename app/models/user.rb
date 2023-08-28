@@ -30,6 +30,24 @@ class User < ApplicationRecord
   
   validates :account, presence: true, length: { minimum: 2 }
 
+  # 会員が無効になったときのコールバック
+  before_update :delete_related_data, if: :status_changed?
+  
+  # ゲストログイン機能
+  GUEST_USER_EMAIL = "guest@2seeds.com"
+  def self.guest
+    find_or_create_by!(email: GUEST_USER_EMAIL) do |user|
+      user.password = SecureRandom.urlsafe_base64
+      user.nickname = "guestuser"
+      user.account = "guest"
+    end
+  end
+
+  def guest_user?
+    email == GUEST_USER_EMAIL
+  end
+  
+  
   # 指定したユーザーをフォローする
   def follow(user)
     active_relationships.create(followed_id: user.id)
@@ -120,4 +138,13 @@ class User < ApplicationRecord
     end
   end
   
+  private
+    
+  def delete_related_data
+    if inactive?
+      posts.destroy_all
+      comments.destroy_all
+    end
+  end
+    
 end

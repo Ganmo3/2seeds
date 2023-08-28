@@ -26,10 +26,10 @@
          <div id="post_favorite_btn_<%= @post.id %>" class="post-favorite-btn" <%= "data-toggle=tooltip" unless user_signed_in? || admin_signed_in? %> data-placement="bottom" title="<%= 'いいねをするには、ログインしてください。' unless user_signed_in? || admin_signed_in? %>">
           <%= render "public/post_favorites/btn", post: @post %>
      　   </div>
-         <div class="twitter" <%= "data-toggle=tooltip" unless user_signed_in? %> data-placement="bottom" title="シェアするには、ログインしてください。">
-            <%= link_to share_on_twitter_post_path(@post), method: :post do %>
+         <div class="twitter" <%= "data-toggle=tooltip" unless user_signed_in? %> data-placement="bottom" title="サービス利用停止中です。">
+            <%#<%= link_to share_on_twitter_post_path(@post), method: :post do %>
               <i class="fab fa-twitter" style="color: #00acee; font-size: 25px;"></i>
-            <% end %>
+            <%#<% end %>
           </div>
           <% if user_signed_in? %>
           <% if @post.user_id == current_user.id %>
