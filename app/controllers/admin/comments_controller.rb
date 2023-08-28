@@ -5,4 +5,5 @@ class Admin::CommentsController < ApplicationController
   @comment.destroy
   @comments = Comment.where(post_id: params[:post_id]).order(created_at: :desc)
   redirect_to request.referer, notice: "コメントを削除しました。"
+  end
 end
