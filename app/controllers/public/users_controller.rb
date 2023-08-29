@@ -6,8 +6,8 @@ class Public::UsersController < ApplicationController
   def show
     @latest_post = @user.posts.order(created_at: :desc).first
     @posts = @user.posts.where.not(id: @latest_post&.id).order(created_at: :desc)
-    @total_views = @user.posts.sum(&:impressionist_count)
-    @post_ranking = @user.posts.order(impressionist_count: :desc).limit(5)
+    @total_views = @user.posts.sum(&:impressions_count)
+    @post_ranking = @user.posts.order(impressions_count: :desc).limit(5)
   end
 
   def edit
