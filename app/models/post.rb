@@ -1,6 +1,6 @@
 class Post < ApplicationRecord
   # gem:impressionableの使用
-  is_impressionable
+  is_impressionable counter_cache: true, column_name: :impression_count
 
   # gem:acts_as_taggableの使用
  # acts_as_taggable_on :tags
