@@ -44,7 +44,7 @@ class Public::UsersController < ApplicationController
     else
       user.update(status: :inactive)
       reset_session
-      redirect_to root_path, notice: "退会しました"
+      redirect_to root_path, notice: "退会しました。"
     end
   end
 
