@@ -15,7 +15,7 @@
             <%= link_to truncate(post.title, length: 15), post_path(post) %>
             <ul class="post-icons d-flex justify-content-around list-unstyled">
               <li class="post-icon post-icon-views d-inline-block">
-                <i class="fas fa-eye"></i> <%= post.impressionist_count %>
+                <i class="fas fa-eye"></i> <%= post.impressions_count %>
               </li>
               <li class="post-icon post-icon-favorites d-inline-block">
                 <i class="fa fa-heart"></i> <%= post.post_favorites.count %>

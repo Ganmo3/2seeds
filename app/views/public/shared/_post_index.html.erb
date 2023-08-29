@@ -20,7 +20,7 @@
           <% unless request.fullpath.include?("drafts") %>
             <li class="post-cart-views text-muted small">
               <i class="fas fa-eye"></i>
-              <%= post.impressionist_count %>
+              <%= post.impressions_count %>
             </li>
             <li class="post-card-likes text-muted small">
               <i class="fa fa-heart"></i> <%= post.post_favorites.count %>
