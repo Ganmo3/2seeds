@@ -43,7 +43,7 @@
                 </div>
                 <div class="view-count">
                   <div class="weekly-view-number">
-                    <p class="count-style"><%= post.impressionist_count %><br></p>
+                    <p class="count-style"><%= post.impressions_count %><br></p>
                     <p class="view-style">Views</p>
                   </div>
                 </div>
@@ -117,7 +117,7 @@
                 </div>
                 <div class="weekly-view-count">
                   <div class="weekly-view-number">
-                    <p class="count-style"><%= post.impressionist_count %><br></p>
+                    <p class="count-style"><%= post.impressions_count %><br></p>
                     <p class="view-style">Views</p>
                   </div>
                 </div>
@@ -189,7 +189,7 @@
                 </div>
                 <div class="weekly-view-count">
                   <div class="weekly-view-number">
-                    <p class="count-style"><%= @daily_best.impressionist_count %><br></p>
+                    <p class="count-style"><%= @daily_best.impressions_count %><br></p>
                     <p class="view-style">Views</p>
                   </div>
                 </div>
@@ -234,11 +234,11 @@
         <% end %>
       </div>
 
-      <div class="read-more-btn-container text-center">
+      <%#<div class="read-more-btn-container text-center">
         <% if @daily_best %>
-          <%= link_to 'READ MORE', post_path(@daily_best), class: 'read-more-btn' %>
-        <% end %>
-      </div>
+      <%#    <%= link_to 'READ MORE', post_path(@daily_best), class: 'read-more-btn' %>
+    <%#    <% end %>
+    <%#  </div>　%>
 
       <div class="trend-btn-container text-center mt-3">
         <% if @daily_best %>
@@ -298,7 +298,7 @@
                 </div>
                 <div class="view-count">
                   <div class="weekly-view-number">
-                    <p class="count-style"><%= post.impressionist_count %><br></p>
+                    <p class="count-style"><%= post.impressions_count %><br></p>
                     <p class="view-style">Views</p>
                   </div>
                 </div>

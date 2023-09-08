@@ -523,7 +523,7 @@
   display: inline-block;
   padding: 6px 12px;
   font-size: 14px;
-  background-color: #BDDF38; /* 背景色を透���に設定 */
+  background-color: #BDDF38; /* 背景色を透���������に設定 */
   color: #fff; /* テキストの色を調整 */
   border: 2px solid #9ECA2D; /* ボーダーを追加 */
   border-radius: 3px;
@@ -605,3 +605,177 @@
   color: #333;
   margin-top: 20px;
 }
+
+.fluid {
+  width: 40vh;
+  height: 40vh;
+  background: #BDDF38; /* 指定されたベースカラー */
+  border-radius: 50%;
+  animation: fluidrotate 30s ease 0s infinite;
+  transition: all 0.3s ease; /* トランジションを追加 */
+  position: absolute;
+  top: 30%; /* 親要素の中央に対する位置 */
+  left: calc(35% - 15vh); /* 親要素の右端から -20vh だけ左にずらす */
+  transform: translate(-50%, -50%); /* 要素自体を中央に調整 */
+
+}
+
+@keyframes fluidrotate {
+  0%, 100% {
+    background: linear-gradient(45deg, #BDDF38, #BDDF38);
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  14% {
+    background: linear-gradient(45deg, #BDDF38, #F4D03F);
+    opacity: 0.8;
+    transform: scale(1.1) rotate(20deg);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  }
+  28% {
+    background: linear-gradient(45deg, #F4D03F, #7DCEA0);
+    opacity: 0.6;
+    transform: scale(0.9) rotate(-20deg);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  42% {
+    background: linear-gradient(45deg, #7DCEA0, #52be80);
+    opacity: 0.4;
+    transform: scale(1.2) rotate(10deg);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  }
+  56% {
+    background: linear-gradient(45deg, #52be80, #27ae60);
+    opacity: 0.2;
+    transform: scale(0.8) rotate(-10deg);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  70% {
+    background: linear-gradient(45deg, #BDDF38, #F4D03F);
+    opacity: 0.4;
+    transform: scale(1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  84% {
+    background: linear-gradient(45deg, #F4D03F, #7DCEA0);
+    opacity: 0.6;
+    transform: scale(0.9);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.fluid:hover {
+  border-radius: 0; /* ホバー時に四角に変化 */
+  background: linear-gradient(45deg, #BDDF38, #F4D03F); /* ホバー時のグラデーション */
+}
+
+.fluid:hover::before {
+  content: "About US"; /* ホバー時に表示するテキストを指定 */
+  color: #fff; /* テキストの色 */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1; /* テキストを要素の上に表示 */
+  font-family: "Helvetica Neue", sans-serif; /* フォントファミリーを指定 */
+  font-size: 1.5em; /* フォントサイズを指定 */
+  font-weight: bold; /* フォントの太さを指定 */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* テキストの影を追加 */
+}
+
+/* about-titleのスタイル */
+.about-title {
+  font-size: 36px;
+  font-family: 'Poppins', sans-serif; /* 追加したフォントを適用 */
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* site-titleのスタイル */
+.site-title {
+  font-size: 48px;
+  font-family: 'Poppins', sans-serif; /* 追加したフォントを適用 */
+  color: #333;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+
+.about-title-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.glowAnime span {
+  opacity: 0;
+}
+
+.glowAnime.glow span {
+  animation: glow_anime_on 1s ease-out forwards;
+}
+
+@keyframes glow_anime_on {
+  0% {
+    opacity: 0;
+    text-shadow: 0 0 0 #fff, 0 0 0 #fff;
+  }
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 10px #fff, 0 0 15px #fff;
+  }
+  100% {
+    opacity: 1;
+    text-shadow: 0 0 0 #fff, 0 0 0 #fff;
+  }
+}
+
+
+.site-title-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.blurTrigger.blur {
+  opacity: 0;
+}
+
+.blur {
+  animation-name: blurAnime;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes blurAnime {
+  from {
+    filter: blur(10px);
+    transform: scale(1.02);
+    opacity: 0;
+  }
+
+  to {
+    filter: blur(0);
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+/* セクションのスタイル */
+.section {
+  padding: 200px 0;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.section-description {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+

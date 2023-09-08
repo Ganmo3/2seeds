@@ -11,12 +11,15 @@ class Public::HomesController < ApplicationController
 
     # 視聴回数順の投稿を取得
     @weekly_most_viewed_posts = Post.order(impressions_count: :desc)
-                                .select { |post| post.impressionist_count(filter: :all, start_date: start_of_week, end_date: end_of_week) }
-                                .take(3)
+                            .joins(:impressions)
+                            .where(impressions: { created_at: start_of_week..end_of_week })
+                            .group('posts.id')
+                            .order('COUNT(impressions.id) DESC')
+                            .limit(3)
 
 
     # デイリーで一番視聴数が多い投稿を取得
-    @daily_best = Post.all.max_by { |post| post.impressionist_count(filter: :all, start_date: Time.zone.now.beginning_of_day, end_date: Time.zone.now.end_of_day) }
+    @daily_best = Post.all.max_by { |post| post.impressions_count }
     # 新規ユーザーや成長中のユーザーを含むランキングを算出
     @ranking = User.where.not(account: "guest").sort_by { |user| calculate_score(user) }.reverse.take(3)
 
