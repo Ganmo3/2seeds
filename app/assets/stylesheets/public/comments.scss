@@ -1,3 +1,32 @@
 // Place all the styles related to the public/comments controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+/* キャンセルボタンのスタイル */
+.comment-cancel-button {
+  background-color: #f8f9fa; 
+  color: #333; 
+  font-size: 14px; 
+  padding: 6px 12px; 
+  border: 1px solid #ccc; 
+  cursor: pointer; 
+  border-radius: 4px; 
+}
+
+/* 更新ボタンのスタイル */
+.comment-update-button {
+  background-color: #BDDF38; 
+  color: #fff; 
+  font-size: 14px; 
+  padding: 6px 12px; 
+  border: none; 
+  cursor: pointer; 
+  border-radius: 4px; 
+}
+
+/* ボタンのホバースタイル */
+.comment-cancel-button:hover,
+.comment-update-button:hover {
+  opacity: 0.8; 
+  transition: opacity 0.3s ease-in-out; 
+}

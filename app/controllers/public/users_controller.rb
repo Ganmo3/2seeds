@@ -2,12 +2,13 @@ class Public::UsersController < ApplicationController
   #before_action :sign_out_user, only: :show
   before_action :set_user, except: [:edit, :update, :withdraw_input, :withdraw_process]
   before_action :hide_header, only: [:follower_list, :following_list]
+  before_action :authenticate_user!, except: [:show]
 
   def show
-    @latest_post = @user.posts.order(created_at: :desc).first
-    @posts = @user.posts.where.not(id: @latest_post&.id).order(created_at: :desc)
-    @total_views = @user.posts.sum(&:impressions_count)
-    @post_ranking = @user.posts.order(impressions_count: :desc).limit(5)
+    @latest_post = @user.posts.published.order(created_at: :desc).first
+    @posts = @user.posts.published.where.not(id: @latest_post&.id).order(created_at: :desc).page(params[:page]).per(10)
+    @total_views = @user.posts.published.sum(&:impressions_count)
+    @post_ranking = @user.posts.published.order(impressions_count: :desc).limit(5)
   end
 
   def edit
@@ -30,7 +31,6 @@ class Public::UsersController < ApplicationController
     end
   end
 
-
   def withdraw_input
     @user = current_user
   end
@@ -48,18 +48,18 @@ class Public::UsersController < ApplicationController
     end
   end
 
-
   def follower_list
     @followers = @user.followers
+    render partial: "follower_list"
   end
 
   def following_list
     @followings = @user.followings
+    render partial: "following_list"
   end
 
   def liked_posts
     @liked_posts = current_user.post_favorites.includes(:post).order(created_at: :desc).map(&:post)
-    # @liked_comments = current_user.comment_favorites
   end
 
   private
@@ -68,20 +68,14 @@ class Public::UsersController < ApplicationController
     @show_header = false
   end
 
-  #def sign_out_user
-  #  sign_out(current_user) if user_signed_in?
-  #end
-
   def set_user
     account_str = params[:account]
     sanitized_account_str = account_str.gsub(/[^a-zA-Z0-9_-]/, '')
     account_sym = sanitized_account_str.to_sym
     @user = User.find_by(account: account_sym)
-
-    #byebug
   end
 
   def user_params
-    params.require(:user).permit(:nickname, :account, :email, :introduction, :icon, :anniversary, :channel)
+    params.require(:user).permit(:nickname, :account, :email, :introduction, :icon, :channel)
   end
 end

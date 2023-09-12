@@ -7,7 +7,8 @@
         <ul>
           <% @user.followers.each do |follower| %>
             <li>
-              <%= link_to follower.nickname, user_path(follower.account) %>  <%= render "public/relationships/follow", user: follower %>
+              <%= link_to follower.nickname, user_path(follower.account), data: { turbolinks: false } %>
+              <%= render "public/relationships/follow", user: follower %>
             </li>
           <% end %>
         </ul>

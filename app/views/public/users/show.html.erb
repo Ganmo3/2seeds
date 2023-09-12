@@ -1,6 +1,6 @@
 <div class="banner-container">
   <div class="banner">
-   <%= image_tag "user-show.jpg" %>
+    <%= image_tag "user-show.jpg" %>
   </div>
 </div>
 
@@ -25,26 +25,26 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Introductionカラム -->
     <div class="col-md-6">
       <div class="profile-info d-flex align-items-center justify-content-between">
         <div class="nickname">
           <h5><%= @user.nickname %></h5>
         </div>
-        
+
         <% if current_user == @user %>
           <div class="edit-container ml-3">
             <%= link_to "Edit", edit_user_path(@user), class: "edit-btn" %>
           </div>
         <% end %>
       </div>
-      
+
       <div class="introduction">
         <p><%= @user.introduction %></p>
       </div>
-      
-       <div class="information">
+
+      <div class="information">
         <p class="mr-3"><span class="info-label">Views:</span> <%= @total_views %></p>
         <p class="mr-3"><span class="info-label">Likes:</span> <%= @user.posts.joins(:post_favorites).count %></p>
         <p class="mr-3" id="following-count">
@@ -54,7 +54,7 @@
           <%= render "public/relationships/follower-count", user: @user %>
         </p>
       </div>
-      
+
       <% if user_signed_in? && current_user != @user %>
         <div id="follow-btn">
           <%= render "public/relationships/follow", user: @user %>
@@ -71,9 +71,9 @@
   <div class="row">
     <div class="col-md-8">
       <h5 class="show-headline mt-5">投稿記事</h5>
-      
+
       <% if @latest_post %>
-            <div class="daily-container mt-3">
+        <div class="daily-container mt-3">
           <div class="post-item mx-1 mx-auto">
             <%= link_to post_path(@latest_post), class: "link-to" do %>
               <% video_id = extract_youtube_video_id(@latest_post.link) %>
@@ -112,106 +112,109 @@
               </div>
               <div class="post-meta d-flex">
                 <%= link_to user_path(@latest_post.user.account), class: 'user-link' do %>
-                <div class="user-info">
-                  <%= user_icon_or_youtube(@latest_post.user, size: '20x20', class: 'rounded-circle ml-1') %>
-                  <p class="user-nickname ml-2"><%= @latest_post.user.nickname %></p>
-                </div>
-                  <% end %>
+                  <div class="user-info">
+                    <%= user_icon_or_youtube(@latest_post.user, size: '20x20', class: 'rounded-circle ml-1') %>
+                    <p class="user-nickname ml-2"><%= @latest_post.user.nickname %></p>
+                  </div>
+                <% end %>
                 <div class="post-favorites-container ml-auto">
                   <div class="post-favorites">
                     <i class="fa fa-heart"></i>
                     <span class="count-style"><%= @latest_post.post_favorites.count %></span>
                   </div>
                 </div>
-
+              </div>
+              <div class="post-body-container">
+                <%= truncate(@latest_post.body.body.to_plain_text, length: 100) %>
+              </div>
+              <div class="read-more-btn-container text-right mt-2 mb-4 mr-2">
+                <%= link_to 'READ MORE', post_path(@latest_post), class: 'read-more-btn' %>
               </div>
             </div>
           </div>
+        </div>
+      <% else %>
+        <p class="text-center mt-3">投稿記事がありません。</p>
+      <% end %>
+      <div class="post-detail-wrapper">
+        <%= render 'public/shared/post_detail', posts: @posts %>
       </div>
+      <div class="row mb-5">
+        <div class="mx-auto mb-5">
+         <%= paginate @posts, theme: "bootstrap-5" %>
+        </div>
+      </div>
+    </div>
 
-      <div class="read-more-btn-container text-center">
-       <%= link_to 'READ MORE', post_path(@latest_post), class: 'read-more-btn' %>
-     </div>
-        <% else %>
-    <p class="text-center mt-3">投稿記事がありません。</p>
-  <% end %>
-        <%= render 'public/shared/post_index', posts: @posts %>
-    
-    </div>
-    
     <div class="col-md-4">
-    <h5 class="show-headline mt-5">Ranking</h5>
-    　<div class="latest-post-container d-flex flex-wrap">
-    　 
-    　  <% @post_ranking.each do |post| %>
-    　    <% if post.published? %>
-    　     <%= render "public/posts/side.post", post: post %>
-    　   <% end %>
-  　    <% end %>
-    　</div>
+      <h5 class="show-headline mt-5">Ranking</h5>
+      <div class="latest-post-container d-flex flex-wrap">
+        <% @post_ranking.each do |post| %>
+          <% if post.published? %>
+            <%= render "public/posts/side.post", post: post %>
+          <% end %>
+        <% end %>
+      </div>
     </div>
-    
-    
-    
-    
   </div>
 </div>
 
 <% if current_user %>
-<!-- フォロー一覧のモーダルウィンドウ -->
-<div id="following-modal" class="modal">
-  <div class="modal-content"></div>
-</div>
+  <!-- フォロー一覧のモーダルウィンドウ -->
+  <div id="following-modal" class="modal">
+    <div class="modal-content"></div>
+    <button id="close-preview-modal" class="close-button">×</button>
+  </div>
 
-<!-- フォロワー一覧のモーダルウィンドウ -->
-<div id="follower-modal" class="modal">
-  <div class="modal-content"></div>
-</div>
+  <!-- フォロワー一覧のモーダルウィンドウ -->
+  <div id="follower-modal" class="modal">
+    <div class="modal-content"></div>
+    <button id="close-preview-modal" class="close-button">×</button>
+  </div>
 <% end %>
 
-
 <script>
-$(document).ready(function() {
-  $('#following-count').click(function() {
-    $.ajax({
-      url: '<%= following_list_user_path(@user) %>',
-      type: 'GET',
-      success: function(response) {
-        $('#following-modal .modal-content').html(response);
-        $('#following-modal').addClass('fade-in').show();
+  $(document).ready(function() {
+    $('#following-count').click(function() {
+      $.ajax({
+        url: '<%= following_list_user_path(@user) %>',
+        type: 'GET',
+        success: function(response) {
+          $('#following-modal .modal-content').html(response);
+          $('#following-modal').addClass('fade-in').show();
+        }
+      });
+    });
+
+    $('#following-modal').on('click', function(event) {
+      if (event.target === this) {
+        $(this).addClass('fade-out');
+        setTimeout(() => {
+          $(this).hide().removeClass('fade-out');
+        }, 300); // アニメーションの時間に合わせて調整
       }
     });
   });
+</script>
 
-  $('#following-modal').on('click', function(event) {
-    if (event.target === this) {
+<script>
+  $(document).ready(function() {
+    $('#follower-count').click(function() {
+      $.ajax({
+        url: '<%= follower_list_user_path(@user) %>',
+        type: 'GET',
+        success: function(response) {
+          $('#follower-modal .modal-content').html(response);
+          $('#follower-modal').addClass('fade-in').show();
+        }
+      });
+    });
+
+    $('#follower-modal').on('click', function() {
       $(this).addClass('fade-out');
       setTimeout(() => {
         $(this).hide().removeClass('fade-out');
       }, 300); // アニメーションの時間に合わせて調整
-    }
-  });
-});
-</script>
-
-<script>
-$(document).ready(function() {
-  $('#follower-count').click(function() {
-    $.ajax({
-      url: '<%= follower_list_user_path(@user) %>',
-      type: 'GET',
-      success: function(response) {
-        $('#follower-modal .modal-content').html(response);
-        $('#follower-modal').addClass('fade-in').show();
-      }
     });
   });
-
-  $('#follower-modal').on('click', function() {
-    $(this).addClass('fade-out');
-    setTimeout(() => {
-      $(this).hide().removeClass('fade-out');
-    }, 300); // アニメーションの時間に合わせて調整
-  });
-});
 </script>

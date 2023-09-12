@@ -1,4 +1,6 @@
 class Public::CommentFavoritesController < ApplicationController
+  before_action :authenticate_user!
+  
   def create
     @comment = Comment.find(params[:comment_id])
     @comment_favorite = current_user.comment_favorites.new(comment_id: @comment.id)

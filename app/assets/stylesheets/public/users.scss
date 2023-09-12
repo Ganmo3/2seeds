@@ -6,7 +6,7 @@
 /* editボタンスタイル */
 .edit-btn {
   display: inline-block;
-  padding: 3px 6px;
+  padding: 4px 8px;
   border-radius: 5px;
   text-decoration: none;
   background-color: #BDDF38;
@@ -147,3 +147,41 @@
 }
 
 
+/* 退会画面 */
+.withdraw-account h6 {
+  font-size: 18px; 
+  margin: 0; 
+}
+
+.withdraw-message {
+  text-align: center;
+  margin-top: 20px; 
+}
+
+.withdraw-message p {
+  font-size: 16px; 
+}
+
+.red-text {
+  color: red;
+}
+
+.withdraw-point {
+  margin-top: 20px; 
+  padding-left: 20px; 
+  font-size: 16px; 
+  border: 1px solid #ccc; 
+  border-radius: 5px; 
+  padding: 10px; 
+  list-style-position: inside;
+}
+
+.withdraw-checked {
+  text-align: center;
+  margin-top: 20px; 
+}
+
+.withdraw-button {
+  text-align: center;
+  margin-top: 20px;
+}

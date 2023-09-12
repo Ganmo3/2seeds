@@ -63,3 +63,70 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 */
 
+//mypageドロップダウンメニュー
+
+document.addEventListener('turbolinks:load', function() {
+
+  const mypageBtnContainer = document.getElementById('mypageBtnContainer');
+  const mypageDropdown = document.getElementById('mypageDropdown');
+
+  function toggleDropdown() {
+    $(mypageDropdown).slideToggle(300);
+  }
+
+  function closeDropdown() {
+    $(mypageDropdown).slideUp(300);
+  }
+
+  if (mypageBtnContainer) {
+    // マイページボタンをクリックしたときにドロップダウンメニューの切り替え
+    mypageBtnContainer.addEventListener('click', toggleDropdown);
+
+    // ドロップダウンメニュー内部のクリックイベントをキャンセル
+    mypageDropdown.addEventListener('click', function(event) {
+      event.stopPropagation();
+    });
+
+    // ドロップダウンメニューの外側をクリックしたらドロップダウンを閉じる
+    document.addEventListener('click', function(event) {
+      if (!mypageBtnContainer.contains(event.target)) {
+        closeDropdown();
+      }
+    });
+
+    // ページ遷移前にドロップダウンメニューを閉じる
+    document.addEventListener('turbolinks:before-visit', closeDropdown);
+  }
+});
+
+
+
+// コメント編集発火 //
+$(document).on("turbolinks:load", () => {
+  $(".js-edit-comment-button").on("click", (e) => {
+    const commentId = $(e.target).parent().data('commentId');                   
+    const commentLabelArea = $('#js-comment-label-' + commentId);  
+    const commentTextArea = $('#js-textarea-comment-' + commentId); 
+    const commentButton = $('#js-comment-button-' + commentId);   
+    
+    commentLabelArea.hide();
+    commentTextArea.show(); 
+    commentButton.show(); 
+  });
+
+  $(".comment-cancel-button").on("click", (e) => {
+    const commentId = $(e.target).data('cancel-id');
+    const commentLabelArea = $('#js-comment-label-' + commentId);
+    const commentTextArea = $('#js-textarea-comment-' + commentId);
+    const commentButton = $('#js-comment-button-' + commentId);
+    const commentError = $('#js-comment-post-error-' + commentId);
+
+    commentLabelArea.show();
+    commentTextArea.hide();
+    commentButton.hide();
+    commentError.hide();
+  });
+})
+
+
+

@@ -30,6 +30,7 @@
       <!-- 通知一覧を表示するモーダルウィンドウ -->
       <div id="notifications-modal" class="modal">
         <div class="modal-content"></div>
+        <button id="close-modal" class="close-button">×</button>
       </div>
 
       <% if admin_signed_in? %>
@@ -61,11 +62,12 @@
 
           <div class="mypage-dropdown" id="mypageDropdown">
             <ul>
-              <li><%= link_to user_path(current_user) do %><i class="fas fa-user-circle"></i>マイページ<% end %></li>
-              <li><%= link_to new_post_path do %><i class="fas fa-pen"></i>新規投稿<% end %></li>
-              <li><%= link_to dashboard_posts_path do %><i class="fas fa-clipboard-list"></i>ダッシュボード<% end %></li>
-              <li><%= link_to edit_user_path(current_user) do %><i class="fas fa-user-cog"></i>プロフィール設定<% end %></li>
-              <li><%= link_to liked_posts_user_path(current_user) do %><i class="fas fa-thumbs-up"></i>いいねした投稿<% end %></li>
+              <li><%= link_to user_path(current_user), data: { "turbolinks" => false } do %><i class="fas fa-user-circle"></i>マイページ<% end %></li>
+              <li><%= link_to new_post_path, data: { "turbolinks" => false } do %><i class="fas fa-pen"></i>新規投稿<% end %></li>
+              <li><%= link_to dashboard_posts_path, data: { "turbolinks" => false } do %><i class="fas fa-clipboard-list"></i>ダッシュボード<% end %></li>
+              <li><%= link_to analytics_posts_path, data: { "turbolinks" => false } do %><i class="fas fa-chart-line"></i>アナリティクス<% end %></li>
+              <li><%= link_to edit_user_path(current_user), data: { "turbolinks" => false } do %><i class="fas fa-user-cog"></i>プロフィール設定<% end %></li>
+              <li><%= link_to liked_posts_user_path(current_user), data: { "turbolinks" => false } do %><i class="fas fa-thumbs-up"></i>いいねした投稿<% end %></li>
               <li><%= link_to destroy_user_session_path, method: :delete do %><i class="fas fa-sign-out-alt"></i>ログアウト<% end %></li>
             </ul>
 
@@ -79,41 +81,6 @@
   </nav>
   </div>
 </header>
-
-<!-- mypageドロップダウンメニュー -->
-<script>
-document.addEventListener('turbolinks:load', function() {
-  const mypageBtnContainer = document.getElementById('mypageBtnContainer');
-  const mypageDropdown = document.getElementById('mypageDropdown');
-
-  function toggleDropdown() {
-    $(mypageDropdown).slideToggle(300);
-  }
-
-  if (mypageBtnContainer) {
-    // マイページボタンをクリックしたときにドロップダウンメニューの切り替え
-    mypageBtnContainer.addEventListener('click', toggleDropdown);
-
-    // ページ遷移前にドロップダウンメニューを閉じる
-    document.addEventListener('turbolinks:before-visit', function() {
-      $(mypageDropdown).slideUp(300);
-    });
-
-    // ドロップダウンメニュー内部のクリックイベントをキャンセル
-    mypageDropdown.addEventListener('click', function(event) {
-      event.stopPropagation();
-    });
-
-    // ドロップダウンメニューの外側をクリックしたらドロップダウンを閉じる
-    document.addEventListener('click', function(event) {
-      if (!mypageBtnContainer.contains(event.target)) {
-        mypageDropdown.style.display = 'none';
-      }
-    });
-  }
-});
-
-</script>
 
 <script>
   $(document).ready(function() {
@@ -139,11 +106,17 @@ document.addEventListener('turbolinks:load', function() {
       });
     });
 
-    $('#notifications-modal').on('click', function() {
-      $(this).addClass('fade-out');
-      setTimeout(() => {
-        $(this).hide().removeClass('fade-out');
-      }, 300);
-    });
+  // モーダル内のクリックイベントを停止
+  $('#notifications-modal .modal-content').on('click', function(event) {
+    event.stopPropagation(); // イベントの伝播を停止
   });
+
+  // モーダル外（背景）をクリックしたときにモーダルを閉じる
+  $('#notifications-modal').on('click', function() {
+    $(this).addClass('fade-out');
+    setTimeout(() => {
+      $(this).hide().removeClass('fade-out');
+    }, 300);
+  });
+});
 </script>

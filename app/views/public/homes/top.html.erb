@@ -88,7 +88,7 @@
       </ul>
 
       <div class="trend-btn-container text-center">
-        <%= link_to posts_path, class: "btntextchange trend-btn my-3" do %>
+        <%= link_to trending_posts_path, class: "btntextchange trend-btn my-3" do %>
           <span>View More </span>
           <span>Trending</span>
         <% end %>
@@ -108,7 +108,7 @@
         <% @weekly_most_viewed_posts.each_with_index do |post, index| %>
           <div class="post-item mx-1 mx-auto">
             <%= link_to post_path(post), class: "link-to" do %>
-              <div class="ranking-number">No. <%= index + 1 %></div> <!-- ランキングを表示する要素 -->
+              <div class="ranking-number">No. <%= index + 1 %></div> 
               <% video_id = extract_youtube_video_id(post.link) %>
               <% next unless video_id.present? %>
               <div class="thumbnail-wrapper">
@@ -161,7 +161,7 @@
         <% end %>
       </div>
       <div class="trend-btn-container text-center mt-5">
-        <%= link_to posts_path, class: "btntextchange trend-btn" do %>
+        <%= link_to weekly_ranking_posts_path, class: "btntextchange trend-btn" do %>
           <span>View More </span>
           <span>Weekly Top</span>
         <% end %>
@@ -177,7 +177,7 @@
     <div class="col-md-6">
       <h4 class="headline mt-5 ml-5">Daily's Best</h4>
 
-      <div class="daily-container mt-3">
+      <div class="daily-best-container mt-3">
         <% if @daily_best %>
           <div class="post-item mx-1 mx-auto">
             <%= link_to post_path(@daily_best), class: "link-to" do %>
@@ -233,12 +233,6 @@
           </div>
         <% end %>
       </div>
-
-      <%#<div class="read-more-btn-container text-center">
-        <% if @daily_best %>
-      <%#    <%= link_to 'READ MORE', post_path(@daily_best), class: 'read-more-btn' %>
-    <%#    <% end %>
-    <%#  </div>　%>
 
       <div class="trend-btn-container text-center mt-3">
         <% if @daily_best %>
@@ -353,7 +347,6 @@
 
 
 <script>
-
   // スライドショー
 $(document).ready(function() {
 	$('.slider').slick({
@@ -382,10 +375,11 @@ $(document).ready(function() {
 	]
 	});
 });
+</script>
 
-
-
-    let slideIndex = 0;
+<script>
+document.addEventListener("turbolinks:load", function() {
+  let slideIndex = 0;
   showSlides();
 
   function showSlides() {
@@ -410,28 +404,27 @@ $(document).ready(function() {
     setTimeout(showSlides, 6000);
   }
 
-// タイトルボタンエフェクト
-const buttons = document.querySelectorAll('.trend-btn');
+  // タイトルボタンエフェクトの初期化
+  const buttons = document.querySelectorAll('.trend-btn');
 
-const observerOptions = {
-  root: null,
-  rootMargin: '0px',
-  threshold: 0,
-};
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0,
+  };
 
-const observer = new IntersectionObserver((entries, observer) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('fade-in');
-    } else {
-      entry.target.classList.remove('fade-in');
-    }
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('fade-in');
+      } else {
+        entry.target.classList.remove('fade-in');
+      }
+    });
+  }, observerOptions);
+
+  buttons.forEach((button) => {
+    observer.observe(button);
   });
-}, observerOptions);
-
-buttons.forEach((button) => {
-  observer.observe(button);
 });
-
 </script>
-

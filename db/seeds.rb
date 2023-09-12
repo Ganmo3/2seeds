@@ -10,51 +10,70 @@ Admin.create(
   password: ENV['ADMIN_PASSWORD']
 )
 
+# タグの作成
+tags = %w(旅行 料理 音楽 スポーツ アート)
+tags.each { |tag_name| ActsAsTaggableOn::Tag.find_or_create_by(name: tag_name) }
+
 # ユーザーアカウントとニックネームの配列
 nicknames = ['がんも', 'だいこん', 'たまご', 'はんぺん', '牛すじ']
 
-# ユーザーの作成
-User.delete_all
-users = nicknames.map.with_index do |nickname, index|
-  account = "oden#{index + 1}"
+# ユーザー作成メソッド
+def create_user(account, nickname, tags)
   introduction = "よろしくお願いします、#{nickname}です。YouTubeチャンネルを登録するとYouTubeのチャンネルアイコンに変わります。"
-  {
+  email = "#{account}@2seeds.com"
+  password = "123456"
+  channel = "https://www.youtube.com/channel/UCUfZCxi6GBN4fam5kiwPUnA"
+  status = 0
+
+  # ランダムな日付を生成
+  min_days_ago = 1
+  max_days_ago = 365
+  random_days_ago = rand(min_days_ago..max_days_ago)
+  random_date = Time.now - random_days_ago.days
+
+  user_params = {
     account: account,
     nickname: nickname,
-    email: "#{account}@2seeds.com",
-    password: "123456",
+    email: email,
+    password: password,
     introduction: introduction,
-    channel: "https://www.youtube.com/channel/UCUfZCxi6GBN4fam5kiwPUnA",
-    status: 0,
-    created_at: Time.now,
-    updated_at: Time.now
+    channel: channel,
+    status: status,
+    created_at: random_date,
+    updated_at: random_date
   }
-end
 
-# ユーザー作成
-users.each do |user_params|
-  user = User.new(user_params)
-  if user.save
-    puts "User created successfully!"
+  user = User.create(user_params)
+
+  if user.persisted?
+    puts "User created successfully: #{user.account}"
   else
     puts "Error creating user:"
     puts user.errors.full_messages
   end
 end
 
-# タグの作成
-tags = %w(旅行 料理 音楽 スポーツ アート)
-tags.each { |tag_name| ActsAsTaggableOn::Tag.find_or_create_by(name: tag_name) }
+# ユーザー作成
+nicknames.each_with_index do |nickname, index|
+  account = "oden#{index + 1}"
+  create_user(account, nickname, tags)
+end
 
 # 投稿の作成メソッド
-def create_user_posts(user, count, status_options, tags)
+def create_posts_for_user_with_ordered_dates(user, count, status_options, tags)
+  # ユーザーの最初の投稿日を設定
+  initial_date = Time.now - (count - 1).days  # 最新の投稿が今日となるように設定
+  
   count.times do |i|
     title = "投稿#{i + 1}"
-    body = "サンプルの投稿#{i + 1}です。"
+    body = "サンプルの投稿#{i + 1}です。\n新鮮な野菜、チーズ、ハムなどお好みの具材を挟んだホットサンドは、軽食からランチまで幅広く楽しめる美味しい料理です。\nシンプルな食材で手軽に作れ、サクサクの食感ととろけるチーズの組み合わせが絶妙です。\nぜひ自宅で作ってみて、美味しいひとときを楽しんでみてください。"
     link = "https://www.youtube.com/watch?v=eYreBz3S7f8"
     status = status_options.sample
     impressions_count = rand(100..1000)
     tag_list = tags.sample(2)
+
+    # 日付を順番に遅らせる
+    post_date = initial_date + i.days
 
     post_params = {
       title: title,
@@ -62,8 +81,8 @@ def create_user_posts(user, count, status_options, tags)
       link: link,
       status: status,
       impressions_count: impressions_count,
-      created_at: Time.now,
-      updated_at: Time.now,
+      created_at: post_date,
+      updated_at: post_date,
       user_id: user.id
     }
     puts "Creating post with params: #{post_params.inspect}"  # デバッグログを追加
@@ -75,24 +94,20 @@ def create_user_posts(user, count, status_options, tags)
   end
 end
 
-# 通常ユーザーの投稿作成
+# ユーザーごとに異なるステータス割り当て
 User.where.not(account: 'guest').each do |user|
   # 既存の投稿を削除
   user.posts.delete_all
 
-  create_user_posts(user, 3, [0], tags)  
+  # ランダムにステータスを選択
+  statuses = [0] * 12 + [1] * 3 + [2] * 3
+  create_posts_for_user_with_ordered_dates(user, 12, statuses, tags)  # 投稿を12個生成するように修正
 end
-
-# ゲストユーザーの投稿作成
-#guest_user = User.find_by(account: 'guest')
-#status_options = [0, 1, 2]  # ステータスを整数値で指定
-#create_user_posts(guest_user, status_options.length, status_options, tags)
-
 
 # お気に入り投稿の作成
 PostFavorite.delete_all
 users = User.all
-posts = Post.all
+posts = Post.published  # ステータスが0（公開）の投稿のみ取得
 users.each do |user|
   favorite_posts = posts.sample(rand(1..3))
   favorite_posts.each do |post|
@@ -143,8 +158,6 @@ users.each do |user|
   end
 end
 
-
-
 # リレーションシップの作成
 Relationship.delete_all
 users.each do |user|
@@ -158,5 +171,3 @@ users.each do |user|
     )
   end
 end
-
-

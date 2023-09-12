@@ -1,0 +1,12 @@
+$('#js-comment-<%= @comment.id %>').html('<%=j render "public/comments/js_comment", comment: @comment %>');
+$($('#js-comment-<%= @comment.id %>').find('.comment-cancel-button')[0]).on('click', (e) => {
+    $('#js-comment-label-<%= @comment.id %>').show();
+    $('#js-textarea-comment-<%= @comment.id %>').hide();
+    $('#js-comment-button-<%= @comment.id %>').hide();
+    $('#js-comment-post-error-<%= @comment.id %>').hide();
+})
+<% if @comment.errors.any? %>
+  const commentError = $('#js-comment-post-error-<%= @comment.id %>');
+  commentError.text('<%= @comment.errors.full_messages.first %>');
+  commentError.fadeOut(2000);
+<% end %>

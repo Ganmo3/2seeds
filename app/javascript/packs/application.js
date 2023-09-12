@@ -12,8 +12,9 @@ import "jquery";
 import "popper.js";
 import "bootstrap";
 import "../stylesheets/application";
-import "script.js"
-import "relative_time.js"
+import "script.js";
+import "relative_time.js";
+//import "modal.js";
 import 'bootstrap-tagsinput';
 
 
@@ -27,3 +28,6 @@ require("@rails/actiontext")
 $(document).ready(function() {
   $("input[data-role='tagsinput']").tagsinput();
 });
+
+
+

@@ -1,4 +1,7 @@
 class Public::CommentsController < ApplicationController
+  before_action :set_comment, only: [:update, :destroy]
+  before_action :authenticate_user!
+
   def create
     @post = Post.find(params[:post_id])
     
@@ -25,7 +28,22 @@ class Public::CommentsController < ApplicationController
     #redirect_back(fallback_location: root_path)
   end
 
+  def update
+    if @comment.update(comment_update_params)
+    else
+      @comment.reload
+    end
+  end
+  
   private
+  
+  def set_comment
+    @comment = current_user.comments.find(params[:id])
+  end
+  
+  def comment_update_params
+    params.require(:comment).permit(:comment)
+  end
 
   def comment_params
     params.require(:comment).permit(:comment)

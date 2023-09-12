@@ -23,8 +23,10 @@ Rails.application.routes.draw do
     resources :posts do
       collection do
         get :dashboard
+        get :analytics
+        get :weekly_ranking
+        get :trending
         post :preview
-        patch :autosave
       end
       
       member do
@@ -36,6 +38,7 @@ Rails.application.routes.draw do
         resource :comment_favorites, only: [:create, :destroy]
       end
     end
+    resources :comments, only: [:update]
     resources :tags, only: [:show]
     resources :reports, only: [:new, :create]
     
@@ -59,7 +62,6 @@ Rails.application.routes.draw do
     
     resources :notifications, only: [:index] do
       post :update_checked, on: :collection
-      get :load_more_notifications, on: :collection
     end
     
   end

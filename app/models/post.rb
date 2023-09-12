@@ -3,16 +3,21 @@ class Post < ApplicationRecord
   is_impressionable counter_cache: true, column_name: :impressions_count
 
   # gem:acts_as_taggableの使用
- acts_as_taggable_on :tags
+  acts_as_taggable_on :tags
 
   # action textの使用
   has_rich_text :body
-  # validate :content_presence
 
   belongs_to :user
   has_many :post_favorites, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :notifications, dependent: :destroy
+
+  # バリデーションの設定
+  validates :title, presence: true
+  validates :link, presence: true, format: { with: %r{\Ahttps?://(?:www\.)?youtube\.com/(?:watch\?v=|embed/|shorts/|v/)([\w-]{11})\z}i,
+                                              message: "はYouTubeの正しい動画リンクである必要があります" }
+  validates :body, presence: true, unless: -> { body.present? }
 
 
   enum status: { published: 0, draft: 1,  unpublished: 2 }
@@ -23,9 +28,9 @@ class Post < ApplicationRecord
     user.present? && post_favorites.exists?(user_id: user.id)
   end
 
-  # デイリーいいね数のカウント
-  def daily_likes_count(date)
-    self.post_favorites.where("created_at >= ? AND created_at < ?", date.beginning_of_day, date.end_of_day).count
+  # 3日間のいいね数のカウント
+  def daily_likes_count(start_date, end_date)
+    post_favorites.where("created_at >= ? AND created_at < ?", start_date.beginning_of_day, end_date.end_of_day).count
   end
 
   # デイリー視聴回数のカウント
@@ -56,9 +61,9 @@ def create_notification_favorite_post!(current_user, user_id, id)
       visited_id: user_id,
       action: "favorite_post"
     )
-    
+
     # 自分の投稿に対するいいねの場合は、通知済みとする
-    notification.checked = true if notification.visitor_id == notification.visited_id
+    notification.is_checked = true if notification.visitor_id == notification.visited_id
 
     if notification.valid?
       notification.save
@@ -81,8 +86,8 @@ end
         action: "favorite_comment"
       )
       # 自分のコメントに対するいいねの場合は、通知済みとする
-      notification.checked = true if notification.visitor_id == notification.visited_id
-  
+      notification.is_checked = true if notification.visitor_id == notification.visited_id
+
       if notification.valid?
         notification.save
         # 通知の履歴を残すために通知を保存
@@ -121,10 +126,4 @@ end
     # 通知を保存（バリデーションが成功する場合のみ）
     notification.save if notification.valid?
   end
-  
-  private
-  
-  #def content_presence
-   # errors.add(:content, "can't be blank") if content.blank?
-  #end
 end
