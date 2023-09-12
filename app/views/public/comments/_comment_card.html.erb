@@ -1,81 +1,40 @@
-<div class="comment-card card border-0">
-  <div class="comment-card__header">
-    <div class="comment-card__author d-flex">
+<div class="comment-card__header">
+  <div class="comment-card__author d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center">
       <%= user_icon_or_youtube(comment.user, size: '20x20', class: 'rounded-circle ml-1') %>
       <%= link_to comment.user.nickname, user_path(comment.user.account), class: 'comment-card__username ml-1' %>
       <div class="comment-card__createdAt ml-2" data-created-at="<%= comment.created_at %>">
         <%= comment.created_at %>
       </div>
-      <div class="report-btn-container ml-auto">
-      <div class="report-btn text-right" id="report-btn-<%= comment.id %>">
+    </div>
+
+
+    <div class="d-flex ml-auto">
+   <% if user_signed_in? && (current_user == comment.user || admin_signed_in?) %>
+      <span data-comment-id=<%= comment.id %> class="js-edit-comment-button mr-2" style="cursor: pointer;">
+        <i class="fas fa-edit"></i>
+      </span>
+        <div class="text-right">
+          <%= link_to post_comment_path(post, comment), method: :delete, remote: true, data: { confirm: '本当に削除しますか?', cancel: 'やめる', commit: '削除する' }, title: '削除確認' do %>
+            <i class="fas fa-trash-alt"></i>
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class="report-btn text-right ml-2" id="report-btn-<%= comment.id %>">
         <%= render "public/reports/report_btn", comment: comment %>
       </div>
-      </div>
-    </div>
-  </div>
-  <div class="comment-card__wrapper">
-    <div class="comment-card__contents">
-      <p class="comment-card__body"><%= comment.comment %></p>
-      
-      <div id="comment_favorite_btn_<%= comment.id %>">
-        <%= render "public/comment_favorites/btn", comment: comment %>
-      </div>
-      
-      
-       <% if user_signed_in? && (current_user == comment.user || admin_signed_in?) %>
-          <div class="text-right">
-            <%= link_to "削除", post_comment_path(post, comment), method: :delete, remote: true, data: { confirm: '本当に削除しますか?', cancel: 'やめる', commit: '削除する' }, title: '削除確認' %>
-          </div>
-        <% end %>
-      
     </div>
   </div>
 </div>
-
-
-
-<script>
-function formatRelativeTime(date) {
-  var now = new Date();
-  var diff = Math.floor((now - date) / 1000); // 差を秒単位で計算
-
-  if (diff < 60) {
-    return "たった今";
-  } else if (diff < 3600) {
-    return Math.floor(diff / 60) + "分前";
-  } else if (diff < 86400) {
-    return Math.floor(diff / 3600) + "時間前";
-  } else {
-    return Math.floor(diff / 86400) + "日前";
-  }
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-  var dateElements = document.querySelectorAll("[data-updated-at], [data-created-at]");
-
-  dateElements.forEach(function(element) {
-    var updatedAt = new Date(element.getAttribute("data-updated-at"));
-    var createdAt = new Date(element.getAttribute("data-created-at"));
-
-    var relativeUpdatedAt = formatRelativeTime(updatedAt);
-    var relativeCreatedAt = formatRelativeTime(createdAt);
-
-    if (updatedAt > createdAt) {
-      element.textContent = relativeUpdatedAt;
-    } else {
-      element.textContent = relativeCreatedAt;
-    }
-  });
-});
-
- document.addEventListener("DOMContentLoaded", function() {
-    var dateElements = document.querySelectorAll("[data-created-at]");
-
-    dateElements.forEach(function(element) {
-      var createdAt = new Date(element.getAttribute("data-created-at"));
-      var relativeCreatedAt = formatRelativeTime(createdAt);
-      element.textContent = relativeCreatedAt;
-    });
-  });
-
-</script>
+<div class="comment-card__wrapper">
+  <div class="comment-card__contents">
+   <%# <p class="comment-card__body"><%= comment.comment %>
+    <div id="js-comment-<%= comment.id %>">
+      <%= render "public/comments/js_comment", comment: comment %>
+    </div>
+    <div id="comment_favorite_btn_<%= comment.id %>">
+      <%= render "public/comment_favorites/btn", comment: comment %>
+    </div>
+  </div>
+</div>

@@ -1,11 +1,11 @@
 <div class="youtube-container-fluid">
   <div class="row">
     <div class="col-md-12 justify-content-center">
-      <h2 class="text-center">プレビュー</h2>
       <% video_id = extract_youtube_video_id(@preview_post.link) %>
       <% if video_id.present? %>
         <div class="show-thumbnail-container">
           <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 65%; height: auto;') %>
+          <div class="preview-tag">Preview</div>
         </div>
       <% else %>
         <p>表示ができません</p>

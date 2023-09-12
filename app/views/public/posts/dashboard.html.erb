@@ -15,7 +15,7 @@
           </li>
         </ul>
         
-        <%= link_to "新規投稿", new_post_path, class: "new-post-btn ml-auto" %>
+        <%= link_to "新規投稿", new_post_path, class: "new-post-btn ml-auto", data: { turbolinks: false } %>
       </div>
       
       <div class="tab-content">
@@ -23,20 +23,24 @@
           <% @published_posts.each do |post| %>
             <%= render "mypost", post: post %>
           <% end %>
+          <%= paginate @published_posts, theme: 'bootstrap-5', param_name: 'published_page' %>
         </div>
   
         <div id="draft" class="tab-pane fade">
           <% @draft_posts.each do |post| %>
             <%= render "mypost", post: post %>
           <% end %>
+          <%= paginate @draft_posts, theme: 'bootstrap-5', param_name: 'draft_page' %>
         </div>
   
         <div id="unpublished" class="tab-pane fade">
           <% @unpublished_posts.each do |post| %>
             <%= render "mypost", post: post %>
           <% end %>
+          <%= paginate @unpublished_posts, theme: 'bootstrap-5', param_name: 'unpublished_page' %>
         </div>
       </div>
     </div>
   </div>
 </div>
+

@@ -1,0 +1,7 @@
+$(document).on('turbolinks:load', function() {
+  $('.weekly-ranking-container').jscroll({
+    contentSelector: '.post-item', 
+    nextSelector: '.next', 
+    loadingHtml: '<div class="text-center"><i class="fa fa-spinner fa-spin"></i> 読み込み中...</div>'
+  });
+});

@@ -13,6 +13,13 @@ ja:
         active: 有効
         banned: 凍結中
         inactive: 無効
+  views:
+    pagination:
+      first: "&laquo;"
+      last: "&raquo;"
+      previous: "&lsaquo;"
+      next: "&rsaquo;"
+      truncate: "..."
   activerecord:
     errors:
       messages:

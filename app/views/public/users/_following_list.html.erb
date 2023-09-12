@@ -6,7 +6,7 @@
         <ul>
           <% @user.followings.each do |following| %>
             <li>
-              <%= link_to following.nickname, user_path(following.account) %>
+              <%= link_to following.nickname, user_path(following.account), data: { turbolinks: false } %>
               <% if @user == @current_user %>
                 <%= render "public/relationships/follow", user: following %>
               <% end %>

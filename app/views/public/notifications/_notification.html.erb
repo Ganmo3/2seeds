@@ -24,9 +24,9 @@
         <% else %>
           <span>
             <%= link_to post_path(notification.post) do %>
-              <%= image_tag avatar_url(notification.post.user).to_s, class: "icon_mini" %>
+             <%# <%= image_tag avatar_url(notification.post.user).to_s, class: "icon_mini" %>
               <strong>
-                <%= notification.post.user.name + 'さんの投稿' %>
+                <%= notification.post.user.nickname + 'さんの投稿' %>
               </strong>
             <% end %>
           </span>

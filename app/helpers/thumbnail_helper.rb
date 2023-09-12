@@ -5,7 +5,7 @@ module ThumbnailHelper
     options = { show_info: true }.merge(options)
 
     # キャッシュの設定を変更する
-    video_item = Rails.cache.fetch("youtube_thumbnail_#{video_id}", expires_in: 1.day) do
+    video_item = Rails.cache.fetch("youtube_thumbnail_#{video_id}", expires_in: 7.day) do
       service = Google::Apis::YoutubeV3::YouTubeService.new
       service.key = ENV['YOUTUBE_API_KEY']
 

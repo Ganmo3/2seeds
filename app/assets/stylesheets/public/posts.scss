@@ -65,9 +65,9 @@
 }
 
 .form-group.form-group_body .trix-content:focus {
-  outline: none; /* フォーカス時のデフォルトの枠を非表示にする */
-  border-color: #87CEEB; /* 明るい青の枠の色を設定 */
-  box-shadow: 0 0 5px #87CEEB; /* オプション: フォーカス時の影を追加 */
+  outline: none; 
+  border-color: #87CEEB; 
+  box-shadow: 0 0 5px #87CEEB; 
 }
 
 .form-group input:focus {
@@ -183,30 +183,40 @@
   opacity: 1;
 }
 
+.preview-tag {
+  position: absolute; 
+  top: 10px; 
+  right: 10px; 
+  background-color: rgba(0, 0, 0, 0.7); 
+  color: #fff; 
+  padding: 3px; 
+  border-radius: 5px; 
+}
 
-  #preview-modal {
-    /* 他のスタイル */
-    position: fixed;
-    top: 50%; /* 上端から中央に配置 */
-    left: 50%; /* 左端から中央に配置 */
-    transform: translate(-50%, -50%); /* 中央揃え */
-  }
 
-  .close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    font-size: 50px;
-    color: #999; /* ボタンの色 */
-    background-color: transparent;
-    border: none;
-    transition: color 0.3s;
-  }
+#preview-modal {
+  /* 他のスタイル */
+  position: fixed;
+  top: 50%; /* 上端から中央に配置 */
+  left: 50%; /* 左端から中央に配置 */
+  transform: translate(-50%, -50%); /* 中央揃え */
+}
 
-  .close-button:hover {
-    color: #333; /* ホバー時の色 */
-  }
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 50px;
+  color: #999; /* ボタンの色 */
+  background-color: transparent;
+  border: none;
+  transition: color 0.3s;
+}
+
+.close-button:hover {
+  color: #333; /* ホバー時の色 */
+}
 
 /* プレビューメッセージ */
 .link-message {
@@ -231,12 +241,13 @@
 }
 
 .show-thumbnail-container {
+  position: relative; 
 }
 
 .youtube-info {
   display: inline-block;
-  text-decoration: none; /* 下線を削除 */
-  font-weight: bold; /* フォントを太字に設定 */
+  text-decoration: none; 
+  font-weight: bold; 
 }
 
 .show-post-title {
@@ -351,12 +362,11 @@
 }
 
 
-
 /* ダッシュボード */
 /* ステータスボタンのスタイリング */
 .status-button {
   border: none;
-  padding: 15px;
+  padding: 5px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease-in-out;
@@ -371,22 +381,35 @@
 }
 
 .status-button.draft {
-  background-color: #ffbb33;
+  background-color: #E0E87C;
 }
 
 .status-button.unpublished {
-  background-color: #ff4444;
+  background-color: #FFB8B8;
 }
 
 /* ステータスラベルのスタイリング */
 .status-label {
   display: inline-block;
-  font-size: 14px;
-  padding: 5px 10px;
-  border-radius: 20px;
+  font-size: 10px;
+  padding: 3px 6px;
+  border-radius: 8px;
   color: white;
-  background-color: #333;
+  height: 27px;
 }
+
+.published {
+  background-color: #4caf50; 
+}
+
+.draft {
+  background-color: #ffc107; 
+}
+
+.unpublished {
+  background-color: #dc3545; 
+}
+
 
 /* ステータスアイコンのスタイリング */
 .status-icon {
@@ -438,9 +461,13 @@
 }
 
 .nav-tabs .nav-link.active {
-  color: #007bff;
-  background-color: transparent;
-  border-bottom: 2px solid #007bff;
+  font-weight: bold; 
+}
+
+.nav-tabs .nav-link:hover {
+  color: #ff6600; 
+  background-color: rgba(0, 0, 0, 0.1); 
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out; 
 }
 
 .tab-content {
@@ -462,7 +489,7 @@
 .new-post-btn {
   display: inline-block;
   padding: 6px 12px;
-  background-color: white; /* 最初は白 */
+  background-color: white; 
   color: #BDDF38;
   border: 2px solid #BDDF38;
   text-decoration: none;
@@ -474,6 +501,11 @@
 .new-post-btn:hover {
   background-color: #BDDF38; /* ホバー時に背景色を #BDDF38 に変更 */
   color: white;
+}
+
+h6.dashboard-title a {
+  color: black;
+  text-decoration: none;
 }
 
 
@@ -535,12 +567,78 @@
   object-fit: cover;
   margin: 0 auto;
   display: block;
-  border-radius: 10px; /* 丸みを持たせる */
+  border-radius: 10px; 
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s; /* アニメーションの追加 */
+  transition: transform 0.3s, box-shadow 0.3s; 
 }
 
 .post-thumbnail:hover {
-  transform: scale(1.05); /* ホバー時に少し拡大するアニメーション */
-  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15); /* ホバー時の影を強化 */
+  transform: scale(1.05); 
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15); 
 }
+
+
+/* post_detail　*/
+.post-card-detail {
+  position: relative;
+  padding-bottom: 5px;
+  overflow: hidden; 
+}
+
+.post-card-detail::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: #BDDF38; 
+}
+
+.post-card-detail:hover::after {
+  background: linear-gradient(to right, #BDDF38, #FFFF00); 
+  animation: underline 0.3s linear; 
+}
+
+/* 下線のアニメーション */
+@keyframes underline {
+  0% {
+    transform: scaleX(0); 
+  }
+  100% {
+    transform: scaleX(1); 
+  }
+}
+
+.post-detail-thumbnail {
+  object-fit: cover;
+  margin: 0 auto;
+  display: block;
+  transition: transform 0.3s, box-shadow 0.3s; 
+}
+
+.post-detail-thumbnail:hover {
+  transform: scale(1.05); 
+}
+
+.daily-container {
+  position: relative;
+  padding-bottom: 5px;
+  overflow: hidden;
+}
+
+.daily-container::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: #BDDF38;
+}
+
+.daily-container:hover::after {
+  background: linear-gradient(to right, #BDDF38, #FFFF00);
+  animation: underline 0.3s linear;
+}
+

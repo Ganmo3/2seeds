@@ -243,3 +243,25 @@ a.link-to:hover {
 .footer a:hover {
   color: #e74c3c; 
 }
+
+/* ページネーションのデザイン */
+.pagination > li > a {
+  border: none;
+  color: #BDDF38;
+  background-color: transparent;
+  padding: 10px 15px;
+  margin: 0 5px;
+  transition: background-color 0.3s;
+}
+
+/* 表示しているページ番号のデザイン */
+.pagination > .active > a {
+  background: #BDDF38 !important; 
+  color: #fff !important;
+}
+
+/* ホバー時のデザイン */
+.pagination > li > a:hover {
+  background-color: #BDDF38 !important; 
+  color: #fff !important; 
+}

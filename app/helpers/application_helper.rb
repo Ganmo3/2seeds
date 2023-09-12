@@ -5,7 +5,16 @@ module ApplicationHelper
     uri = URI(link)
     query = URI.decode_www_form(uri.query || '')
     query_hash = Hash[query]
-    query_hash["v"] || nil
+
+    video_id = query_hash["v"]
+
+    # ショートビデオID形式の対応
+    if video_id.nil?
+      path = uri.path
+      video_id = path.split('/').last if path.present? && path != '/'
+    end
+
+    video_id
   end
 
   def extract_youtube_channel_id(url)

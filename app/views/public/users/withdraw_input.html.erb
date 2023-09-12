@@ -1,64 +1,43 @@
 <div class="container">
   <div class="row">
-    <!-- 左側の余白 -->
-    <div class="col-md"></div>
-
-    <!-- アイコンカラム -->
-    <div class="col-md-2">
-      <div class="icon">
-        <%= image_tag @user.get_icon, class: "rounded-circle file-fluid" %>
+    <div class="col-md-6 offset-md-3">
+      <div class="withdraw-icon text-center mb-3">
+        <%= user_icon_or_youtube(@user, class: "rounded-circle file-fluid", size: "100x100") %>
       </div>
-    </div>
-
-    <!-- Introductionカラム -->
-    <div class="col-md-6">
-      <div class="account">
-        <h5><%= @user.account %></h5>
+      <div class="withdraw-account text-center mb-4">
+        <h6><%= @user.nickname %></h6>
+        <h6><%= @user.account %></h6>
       </div>
-    </div>
 
-    <!-- 右側の余白 -->
-    <div class="col-md"></div>
-  </div>
-</div>
-
-<div class="container">
-  <div class="row">
-    <div class="col-md"></div>
-
-    <div class="col-md-6">
       <div class="withdraw-message">
-        <p>アカウントは完全に削除されます。<br>
-           一度アカウントを削除すると、以下のものが削除され、復元できなくなります。</p>
+        <p>アカウントは完全に削除されます。一度アカウントを削除すると、以下のものが<span class="red-text">削除され、復元できなくなります。</span></p>
       </div>
       <ul class="withdraw-point">
         <li>ユーザー情報</li>
         <li>自身の投稿</li>
         <li>コメントやいいねした投稿</li>
       </ul>
-      <div class="withdraw-checked">
+      <div class="withdraw-checked mt-3">
         <label>
           <input type="checkbox" name="withdraw_agreement" id="withdraw-agreement">
           削除する内容を理解した
         </label>
       </div>
 
-      <div class="button">
-       <%= link_to "アカウントを削除", withdraw_process_user_path, method: :patch, class: "btn btn-outline-danger", id: "withdraw-button", disabled: true, data: { confirm: "本当によろしいですか？" } %>
-
+      <div class="withdraw-button text-center mt-4">
+        <%= link_to "アカウントを削除", withdraw_process_user_path, method: :patch, class: "btn btn-danger", id: "withdraw-button", disabled: true, data: { confirm: "本当によろしいですか？" } %>
       </div>
     </div>
-
-    <div class="col-md"></div>
   </div>
 </div>
 
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const agreementCheckbox = document.getElementById("withdraw-agreement");
-    const withdrawButton = document.getElementById("withdraw-button");
+document.addEventListener("turbolinks:load", function() {
+  const agreementCheckbox = document.getElementById("withdraw-agreement");
+  const withdrawButton = document.getElementById("withdraw-button");
 
+  if (agreementCheckbox && withdrawButton) {
     // ページ読み込み時にボタンの無効化を設定
     withdrawButton.classList.toggle("disabled", !agreementCheckbox.checked);
 
@@ -66,5 +45,6 @@
     agreementCheckbox.addEventListener("change", function() {
       withdrawButton.classList.toggle("disabled", !agreementCheckbox.checked);
     });
-  });
+  }
+});
 </script>

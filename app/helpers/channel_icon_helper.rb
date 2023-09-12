@@ -6,7 +6,7 @@ module ChannelIconHelper
     options = { size: 'default', alt: 'Channel Icon' }.merge(options)
 
     # キャッシュからアイコンURLを取得
-    channel_icon_url = Rails.cache.fetch("channel_icon_#{channel_id}", expires_in: 1.day) do
+    channel_icon_url = Rails.cache.fetch("channel_icon_#{channel_id}", expires_in: 7.day) do
       service = Google::Apis::YoutubeV3::YouTubeService.new
       service.key = ENV['YOUTUBE_API_KEY']
       channel_response = service.list_channels('snippet', id: channel_id)
