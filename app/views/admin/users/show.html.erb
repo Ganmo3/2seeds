@@ -10,7 +10,7 @@
     <div class="form-group text-center">
       <div class="mt-3">
         <strong>通報された回数：</strong>
-        <%#<%= Report.reported_count(@user.id) %>
+        <%= Report.reported_count(@user.id) %>
       </div>
     </div>
     <%= form_with model: @user, url: admin_user_path(@user), method: :patch do |f| %>

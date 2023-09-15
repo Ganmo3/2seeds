@@ -1,37 +1,40 @@
+<%= render 'public/shared/error_messages', object: @user %>
 <div class="container">
   <div class="row text-center">
-    <h2 class="auth-form-title mx-auto mt-5 mb-3">Sign up</h2>
-  </div>
-  <div class="row text-center">
-    <p class="mx-auto">すでにアカウントがありますか？<%= render "public/shared/links" %></p>
-  </div>
+    <div class="col-md-8 offset-md-2">
+      <h2 class="auth-form-title mx-auto mt-5 mb-3">Sign up</h2>
 
-  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <div class="row text-center">
+        <p class="mx-auto">すでにアカウントがありますか？<%= render "public/shared/links" %></p>
+      </div>
 
-    <% fields = [
-      { attribute: :nickname, label: "表示名" },
-      { attribute: :account, label: "アカウント名" },
-      { attribute: :email, label: "メールアドレス" },
-      { attribute: :password, label: "パスワード" },
-      { attribute: :password_confirmation, label: "パスワード(確認用)" }
-    ] %>
+      <%= form_with(model: @user, local: true, url: registration_path(resource_name)) do |f| %>
 
-    <% fields.each do |field| %>
-      <div class="d-flex justify-content-center flex-column">
-        <div class="form-group mx-auto">
-          <h6 class=""><%= field[:label] %></h6>
-          <div class="flex items-center">
-            <%= f.input field[:attribute], label: field[:label], autofocus: field[:attribute] == :nickname, class: 'form-control', label: false %>
+          <% fields = [
+            { attribute: :nickname, label: "表示名", placeholder: "2～20文字" },
+            { attribute: :account, label: "アカウント名", placeholder: "3~20文字の英数字、ハイフン、アンダースコア" },
+            { attribute: :email, label: "メールアドレス", placeholder: "メールアドレスを入力してください" },
+            { attribute: :password, label: "パスワード", placeholder: "6文字以上30文字以内の小文字、大文字、数字、特殊文字い" },
+            { attribute: :password_confirmation, label: "パスワード(確認用)", placeholder: "パスワード(確認用)を入力してください" }
+          ] %>
+
+        <% fields.each do |field| %>
+          <div class="d-flex justify-content-center flex-column">
+            <div class="form-group mx-auto">
+              <h6 class="text-left"><%= field[:label] %></h6>
+              <div class="flex items-center">
+                <%= f.text_field field[:attribute], autofocus: field[:attribute] == :nickname, class: 'form-control', style: "width: 100%", placeholder: field[:placeholder] %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="d-flex justify-content-center flex-column">
+          <div class="form-group mx-auto">
+            <%= f.submit "Sign up", class: 'custom-btn' %>
           </div>
         </div>
-      </div>
-    <% end %>
-
-    <div class="d-flex justify-content-center flex-column">
-      <div class="form-group mx-auto">
-        <%= f.submit "Sign up", class: 'auth-form__submit' %>
-      </div>
+      <% end %>
     </div>
-
-  <% end %>
+  </div>
 </div>

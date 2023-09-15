@@ -8,7 +8,6 @@
 
     <script src="https://kit.fontawesome.com/5f9cac3054.js" crossorigin="anonymous"></script>
     <script src="https://rawgit.com/kimmobrunfeldt/progressbar.js/master/dist/progressbar.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/2.4.1/jquery.jscroll.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -21,15 +20,28 @@
     <% if @show_header %>
       <%= render 'layouts/header' %>
     <% end %>
+   
+     <a href="#top" class="scroll-top-btn">
+      <i class="fas fa-chevron-circle-up"></i>
+    </a>
     <main>
-      <%= flash[:notice] %><%= flash[:alert] %><%= flash[:error] %>
+      <%= content_tag :div, flash[:notice], class: "flash-message notice" if flash[:notice].present? %>
+      <%= content_tag :div, flash[:alert], class: "flash-message alert" if flash[:alert].present? %>
+      <%= content_tag :div, flash[:error], class: "flash-message error" if flash[:error].present? %>
+      <%= content_tag :div, flash[:success], class: "flash-message success" if flash[:success].present? %>
+
       <%= yield %>
+   
+      <%= render 'chatbots/chatbot' %>
+      <button type="button" class="chatbot-btn" data-toggle="modal" data-target="#chat-modal">
+        <i class="fas fa-robot" data-toggle=tooltip data-placement="bottom" title="ボットにゃんと遊ぶ！"></i>
+      </button>
     </main>
-    <%= render 'layouts/footer' %>
-    <%# <%= render 'chatbots/chatbot' %>
-   <%# <button type="button" class="chatbot-btn" data-toggle="modal" data-target="#chat-modal">
-      <i class="fas fa-robot" data-toggle=tooltip data-placement="bottom" title="ボットと遊ぶ！"></i>
-    </button> %>
+    <% if @show_footer %>
+      <%= render 'layouts/footer' %>
+    <% end %>
+    
+
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
   </body>
 </html>

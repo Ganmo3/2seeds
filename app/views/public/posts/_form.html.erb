@@ -24,7 +24,7 @@
         <% end %>
       <% else %>
           <%= f.submit '下書き保存', id: 'draftButton', name: 'draft', class: "draft-btn" %>
-          <%= f.submit '公開する', id: 'postButton', name: 'post', class: "submit-btn" %>
+          <%= f.submit '公開する', id: 'postButton', name: 'published', class: "submit-btn" %>
       <% end %>
     </div>
   </div>
@@ -53,7 +53,7 @@
 
 <!-- プレビューのモーダルウィンドウ -->
 <div id="preview-modal" class="modal">
-  <div class="modal-content"></div>
+  <div class="common-modal-content"></div>
   <button id="close-preview-modal" class="close-button">×</button>
 </div>
 
@@ -72,7 +72,7 @@
         type: 'POST',
         data: { post: formData },
         success: function(response) {
-          $('#preview-modal .modal-content').html(response);
+          $('#preview-modal .common-modal-content').html(response);
           $('#preview-modal').addClass('fade-in').show();
         }
       });
@@ -101,7 +101,7 @@
     var publishButton = $('<%= f.submit "公開する", id: "publishButton", name: "published", class: "submit-btn" %>');
     var updateButton = $('<%= f.submit "更新する", id: "updateButton", name: "unpublished", class: "unpublish-btn" %>');
     var draftButton = $('<%= f.submit "下書き保存", id: "draftButton", name: "draft", class: "draft-btn" %>');
-    var postButton = $('<%= f.submit "公開する", id: "postButton", name: "post", class: "submit-btn" %>');
+    var postButton = $('<%= f.submit "公開する", id: "postButton", name: "published", class: "submit-btn" %>');
 
     $('#buttonGroup').append(draftButton);
     $('#buttonGroup').append(postButton);

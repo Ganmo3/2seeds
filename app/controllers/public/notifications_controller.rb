@@ -6,7 +6,7 @@ class Public::NotificationsController < ApplicationController
     @unchecked_notifications = @notices.where(is_checked: false)
 
     # 確認済みの通知を取得
-    @checked_notifications = @notices.where(is_checked: true).page(params[:page]).without_count.per(2)
+    @checked_notifications = @notices.where(is_checked: true).limit(20)
     @user = current_user
 
     #@notifications = @unchecked_notifications.or(@checked_notifications).order(created_at: :desc)

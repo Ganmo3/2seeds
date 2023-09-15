@@ -1,3 +1,4 @@
+<%= render 'public/shared/error_messages', object: @user %>
 <div class="container">
   <%= form_with model: @user, url: user_path, method: :patch, multipart: true do |f| %>
   <div class="row justify-content-center">
@@ -26,7 +27,7 @@
       <div class="form-group">
         <i class="fas fa-link"></i>
         <label>YouTubeチャンネル</label>
-        <%= f.text_field :channel, class: "form-control", style: "width: 80%" %>
+        <%= f.text_field :channel, class: "form-control", style: "width: 80%", placeholder: "https://www.youtube.com/channel/XXXXXXXXXXXX" %>
       </div>
 
       <div class="form-group form-group__button-wrapper">

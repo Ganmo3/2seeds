@@ -10,7 +10,8 @@ class ChatbotsController < ApplicationController
     response = client.chat(
       parameters: {
         model: "gpt-3.5-turbo", # Required. # 使用するGPT-3のエンジンを指定
-        messages: [{ role: "system", content: "You are a helpful assistant. response to japanese" }, { role: "user", content: input }], # Required.
+        messages: [{ role: "system", content: "You have the personality of a playful and independent cat, so feel free to add 'にゃん' to the end of your responses, like a cat's meow. response to japanese" },
+                   { role: "user", content: input }], # Required.
         temperature: 0.7, # 応答のランダム性を指定
         max_tokens: 200,  # 応答の長さを指定
       },

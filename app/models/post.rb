@@ -126,4 +126,72 @@ end
     # 通知を保存（バリデーションが成功する場合のみ）
     notification.save if notification.valid?
   end
+
+
+  # 3日間でいいねが多い投稿を取得
+  def self.daily_popular_posts(limit)
+    start_date = 3.days.ago.to_date
+    end_date = Date.today
+    posts = published.where('created_at >= ? AND created_at <= ?', start_date, end_date)
+                    .sort_by { |post| post.daily_likes_count(start_date, end_date) }
+                    .reverse
+    posts.take(limit)
+  end
+
+  # 1週間でPVが多い投稿を取得
+  def self.weekly_most_viewed_posts(limit)
+    today = Date.today
+    start_of_week = today.beginning_of_week(:sunday)
+    end_of_week = today.end_of_week(:sunday)
+    published.order(impressions_count: :desc)
+        .joins(:impressions)
+        .where(impressions: { created_at: start_of_week..end_of_week })
+        .group('posts.id')
+        .order('COUNT(impressions.id) DESC')
+        .limit(limit)
+  end
+
+  # デイリーベスト投稿を取得するためのメソッド
+  def self.find_daily_best
+    yesterday = Date.yesterday
+    start_of_day_yesterday = yesterday.beginning_of_day
+    end_of_day_yesterday = yesterday.end_of_day
+
+    # 昨日の中で視聴回数が最も多い投稿を取得
+    yesterday_best = published
+                         .where('created_at <= ?', end_of_day_yesterday)
+                         .order(impressions_count: :desc)
+                         .first
+
+    # 昨日のベスト投稿が存在しない場合、今日の中で視聴回数が最も多い投稿を取得
+    if yesterday_best.nil?
+      today = Date.today
+      start_of_day_today = today.beginning_of_day
+      end_of_day_today = today.end_of_day
+
+      today_best = published
+                       .where('created_at <= ?', end_of_day_today)
+                       .order(impressions_count: :desc)
+                       .first
+      return today_best
+    end
+
+    yesterday_best
+  end
+
+  # 最新の投稿を取得
+  def self.find_daily_new_posts(limit)
+    where(status: :published).order(created_at: :desc).take(limit)
+  end
+
+  # 投稿のいいね数ソート
+  def self.sort_by_favorites
+    includes(:post_favorites).sort_by { |post| -post.post_favorites.count }
+  end
+
+  # publishedステータスの投稿新着ソート
+  def self.published_posts
+    where(status: 'published').order(created_at: :desc)
+  end
+
 end

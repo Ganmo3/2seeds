@@ -4,8 +4,8 @@
       <h2 class="auth-form-title text-center mt-5 mb-3">Log in</h2>
       <div class="d-flex justify-content-center flex-column">
         <div class="form-group mx-auto">
-  
-          <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+
+          <%= form_with(model: resource, local: true, url: session_path(resource_name)) do |f| %>
             <div class="row">
               <div class="col-md-12 mb-2">
                 <%= f.label :email, "メールアドレス" %>
@@ -18,7 +18,7 @@
                 <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
               </div>
             </div>
-    
+
             <% if devise_mapping.rememberable? %>
               <div class="row">
                 <div class="col-md-12 mb-2">
@@ -30,7 +30,7 @@
 
             <div class="row">
               <div class="col-md-12 text-center">
-                <%= f.button :submit, "Log in", class: "btn btn-primary" %>
+                <%= f.button "Log in", class: "custom-btn" %>
               </div>
             </div>
           <% end %>

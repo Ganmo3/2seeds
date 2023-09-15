@@ -1,7 +1,7 @@
 ja:
   activerecord:
     attributes:
-      members:
+      user:
         confirmation_sent_at:   "パスワード確認送信時刻"
         confirmation_token:     "パスワード確認用トークン"
         confirmed_at:           "パスワード確認時刻"
@@ -26,6 +26,9 @@ ja:
         unlock_token:           "ロック解除用トークン"
         updated_at:             "更新日"
         email:                  "メールアドレス"
+        channel:                "チャンネルURL"
+        account:                "アカウント名"
+        nickname:               "表示名"
       mailer:
       reset_password_instructions:
         title:                      "こんにちは、"
@@ -35,7 +38,7 @@ ja:
         wont_change:                "上記リンクをクリックして新しいパスワードを作成しない限り、パスワードは変更されません。"
 
     models:
-      member:                   "会員情報"
+      user:                   "会員情報"
 
   
   devise:

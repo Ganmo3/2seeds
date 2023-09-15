@@ -3,13 +3,13 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="chat-modal-title">ボットちゃん</h5>
+        <h5 class="modal-title" id="chat-modal-title">ボットにゃん</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
       </div>
       <div class="chat__body modal-body">
-        <div id="chat-messages" class="chat__messages" style="height: 400px; max-height: 400px; overflow-y: scroll;">
+        <div id="chat-messages" class="chat__messages" style="max-heigth: 300px; overflow-y: scroll;">
           <%# Controllerからくるデータがメッセージで表示される部分。 scriptの`$('#chat-messages').prepend(responseMessage, inputMessage);`部分 %>
         </div>
         <form id="chat-form" class="chat__form">
@@ -48,6 +48,7 @@
                   //       format.json { render json: { response: response.dig("choices", 0, "message", "content") } }
                   //     end
                   // responseは結局content!
+                  console.log(data)
                   const response = data.response;
                   // controllerのactionから来たデータを利用してtagを作る
                   const responseMessage = '<div class="chat__message chat__message--bot"><i class="fas fa-robot chat__bot-icon"></i><p class="alert alert-success" role="alert">' + response + '</p></div>';

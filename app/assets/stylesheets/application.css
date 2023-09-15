@@ -18,38 +18,91 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: #6c6b6b;
+  font-family: 'Montserrat', sans-serif;
 }
 
-main {
-  background-color: rgba(189, 223, 56, 0.22);
+html, body, main {
+ background-color: rgba(189, 223, 56, 0.22);
+ margin: 0;
 }
 
 body {
-  font-family: 'Montserrat', sans-serif;
   font-size: 16px;
   line-height: 1.6;
   color: #333;
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Raleway', sans-serif; 
+footer {
+  background-color: #BDDF38;
+  padding: 15px;
+  font-size: 12px;
+  position: sticky;
+  top: 100vh;
+  width: 100%;
 }
 
-a {
-  font-family: 'Montserrat', sans-serif;
+footer a {
+  color: white;
+  text-decoration: none;
 }
 
-/* リンクスタイル */
-a.link-to {
-  text-decoration: none; /* 下線を消す */
+footer a:hover {
+  color: #e74c3c;
 }
 
-/* ホバー時のリンクスタイル */
-a.link-to:hover {
-  text-decoration: none; /* 下線を消す */
+
+/* 通知メッセージ */
+.flash-message.notice {
+  background-color: #e6e6e6;
+  color: #333;
+  padding: 10px;
+  border: 1px solid #ccc;
 }
 
+/* 警告メッセージ */
+.flash-message.alert {
+  background-color: #ffcc00;
+  color: #333;
+  padding: 10px;
+  border: 1px solid #f0ad4e;
+}
+
+/* エラーメッセージ */
+.flash-message.error {
+  background-color: #ff6666;
+  color: #fff;
+  padding: 10px;
+  border: 1px solid #ff3333;
+}
+
+/* 成功メッセージ */
+.flash-message.success {
+  background-color: #BDDF38;
+  color: #333;
+  padding: 10px;
+  border: 1px solid #BDDF38;
+}
+
+.error-messages {
+  background-color: #ffcccc;
+  color: #ff0000;
+  padding: 10px;
+  border: 1px solid #ff0000;
+}
+
+.error-messages ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.error-messages li {
+  color: #ff0000;
+  margin-left: 20px;
+}
 
 
 .input-validation {
@@ -101,7 +154,7 @@ a.link-to:hover {
   text-decoration: none;
   display: flex;
   align-items: center;
-  transition: background-color 0.3s ease-in-out; 
+  transition: background-color 0.3s ease-in-out;
 }
 
 .mypage-dropdown a i {
@@ -110,8 +163,8 @@ a.link-to:hover {
 }
 
 .mypage-dropdown a:hover {
-  background-color: #BDDF38; 
-  color: #fff; 
+  background-color: #BDDF38;
+  color: #fff;
 }
 
 /* Mypage button container */
@@ -119,9 +172,6 @@ a.link-to:hover {
   position: relative;
   display: inline-block;
 }
-
-
-
 
 .cursor-pointer:hover {
   cursor: pointer;
@@ -133,20 +183,12 @@ a.link-to:hover {
   font-size: 16px;
   font-weight: bold;
   color: #fff;
-  background-color: #50BFA9;
+  background-color: #BDDF38;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
   text-decoration: none;
-}
-
-.custom-btn.signup-btn {
-  background-color: #BDDF38;
-}
-
-.custom-btn.login-btn {
-  background-color: #BDDF38;
 }
 
 .custom-btn:hover {
@@ -183,7 +225,7 @@ a.link-to:hover {
 }
 
 /* モーダルコンテンツ */
-.modal-content {
+.common-modal-content {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -194,6 +236,8 @@ a.link-to:hover {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   max-width: 80%;
   width: 500px;
+  overflow-y: auto;
+  max-height: 600px;
 }
 
 /* モーダルの閉じるボタン */
@@ -223,26 +267,6 @@ a.link-to:hover {
   to { opacity: 0; }
 }
 
-.modal-content {
-  max-height: 400px; 
-  overflow-y: auto;
-  position: relative;
-}
-
-.footer {
-  background-color: #BDDF38; 
-  padding: 15px;
-  font-size: 12px;
-}
-
-.footer a {
-  color: white; 
-  text-decoration: none; 
-}
-
-.footer a:hover {
-  color: #e74c3c; 
-}
 
 /* ページネーションのデザイン */
 .pagination > li > a {
@@ -256,12 +280,41 @@ a.link-to:hover {
 
 /* 表示しているページ番号のデザイン */
 .pagination > .active > a {
-  background: #BDDF38 !important; 
+  background: #BDDF38 !important;
   color: #fff !important;
 }
 
 /* ホバー時のデザイン */
 .pagination > li > a:hover {
-  background-color: #BDDF38 !important; 
-  color: #fff !important; 
+  background-color: #BDDF38 !important;
+  color: #fff !important;
+}
+
+
+/* スクロールボタン */
+.scroll-top-btn {
+  display: none;
+  position: fixed;
+  bottom: 5%;
+  right: 2%;
+  width: 40px;
+  height: 40px;
+  background-color: #BDDF38;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 24px;
+  text-decoration: none;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  opacity: 1;
+  z-index: 9999;
+  transform: scale(1);
+}
+
+.scroll-top-btn:hover {
+  background-color: #9ECA2D;
+  transform: scale(1.1);
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }

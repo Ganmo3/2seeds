@@ -1,6 +1,6 @@
 <div class="banner-container">
   <div class="banner">
-    <%= image_tag "user-show.jpg" %>
+   <%= user_banner_or_default(current_user, size: 'high') %>
   </div>
 </div>
 
@@ -162,13 +162,13 @@
 <% if current_user %>
   <!-- フォロー一覧のモーダルウィンドウ -->
   <div id="following-modal" class="modal">
-    <div class="modal-content"></div>
+    <div class="common-modal-content"></div>
     <button id="close-preview-modal" class="close-button">×</button>
   </div>
 
   <!-- フォロワー一覧のモーダルウィンドウ -->
   <div id="follower-modal" class="modal">
-    <div class="modal-content"></div>
+    <div class="common-modal-content"></div>
     <button id="close-preview-modal" class="close-button">×</button>
   </div>
 <% end %>
@@ -180,7 +180,7 @@
         url: '<%= following_list_user_path(@user) %>',
         type: 'GET',
         success: function(response) {
-          $('#following-modal .modal-content').html(response);
+          $('#following-modal .common-modal-content').html(response);
           $('#following-modal').addClass('fade-in').show();
         }
       });
@@ -204,7 +204,7 @@
         url: '<%= follower_list_user_path(@user) %>',
         type: 'GET',
         success: function(response) {
-          $('#follower-modal .modal-content').html(response);
+          $('#follower-modal .common-modal-content').html(response);
           $('#follower-modal').addClass('fade-in').show();
         }
       });

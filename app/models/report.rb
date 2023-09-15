@@ -3,6 +3,11 @@ class Report < ApplicationRecord
   belongs_to :reported, class_name: "User", foreign_key: "reported_id"
   belongs_to :content, polymorphic: true
   
+  # reporter_idがuser_idである通報の件数を返すクラスメソッド
+  def self.reported_count(user_id)
+    where(reported_id: user_id).count
+  end
+  
   enum reason: {
     malicious_expression: 0,
     inappropriate_content: 1,

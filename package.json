@@ -12,6 +12,7 @@
     "bootstrap": "4.6.2",
     "bootstrap-tagsinput": "^0.7.1",
     "jquery": "^3.7.0",
+    "jscroll": "^2.4.1",
     "popper.js": "^1.16.1",
     "trix": "^2.0.5",
     "turbolinks": "^5.2.0",
