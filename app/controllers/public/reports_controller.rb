@@ -1,18 +1,17 @@
 class Public::ReportsController < ApplicationController
   before_action :authenticate_user!
-  before_action :hide_header, only: [:new]
-  
+
   def new
     @report = Report.new
     render :layout => false
   end
 
   def create
-    if current_user.guest_user?
-      respond_to do |format|
-        format.js { render "create_failure" } # ゲストユーザーの場合は通報失敗時のレスポンスファイルを指定
-     end
-    else
+    # if current_user.guest_user?
+    #   respond_to do |format|
+    #     format.js { render "create_failure" } # ゲストユーザーの場合は通報失敗時のレスポンスファイルを指定
+    # end
+    # else
       content_type = params[:report][:content_type]
       content_id = params[:report][:content_id]
       @content = content_type.constantize.find(content_id)
@@ -33,14 +32,10 @@ class Public::ReportsController < ApplicationController
       else
         respond_to :js
       end
-    end
+    # end
   end
 
   private
-
-  def hide_header
-    @show_header = false
-  end
 
   def find_content(content_type, content_id)
     content_class = content_type.classify.constantize

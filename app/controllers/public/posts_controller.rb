@@ -1,54 +1,33 @@
 class Public::PostsController < ApplicationController
   before_action :hide_header, only: [:new, :edit]
-  before_action :authenticate_user!, except: [:index, :trending, :weekly_ranking, :drafts, :search_by_tag]
+  before_action :hide_footer, only: [:new, :edit]
+  before_action :authenticate_user!, except: [:index, :trending, :weekly_ranking, :show, :search_by_tag]
 
   def index
     if params[:sort] == 'favorites'
-      @posts = Post.includes(:post_favorites).sort_by { |post| -post.post_favorites.count }
+      @posts = Post.sort_by_favorites
     else
-      @posts = Post.where(status: 'published').order(created_at: :desc)
+      @posts = Post.published_posts
     end
 
     @posts.each do |post|
       impressionist(post, nil, unique: [:session_hash, :user_id])
     end
   end
-  
+
   def trending
-    start_date = 3.days.ago.to_date
-    end_date = Date.today
-    posts = Post.published
-                .where('created_at >= ? AND created_at <= ?', start_date, end_date)
-                .sort_by { |post| post.daily_likes_count(start_date, end_date) }
-                .reverse
-    @trending_posts = posts.take(27)
+    @trending_posts = Post.daily_popular_posts(27)
   end
 
   def weekly_ranking
-    today = Date.today
-    start_of_week = today.beginning_of_week(:sunday) # 週の開始日
-    end_of_week = today.end_of_week(:sunday) # 週の終了日
-
-    # 視聴回数順の投稿を取得
-    @weekly_ranking_posts = Post.published.order(impressions_count: :desc)
-                            .joins(:impressions)
-                            .where(impressions: { created_at: start_of_week..end_of_week })
-                            .group('posts.id')
-                            .order('COUNT(impressions.id) DESC')
-                            .limit(12)
-                            .page(params[:page]) 
-                            .per(6) 
-    respond_to do |format|
-      format.html
-    format.js
-    end
+    @weekly_ranking_posts = Post.weekly_most_viewed_posts(12)
   end
 
   def dashboard
     @user = current_user
-    @published_posts = current_user.posts.published.page(params[:published_page]).per(20)
-    @draft_posts = current_user.posts.draft.page(params[:draft_page]).per(20)
-    @unpublished_posts = current_user.posts.unpublished.page(params[:unpublished_page]).per(20)
+    @published_posts = @user.posts.published.order(created_at: :desc).page(params[:published_page]).per(20)
+    @draft_posts = @user.posts.draft.order(created_at: :desc).page(params[:draft_page]).per(20)
+    @unpublished_posts = @user.posts.unpublished.order(created_at: :desc).page(params[:unpublished_page]).per(20)
   end
 
   def new
@@ -60,15 +39,13 @@ class Public::PostsController < ApplicationController
     @post = Post.new(post_params)
     @post.user_id = @user.id
 
-    if current_user.guest_user?
-    # ゲストユーザーの場合は保存せずにリダイレクト
-      if params[:draft].present?
-        redirect_to dashboard_posts_path, notice: 'ゲストユーザーは下書き保存できません。'
-      else
-        redirect_to dashboard_posts_path, notice: 'ゲストユーザーは公開できません。'
-      end
-    else
-    # 通常のユーザーの場合の保存処理
+    # if current_user.guest_user?
+    #   if params[:draft].present?
+    #     redirect_to dashboard_posts_path, notice: 'ゲストユーザーは下書き保存できません。'
+    #   else
+    #     redirect_to dashboard_posts_path, notice: 'ゲストユーザーは公開できません。'
+    #   end
+    # else
       if params[:draft].present?
         @post.status = :draft
       else
@@ -84,13 +61,7 @@ class Public::PostsController < ApplicationController
       else
         render :new
       end
-    end
-  end
-
-  def drafts
-    @user = current_user
-    @published_posts = Post.where(user_id: current_user.id, is_draft: false).order(created_at: :desc)
-    @draft_posts = Post.where(user_id: current_user.id, is_draft: true).order(created_at: :desc).page(params[:page]).per(8)
+    # end
   end
 
   def show
@@ -98,7 +69,7 @@ class Public::PostsController < ApplicationController
     impressionist(@post, nil, unique: [:session_hash]) # 同セッションでの重複閲覧をカウントしない
     @comment = Comment.new
     @comments = Comment.where(post_id: params[:id]).order(created_at: :desc)
-    @tags = @post.tag_counts_on(:tags) # 投稿に紐付くタグの表示
+    @tags = @post.tag_counts_on(:tags)
     @report = Report.new
     @user = @post.user
     @latest_posts = @user.posts.order(created_at: :desc).limit(4)
@@ -106,7 +77,6 @@ class Public::PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
-    # @isdraft = is_draft?
     @user = current_user
 
     if user_signed_in? && @post.user != @user
@@ -152,20 +122,20 @@ class Public::PostsController < ApplicationController
   def preview
     @preview_post = Post.new(post_params)
     @preview_post.user = current_user
-    @preview_tags = @preview_post.tag_list.clone 
-    @preview_post.tag_list = [] 
+    @preview_tags = @preview_post.tag_list.clone
+    @preview_post.tag_list = []
     render partial: 'preview', locals: { post: @preview_post, preview_tags: @preview_tags }
   end
-  
+
   def analytics
     @user = current_user
     @posts = @user.posts
     # 過去1ヶ月分のデイリーごとの総視聴回数データを取得
     @daily_impressions_data = calculate_daily_impressions
-    
+
     respond_to do |format|
-      format.html # アクションに対応するビューを使用
-      format.json { render json: @daily_impressions_data } # データをJSONで返す場合
+      format.html
+      format.json { render json: @daily_impressions_data }
     end
   end
 
@@ -217,6 +187,11 @@ class Public::PostsController < ApplicationController
   def hide_header
     @show_header = false
   end
+  
+  def hide_footer
+    @show_footer = false
+  end
+
 
   def post_params
     params.require(:post).permit(:title, :body, :link, :tag_list, :status)

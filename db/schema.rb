@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_07_160728) do
+ActiveRecord::Schema.define(version: 2023_08_19_165140) do
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -60,21 +60,6 @@ ActiveRecord::Schema.define(version: 2023_09_07_160728) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
-  end
-
-  create_table "channels", force: :cascade do |t|
-    t.string "channel_id", null: false
-    t.string "channel_name"
-    t.string "channel_icon_url"
-    t.string "thumbnail_url"
-    t.string "video_title"
-    t.integer "view_count"
-    t.date "upload_date"
-    t.string "banner_image_url"
-    t.integer "user_id"
-    t.integer "post_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "comment_favorites", force: :cascade do |t|

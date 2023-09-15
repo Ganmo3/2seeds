@@ -1,32 +1,18 @@
 <% notifications = unchecked_notifications.where.not(visitor_id: current_user.id) %>
 <!--未確認通知を表示-->
 
-<div class="jscroll">
 <% if @unchecked_notifications.any? %>
   <%= render "notification", notifications: @unchecked_notifications %>
 <% end %>
-
 
  <!--確認済み通知を表示-->
   <% if @checked_notifications.any? %>
     <%= render "notification", notifications: @checked_notifications %>
   <% end %>
-  <div class="pagination">
-     <%= link_to_next_page @checked_notifications, 'Next Page', remote: true, param_name: 'page' %>
-  </div>
-</div>
 
  <!--通知が一つもない場合の表示-->
 <% if @unchecked_notifications.empty? && @checked_notifications.empty? %>
   <p>通知はありません</p>
 <% end %>
 
-<script>
-  $(document).on('turbolinks:load', function() {
-    $('.jscroll').jscroll({
-      contentSelector: '.jscroll',
-      nextSelector: '.pagination .next_page',
-      loadingHtml: '読み込み中'
-    });
-  });
-</script>
+

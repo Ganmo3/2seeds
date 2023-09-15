@@ -151,6 +151,9 @@ GEM
     http-cookie (1.0.5)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
+    httparty (0.21.0)
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
     httpclient (2.8.3)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
@@ -200,6 +203,7 @@ GEM
     minitest (5.19.0)
     msgpack (1.7.2)
     multi_json (1.15.0)
+    multi_xml (0.6.0)
     multipart-post (2.3.0)
     mysql2 (0.5.5)
     naught (1.1.0)
@@ -372,6 +376,7 @@ DEPENDENCIES
   dotenv-rails
   enum_help
   google-api-client (~> 0.48)
+  httparty
   image_processing (~> 1.2)
   impressionist
   jbuilder (~> 2.7)

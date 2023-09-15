@@ -1,7 +1,6 @@
 class Public::UsersController < ApplicationController
   #before_action :sign_out_user, only: :show
   before_action :set_user, except: [:edit, :update, :withdraw_input, :withdraw_process]
-  before_action :hide_header, only: [:follower_list, :following_list]
   before_action :authenticate_user!, except: [:show]
 
   def show
@@ -63,10 +62,6 @@ class Public::UsersController < ApplicationController
   end
 
   private
-
-  def hide_header
-    @show_header = false
-  end
 
   def set_user
     account_str = params[:account]

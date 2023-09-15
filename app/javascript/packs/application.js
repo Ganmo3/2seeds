@@ -16,7 +16,7 @@ import "script.js";
 import "relative_time.js";
 //import "modal.js";
 import 'bootstrap-tagsinput';
-
+// import 'jscroll';
 
 Rails.start()
 Turbolinks.start()

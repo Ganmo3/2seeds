@@ -58,11 +58,28 @@
             </div>
           </div>
         <% end %>
+       
       </div>
-      <div class="load-more-button text-center">
-         <%= link_to_next_page @weekly_ranking_posts, 'Next', remote: true, class: 'btn btn-primary next' %>
-      </div>
+     
+      <!--<div class="row mb-5">-->
+      <!--  <div class="mx-auto mb-5">-->
+      <!--   <%#= paginate @weekly_ranking_posts, theme: "bootstrap-5" %>-->
+      <!--  </div>-->
+
     </div>
   </div>
 </div>
 
+ <script>
+//   $(document).on('turbolinks:load', function() {
+//     // 初回のページ読み込み時に無限スクロールを設定
+//     $('.weekly-ranking-container').jscroll({
+//       contentSelector: '.weekly-ranking-container', // 新しいコンテンツのセレクタ
+//       nextSelector: '.pagination .next a', // 次のページへのリンクセレクタ
+//       loadingHtml: '<div class="text-center"><i class="fa fa-spinner fa-spin"></i> 読み込み中...</div>',
+//       callback: function() {
+//         $('.post-item').animate({ opacity: 1 }, 500);
+//       }
+//     });
+//   });
+ </script>

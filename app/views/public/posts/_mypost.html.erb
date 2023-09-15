@@ -3,7 +3,6 @@
   <div class="status-button published">
     <div class="d-flex justify-content-between">
       <div class="d-flex">
-        <!-- アイコンとタイトルを横並びに配置 -->
         <div class="mr-2">
           <%= link_to post_path(post) do %>
             <i class="fas fa-play-circle"></i>
@@ -12,7 +11,6 @@
         <h6 class="dashboard-title"><%= link_to post.title, post_path(post) %></h6>
       </div>
 
-      <!-- 編集と削除アイコンを右寄せ -->
       <div class="d-flex align-items-center">
         <%= link_to edit_post_path(post), data: { turbolinks: false } do %>
           <i class="fas fa-edit mr-2"></i>
@@ -23,7 +21,6 @@
       </div>
     </div>
 
-    <!-- 他の要素の表示と作成日または更新日の表示 -->
     <div class="d-flex">
       <button class="status-label published">公開中</button>
       <p class="mx-3"><i class="fas fa-eye"></i> <%= post.impressions_count %></p>
@@ -33,18 +30,17 @@
       <% if post.comments.any? %>
         <p class="mr-3"><i class="fas fa-comment"></i> <%= post.comments.count %></p>
       <% end %>
-      <!-- 作成日または更新日の表示 -->
         <p data-updated-at="<%= post.updated_at %>" data-created-at="<%= post.created_at %>" class="ml-auto"></p>
     </div>
   </div>
   
 <% elsif post.status == "draft" %>
-  <!-- 下書きまたは非公開の場合の表示 -->
+  <!-- 下書きの表示 -->
   <div class="status-button draft">
     <div class="d-flex justify-content-between align-items-center">
       <div class="d-flex align-items-center">
         <div class="mr-2">
-        <%= link_to edit_post_path(post) do %>
+        <%= link_to edit_post_path(post), data: { "turbolinks" => false } do %>
           <i class="fas fa-edit"></i>
         <% end %>
       </div>
@@ -57,9 +53,7 @@
       </div>
     </div>
 
-    <!-- 他の要素の表示と作成日または更新日の表示 -->
     <div class="d-flex justify-content-between align-items-center">
-      <!-- 他の要素の表示 -->
       <% if post.status == 'draft' %>
         <button class="status-label draft">下書き</button>
       <% else %>
@@ -72,7 +66,6 @@
         <% end %>
       <% end %>
 
-      <!-- 作成日または更新日の表示 -->
       <p data-updated-at="<%= post.updated_at %>" data-created-at="<%= post.created_at %>" class="ml-auto"></p>
     </div>
   </div>
@@ -82,7 +75,6 @@
   <div class="status-button unpublished">
     <div class="d-flex justify-content-between align-items-center">
       <div class="d-flex align-items-center">
-        <!-- アイコンとタイトルを横並びに配置 -->
         <div class="mr-2">
           <%= link_to post_path(post) do %>
             <i class="fas fa-play-circle"></i>
@@ -91,7 +83,6 @@
         <h6 class="dashboard-title"><%= link_to post.title, post_path(post) %></h6>
       </div>
 
-      <!-- 編集と削除アイコンを右寄せ -->
       <div class="d-flex align-items-center">
         <%= link_to edit_post_path(post), data: { turbolinks: false } do %>
           <i class="fas fa-edit mr-2"></i>
@@ -102,9 +93,7 @@
       </div>
     </div>
 
-    <!-- 他の要素の表示と作成日または更新日の表示 -->
     <div class="d-flex justify-content-between align-items-center">
-      <!-- 他の要素の表示 -->
       <button class="status-label unpublished">非公開</button>
       <p class="mx-3"><i class="fas fa-eye"></i> <%= post.impressions_count %></p>
       <% if post.post_favorites.any? %>
@@ -114,7 +103,6 @@
         <p class="mr-3"><i class="fas fa-comment"></i> <%= post.comments.count %></p>
       <% end %>
 
-      <!-- 作成日または更新日の表示 -->
         <p data-updated-at="<%= post.updated_at %>" data-created-at="<%= post.created_at %>" class="ml-auto"></p>
 
     </div>

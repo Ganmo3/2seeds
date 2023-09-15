@@ -1,3 +1,132 @@
 // Place all the styles related to the chatbots controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+.chatbot-btn {
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  appearance: none;
+  position: fixed;
+  left: 2%;
+  bottom: 5%;
+  z-index: 100;
+  border-radius: 50%;
+  background-color: #BDDF38;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  transition: all 400ms ease-in-out;
+  transform: scale(1);
+
+  svg {
+    color: #ffffff;
+    font-size: 1.2rem;
+  }
+
+  &:hover {
+    background-color: #9ECA2D;
+    transform: scale(1.1);
+  　transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  }
+}
+
+.chat {
+  &__body {
+    padding: 32px;
+    box-sizing: border-box;
+  }
+
+
+  &__form {
+    display: flex;
+  }
+
+  &__input {
+    height: 42px;
+    margin-right: 16px;
+  }
+
+  &__submit {
+    width: 58px;
+    height: 42px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    background-color: #BDDF38;
+    color: #ffffff;
+    padding: 8px 16px;
+    box-sizing: border-box;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    font-size: 12px;
+    box-shadow: 0 4px 0#92AA1C;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; 
+  }
+
+  &__submit:hover {
+    transform: translateY(4px);
+    box-shadow: none
+  }
+
+  &__messages {
+    display: flex;
+    flex-direction: column-reverse;
+    margin: 16px 0;
+    height: 200px;
+    max-height: 400px;
+    overflow-y: scroll;
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
+    &::-webkit-scrollbar {
+      display: none; /* Safari and Chrome */
+    }
+  }
+
+  &__message {
+    display: flex;
+    max-width: 80%;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-bottom: 16px;
+
+    &--user {
+      justify-content: flex-end;
+      align-self: flex-end;
+    }
+
+    &--bot {
+      justify-content: flex-start;
+      align-self: flex-start;
+      color: #444444;
+    }
+
+    // text
+    > p {
+      margin: 0;
+    }
+  }
+
+  &__bot-icon {
+    font-size: 1.2rem;
+    margin-right: 12px;
+  }
+}
+
+.modal-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #BDDF38;
+  text-align: center; 
+  text-transform: uppercase; 
+  letter-spacing: 4px; 
+  margin-bottom: 20px; 
+  text-decoration: underline; 
+  text-decoration-color: #BDDF38; 
+  text-underline-offset: 3px; 
+}
+

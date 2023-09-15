@@ -5,9 +5,9 @@ class Public::CommentsController < ApplicationController
   def create
     @post = Post.find(params[:post_id])
     
-    if current_user.guest_user?
-      flash[:alert] = "ゲストユーザーはコメントできません。"
-    else
+    # if current_user.guest_user?
+    #   flash[:alert] = "ゲストユーザーはコメントできません。"
+    # else
       @comment = current_user.comments.new(comment_params)
       @comment.post_id = params[:post_id]
       @comment.save
@@ -16,8 +16,7 @@ class Public::CommentsController < ApplicationController
       @post.create_notification_comment!(current_user, @comment.id)
       
       @comments = Comment.where(post_id: params[:post_id]).order(created_at: :desc)
-      #redirect_to post_path(@post)
-    end
+    # end
   end
 
   def destroy

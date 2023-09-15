@@ -20,7 +20,7 @@ document.addEventListener("turbolinks:load", function() {
     data: {
       labels: labels,
       datasets: [{
-        label: '総視聴回数',
+        label: 'ブログ総閲覧数/day',
         data: data,
         borderColor: 'blue',
         backgroundColor: 'rgba(0, 0, 255, 0.1)',
@@ -28,7 +28,7 @@ document.addEventListener("turbolinks:load", function() {
       }]
     },
     options: {
-      responsive: true,
+      responsive: false,
       maintainAspectRatio: false
     }
   });

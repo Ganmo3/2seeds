@@ -271,14 +271,14 @@
 
 .thumbnail-container {
   display: flex;
-  justify-content: center; /* 水平方向に中央寄せ */
-  align-items: center; /* 垂直方向に中央寄せ */
+  justify-content: center; 
+  align-items: center; 
 }
 
 .view-count {
   position: absolute;
-  bottom: 0px; /* 下部からの位置を調整 */
-  right: 13px; /* 右側からの位置を調整 */
+  bottom: 0px; 
+  right: 13px; 
   background-color: white;
   color: black;
   width: 60px;
@@ -287,11 +287,11 @@
 }
 
 .number {
-  margin-right: 3px; /* 数字と "Views" の間隔を調整 */
+  margin-right: 3px; 
 }
 
 .post-item:hover {
-  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15); /* ホバー時の影を強化 */
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15); 
   background-color: #BDDF38;
 }
 
@@ -339,22 +339,22 @@
 
 .ranking-number {
   position: absolute;
-  top: 0px; /* サムネイルの上からの位置 */
-  left: 0px; /* サムネイルの左からの位置 */
+  top: 0px; 
+  left: 0px; 
   background-color: black;
   color: white;
   padding: 5px 10px;
   font-weight: bold;
-  z-index: 2; /* サムネイルの上に表示 */
+  z-index: 2; 
 }
 
 .weekly-view-count {
   position: absolute;
-  bottom: 0px; /* 下部からの位置を調整 */
-  right: 0px; /* 右側からの位置を調整 */
+  bottom: 0px; 
+  right: 0px; 
   background-color: white;
   color: black;
-  width: 60px; /* 枠の幅を固定 */
+  width: 60px; 
   font-weight: bold;
   text-align: center;
 }
@@ -387,21 +387,21 @@
 }
 
 .post-meta {
-  align-items: center; /* 上下中央寄せ */
+  align-items: center; 
 }
 
 .user-info {
-  display: flex; /* 要素を横並びに配置 */
-  align-items: center; /* 上下中央寄せ */
+  display: flex;
+  align-items: center; 
 }
 
 .user-info p {
-  margin: 0; /* デフォルトのマージンをリセット */
+  margin: 0; 
 }
 
 .count-style {
   color: grey;
-  font-size: 0.8rem; /* お好みのフォントサイズを指定 */
+  font-size: 0.8rem; 
 }
 
 /* Daily Best */
@@ -414,17 +414,17 @@
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px); /* 上方向に20px移動 */
+    transform: translateY(20px); 
   }
   to {
     opacity: 1;
-    transform: translateY(0); /* 移動なし */
+    transform: translateY(0); 
   }
 }
 
 /* クラスにアニメーションを適用 */
 .fadeInUp {
-  animation: fadeInUp 0.5s ease-in-out; /* アニメーションのプロパティを指定 */
+  animation: fadeInUp 0.5s ease-in-out; 
 }
 
 /* サムネイルコンテナ */
@@ -448,13 +448,13 @@
 
 /* サムネイルホバー時のエフェクト */
 .thumbnail-container:hover img {
-  transform: scale(1.05); /* 拡大表示 */
-  filter: brightness(0.8); /* 明るさを調整してホバーエフェクトをかける */
+  transform: scale(1.05); 
+  filter: brightness(0.8); 
 }
 
 .read-more-link {
-  text-align: center; /* リンクを中央寄せにする */
-  margin-top: 10px; /* 上部の余白を追加 */
+  text-align: center; 
+  margin-top: 10px;
 }
 
 
@@ -469,15 +469,15 @@
   text-align: center;
   display: inline-block;
   text-decoration: none;
-  background-color: #BDDF38; /* ボタンの背景色を変更 */
+  background-color: #BDDF38; 
   outline: none;
   transition: all .2s;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 影を追加 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
 }
 
 .btntextchange:hover {
-  background: #fff; /* ホバー時の背景色を変更 */
-  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2); /* ホバー時の影を強化 */
+  background: #fff; 
+  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2); 
 }
 
 .btntextchange span {
@@ -521,23 +521,23 @@
   display: inline-block;
   padding: 6px 12px;
   font-size: 14px;
-  background-color: #BDDF38; /* 背景色を透���������に設定 */
-  color: #fff; /* テキストの色を調整 */
-  border: 2px solid #9ECA2D; /* ボーダーを追加 */
+  background-color: #BDDF38; 
+  color: #fff; 
+  border: 2px solid #9ECA2D; 
   border-radius: 3px;
   text-decoration: none;
-  transition: background-color 0.3s, color 0.3s; /* 色の変化にトランジションを追加 */
-  position: relative; /* ボタンの位置を指定 */
-  top: 0; /* 初期位置 */
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3); /* 影の追加 */
+  transition: background-color 0.3s, color 0.3s; 
+  position: relative; 
+  top: 0; 
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3); 
 }
 
 .read-more-btn:hover {
-  background-color: #BDDF38; /* ホバー時の背景色を調整 */
-  color: #fff; /* ホバー時のテキストの色を調整 */
-  border-color: #9ECA2D; /* ホバー時のボーダーの色を調整 */
-  top: -3px; /* ホバー時の上に移動 */
-  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.4); /* ホバー時の影の追加 */
+  background-color: #BDDF38; 
+  color: #fff; 
+  border-color: #9ECA2D; 
+  top: -3px; 
+  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.4); 
 }
 
 
@@ -607,14 +607,14 @@
 .fluid {
   width: 40vh;
   height: 40vh;
-  background: #BDDF38; /* 指定されたベースカラー */
+  background: #BDDF38; 
   border-radius: 50%;
   animation: fluidrotate 30s ease 0s infinite;
-  transition: all 0.3s ease; /* トランジションを追加 */
+  transition: all 0.3s ease; 
   position: absolute;
-  top: 30%; /* 親要素の中央に対する位置 */
-  left: calc(35% - 15vh); /* 親要素の右端から -20vh だけ左にずらす */
-  transform: translate(-50%, -50%); /* 要素自体を中央に調整 */
+  top: 30%; 
+  left: calc(35% - 15vh); 
+  transform: translate(-50%, -50%); 
 
 }
 
@@ -664,28 +664,28 @@
 }
 
 .fluid:hover {
-  border-radius: 0; /* ホバー時に四角に変化 */
-  background: linear-gradient(45deg, #BDDF38, #F4D03F); /* ホバー時のグラデーション */
+  border-radius: 0; 
+  background: linear-gradient(45deg, #BDDF38, #F4D03F); 
 }
 
 .fluid:hover::before {
-  content: "About US"; /* ホバー時に表示するテキストを指定 */
-  color: #fff; /* テキストの色 */
+  content: "About US"; 
+  color: #fff; 
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1; /* テキストを要素の上に表示 */
-  font-family: "Helvetica Neue", sans-serif; /* フォントファミリーを指定 */
-  font-size: 1.5em; /* フォントサイズを指定 */
-  font-weight: bold; /* フォントの太さを指定 */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* テキストの影を追加 */
+  z-index: 1; 
+  font-family: "Helvetica Neue", sans-serif; 
+  font-size: 1.5em; 
+  font-weight: bold; 
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
 }
 
 /* about-titleのスタイル */
 .about-title {
   font-size: 36px;
-  font-family: 'Poppins', sans-serif; /* 追加したフォントを適用 */
+  font-family: 'Poppins', sans-serif; 
   color: #333;
   margin-bottom: 20px;
 }
@@ -693,7 +693,7 @@
 /* site-titleのスタイル */
 .site-title {
   font-size: 48px;
-  font-family: 'Poppins', sans-serif; /* 追加したフォントを適用 */
+  font-family: 'Poppins', sans-serif; 
   color: #333;
   padding: 10px 20px;
   border-radius: 5px;

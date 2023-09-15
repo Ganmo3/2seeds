@@ -34,7 +34,7 @@
           <% if @post.user_id == current_user.id %>
             <div class="post-edit-container">
               <div class="post-edit-icon mt-4">
-                <%= link_to edit_post_path(@post) do %>
+                <%= link_to edit_post_path(@post), data: { turbolinks: false } do %>
                   <i class="far fa-edit fa-lg" data-toggle=tooltip data-placement="bottom" title="Edit"></i>
                 <% end %>
               </div>

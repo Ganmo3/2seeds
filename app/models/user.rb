@@ -3,9 +3,6 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-         
-  # email or accountでのログイン設定
-  # attr_accessor :login
 
   # 投稿、いいね、コメントとのアソシエーション
   has_many :posts, dependent: :destroy
@@ -27,12 +24,22 @@ class User < ApplicationRecord
 
   has_many :followings, through: :active_relationships, source: :followed # フォローしているユーザーを取得
   has_many :followers, through: :passive_relationships, source: :follower # フォロワーを取得
-  
-  validates :account, presence: true, length: { minimum: 2 }
+
+  # バリデーションの設定
+  # 英数字（小文字）と"-" "_"のみ許可
+  validates :account, presence: true, format: { with: /\A[a-z0-9_-]+\z/ }, length: { minimum: 3, maximum: 20 }
+  validates :nickname, presence: true, length: {minimum: 2, maximum: 20 }
+  validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i, message: "は有効なメールアドレスの形式である必要があります" }
+  validates :channel, format: { with: /\A\z|https?:\/\/(?:www\.)?youtube\.com\/channel\/[\w-]+\z/, message: "は正しいYouTubeチャンネルのURL形式ではありません" }
+
+  # idの代わりにアカウントを使用
+  def to_param
+    account
+  end
 
   # 会員が無効になったときのコールバック
   before_update :delete_related_data, if: :status_changed?
-  
+
   # ゲストログイン機能
   GUEST_USER_EMAIL = "guest@2seeds.com"
   def self.guest
@@ -46,8 +53,27 @@ class User < ApplicationRecord
   def guest_user?
     email == GUEST_USER_EMAIL
   end
-  
-  
+
+  # 人気クリエイターの計算メソッド
+  def self.calculate_ranking(limit)
+    where(status: 0).where.not(account: "guest").sort_by { |user| user.calculate_score }.reverse.take(limit)
+  end
+
+  def calculate_score
+    # 評価スコアを計算するロジック
+    views_score = weekly_views_count * 0.5
+    likes_score = weekly_likes_count * 0.3
+    comments_score = weekly_comments_count * 0.2
+    total_score = views_score + likes_score + comments_score
+
+    # 新規ユーザーへのボーナスを付与（登録から1週間以内）
+    if created_at >= 1.week.ago
+      total_score += 100
+    end
+
+    total_score
+  end
+
   # 指定したユーザーをフォローする
   def follow(user)
     active_relationships.create(followed_id: user.id)
@@ -66,18 +92,18 @@ class User < ApplicationRecord
   # フォロー通知を作成するメソッド
   def create_notification_follow!(current_user)
     # すでにフォロー通知が存在するか検索
-    existing_notification = Notification.find_by(visitor_id: current_user.id, visited_id: id, action: 'follow')
-  
+
+    existing_notification = Notification.find_by(visitor_id: current_user.id, visited_id: self.id, action: 'follow')
+
     # フォロー通知が存在しない場合のみ、通知レコードを作成
     if existing_notification.blank?
       notification = current_user.active_notifications.build(
-        visited_id: id,
+        visited_id: self.id,
         action: 'follow'
       )
       notification.save if notification.valid?
     end
   end
-
 
   # ActiveStorage
   has_one_attached :icon
@@ -90,23 +116,14 @@ class User < ApplicationRecord
     icon.variant(resize_to_limit: [100, 100]).processed
   end
 
-  # idの代わりにアカウントを使用
-  def to_param
-    account
-  end
-  
-  # 英数字（小文字）と"-" "_"のみ許可
-  validates :account,
-    format: { with: /\A[a-z0-9_-]+\z/ },
-    length: { minimum: 3, maximum: 25 }
-  
   # 会員ステータス
   enum status: { active: 0, banned: 1, inactive: 2 }
 
+  # active会員のみログインできる
   def active_for_authentication?
     super && (status == 'active')
   end
-  
+
   # ランキングのためのカウント
   def weekly_views_count
     Rails.cache.fetch("user_#{id}_weekly_views_count") do
@@ -126,7 +143,7 @@ class User < ApplicationRecord
       comments.where(created_at: 1.week.ago..Time.current).count
     end
   end
-  
+
   # 検索用
   def self.search_content(content, method)
     if method == "perfect"
@@ -137,14 +154,22 @@ class User < ApplicationRecord
       all
     end
   end
-  
+
+  # 削除メソッド
+  after_update :delete_related_data, if: :will_save_change_to_status?
+
   private
-    
+
+  # ステータスが退会になったときに対象のレコードを削除
   def delete_related_data
     if inactive?
       posts.destroy_all
       comments.destroy_all
+      active_notifications.destroy_all
+      passive_notifications.destroy_all
+      active_relationships.destroy_all
+      passive_relationships.destroy_all
     end
   end
-    
+
 end

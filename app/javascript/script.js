@@ -128,5 +128,21 @@ $(document).on("turbolinks:load", () => {
   });
 })
 
+$(document).ready(function() {
+  // スクロールトップボタンをクリックしたときの処理
+  $('.scroll-top-btn').click(function(e) {
+    e.preventDefault(); // リンクのデフォルトの動作を無効化
+    $('html, body').animate({ scrollTop: 0 }, 'slow'); // ページトップへスクロール
+  });
+
+  // ページが一定のスクロール量までスクロールされたらボタンを表示
+  $(window).scroll(function() {
+    if ($(this).scrollTop() > 100) {
+      $('.scroll-top-btn').fadeIn();
+    } else {
+      $('.scroll-top-btn').fadeOut();
+    }
+  });
+});
 
 

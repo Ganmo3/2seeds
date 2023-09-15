@@ -24,3 +24,19 @@ module ChannelNameHelper
     channel_name
   end
 end
+
+
+
+# module ChannelNameHelper
+#   include YoutubeHelper
+
+#   def youtube_channel_name(channel_id)
+#     channel_name = fetch_youtube_data(channel_id) do |service|
+#       channel_response = service.list_channels('snippet', id: channel_id)
+#       channel_item = channel_response.items.first
+#       channel_item.snippet.title if channel_item
+#     end
+
+#     channel_name || 'N/A'
+#   end
+# end

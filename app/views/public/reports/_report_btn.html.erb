@@ -2,7 +2,7 @@
 <i class="fas fa-ellipsis-v open-report-modal-button" data-comment-id="<%= comment.id %>" data-content-id="<%= comment.id %>" data-content-type="Comment" data-report-success="true"  style="cursor: pointer;"></i>
 
 <div id="report-modal" class="modal">
-  <div class="modal-content"></div>
+  <div class="common-modal-content"></div>
   <button id="close-modal" class="close-button">×</button>
 </div>
 
@@ -16,7 +16,7 @@ $(document).ready(function() {
       type: 'GET',
       data: { content_id: commentId, content_type: "Comment" },
       success: function(response) {
-        $('#report-modal .modal-content').html(response);
+        $('#report-modal .common-modal-content').html(response);
         $('#report-modal').addClass('fade-in').show();
       }
     });

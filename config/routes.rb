@@ -66,7 +66,8 @@ Rails.application.routes.draw do
     
   end
 
-  get "/search", to: "searches#search"
+  get "/search", to: "searches#search", as: :search
+  get "/search/results", to: "searches#results", as: :search_results
   post "/chatbots", to: "chatbots#create"
 
 
@@ -82,7 +83,7 @@ Rails.application.routes.draw do
     resources :posts do
       resources :comments, only: [:destroy]
     end
-    resources :users, only: [:index, :show, :edit, :update]
+    resources :users, only: [:index, :show, :update]
     resources :reports, only: [:show, :update]
   end
   
