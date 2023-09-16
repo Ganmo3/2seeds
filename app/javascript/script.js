@@ -103,7 +103,7 @@ document.addEventListener('turbolinks:load', function() {
 
 // コメント編集発火 //
 $(document).on("turbolinks:load", () => {
-  $(".js-edit-comment-button").on("click", (e) => {
+  $("body").on("click", ".js-edit-comment-button",(e) => {
     const commentId = $(e.target).parent().data('commentId');                   
     const commentLabelArea = $('#js-comment-label-' + commentId);  
     const commentTextArea = $('#js-textarea-comment-' + commentId); 
@@ -114,7 +114,7 @@ $(document).on("turbolinks:load", () => {
     commentButton.show(); 
   });
 
-  $(".comment-cancel-button").on("click", (e) => {
+  $("body").on("click", ".comment-cancel-button", (e) => {
     const commentId = $(e.target).data('cancel-id');
     const commentLabelArea = $('#js-comment-label-' + commentId);
     const commentTextArea = $('#js-textarea-comment-' + commentId);
