@@ -5,10 +5,11 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Admin.create(
-  email: ENV['ADMIN_EMAIL'],
-  password: ENV['ADMIN_PASSWORD']
-)
+
+# Adminのシードデータ
+Admin.find_or_create_by!(email: ENV['ADMIN_EMAIL']) do |admin|
+  admin.password = ENV['ADMIN_PASSWORD']
+end
 
 # タグの作成
 tags = %w(旅行 料理 音楽 スポーツ アート)
@@ -17,8 +18,8 @@ tags.each { |tag_name| ActsAsTaggableOn::Tag.find_or_create_by(name: tag_name) }
 # ユーザーアカウントとニックネームの配列
 nicknames = ['がんも', 'だいこん', 'たまご', 'はんぺん', '牛すじ']
 
-# ユーザー作成メソッド
-def create_user(account, nickname, tags)
+# ユーザー作成
+def find_or_create_user(account, nickname, tags)
   introduction = "よろしくお願いします、#{nickname}です。YouTubeチャンネルを登録するとYouTubeのチャンネルアイコンに変わります。"
   email = "#{account}@2seeds.com"
   password = "123456"
@@ -31,19 +32,16 @@ def create_user(account, nickname, tags)
   random_days_ago = rand(min_days_ago..max_days_ago)
   random_date = Time.now - random_days_ago.days
 
-  user_params = {
-    account: account,
-    nickname: nickname,
-    email: email,
-    password: password,
-    introduction: introduction,
-    channel: channel,
-    status: status,
-    created_at: random_date,
-    updated_at: random_date
-  }
-
-  user = User.create(user_params)
+  user = User.find_or_create_by!(email: email) do |u|
+    u.account = account
+    u.nickname = nickname
+    u.password = password
+    u.introduction = introduction
+    u.channel = channel
+    u.status = status
+    u.created_at = random_date
+    u.updated_at = random_date
+  end
 
   if user.persisted?
     puts "User created successfully: #{user.account}"
@@ -56,7 +54,7 @@ end
 # ユーザー作成
 nicknames.each_with_index do |nickname, index|
   account = "oden#{index + 1}"
-  create_user(account, nickname, tags)
+  find_or_create_user(account, nickname, tags)
 end
 
 # 投稿の作成メソッド
@@ -77,29 +75,28 @@ def create_posts_for_user_with_ordered_dates(user, count, status_options, tags)
 
     post_params = {
       title: title,
-      body: body,
-      link: link,
-      status: status,
-      impressions_count: impressions_count,
-      created_at: post_date,
-      updated_at: post_date,
       user_id: user.id
     }
-    puts "Creating post with params: #{post_params.inspect}"  # デバッグログを追加
-    post = user.posts.create(post_params)
-    post.tag_list.add(tag_list)  # タグを追加する
-    post.save
+
+    # 投稿を作成または既存のものを検索
+    post = Post.find_or_create_by!(post_params) do |p|
+      p.body = body
+      p.link = link
+      p.status = status
+      p.impressions_count = impressions_count
+      p.created_at = post_date
+      p.updated_at = post_date
+      p.tag_list.add(tag_list)  # タグを追加する
+    end
     
     puts "Creating post with title: #{title}, user_account: #{user.account}, tag_list: #{tag_list}"
   end
 end
 
+
 # ユーザーごとに異なるステータス割り当て
 User.where.not(account: 'guest').each do |user|
-  # 既存の投稿を削除
-  user.posts.delete_all
-
-  # ランダムにステータスを選択
+  # 既存の投稿を削除せず、新しい投稿を作成
   statuses = [0] * 12 + [1] * 3 + [2] * 3
   create_posts_for_user_with_ordered_dates(user, 12, statuses, tags)  # 投稿を12個生成するように修正
 end
@@ -111,11 +108,9 @@ posts = Post.published  # ステータスが0（公開）の投稿のみ取得
 users.each do |user|
   favorite_posts = posts.sample(rand(1..3))
   favorite_posts.each do |post|
-    PostFavorite.create(
+    PostFavorite.find_or_create_by!(
       user_id: user.id,
-      post_id: post.id,
-      created_at: Time.now,
-      updated_at: Time.now
+      post_id: post.id
     )
   end
 end
@@ -139,20 +134,17 @@ users.each do |user|
     next if num_comments.zero?  # コメントを生成しない場合はスキップ
 
     comment_text = user_comments.sample
-    comment = Comment.create(
+    comment = Comment.find_or_create_by!(
       user_id: user.id,
-      post_id: post.id,
-      comment: comment_text,
-      created_at: Time.now,
-      updated_at: Time.now
-    )
+      post_id: post.id
+    ) do |c|
+      c.comment = comment_text
+    end
 
     if rand(0..1) == 1
-      CommentFavorite.create(
+      CommentFavorite.find_or_create_by!(
         user_id: user.id,
-        comment_id: comment.id,
-        created_at: Time.now,
-        updated_at: Time.now
+        comment_id: comment.id
       )
     end
   end
@@ -163,11 +155,9 @@ Relationship.delete_all
 users.each do |user|
   following_users = users - [user]  # 自分自身以外のユーザーから選ぶ
   following_users.shuffle.take(rand(1..4)).each do |following_user|
-    Relationship.create(
+    Relationship.find_or_create_by!(
       follower_id: user.id,
-      followed_id: following_user.id,
-      created_at: Time.now,
-      updated_at: Time.now
+      followed_id: following_user.id
     )
   end
 end
