@@ -1,1 +1,47 @@
-<%= render "searches/form" %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <%= form_with url: search_results_path, method: :get, local: true do |f| %>
+        <!-- modelのラジオボタン -->
+        <div class="mb-3">
+          <div class="form-check form-check-inline">
+            <%= f.radio_button :model, "user", class: "form-check-input", id: "user_model" %>
+            <%= f.label :model_user, "ユーザー", class: "form-check-label" %>
+          </div>
+          <div class="form-check form-check-inline">
+            <%= f.radio_button :model, "post", class: "form-check-input", id: "post_model" %>
+            <%= f.label :model_post, "投稿", class: "form-check-label" %>
+          </div>
+          <div class="form-check form-check-inline">
+            <%= f.radio_button :model, "tag", class: "form-check-input", id: "tag_model" %>
+            <%= f.label :model_tag, "タグ", class: "form-check-label" %>
+          </div>
+        </div>
+
+        <!-- methodのラジオボタン -->
+        <div class="mb-3">
+           <div class="form-check form-check-inline">
+          <input type="radio" name="method" value="partial" class="form-check-input" id="partial_method" checked="checked">
+<label for="partial_method" class="form-check-label">部分一致</label>
+          </div>
+          
+          <div class="form-check form-check-inline">
+<input type="radio" name="method" value="perfect" class="form-check-input" id="perfect_method">
+<label for="perfect_method" class="form-check-label">完全一致</label>
+          </div>
+ 
+        </div>
+
+        <!-- 検索キーワードと検索ボタン -->
+        <div class="input-group mb-3">
+          <%= f.text_field :content, class: "form-control", placeholder: "検索キーワード" %>
+          <div class="input-group-append">
+            <%= f.submit "検索", class: "btn btn-dark" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+

@@ -12,9 +12,9 @@
     <div class="catchphrase-container">
       <h1 class="slogan">Seeding Success, <br>Growing Influence</h1>
       <p class="catchphrase">YouTubeで始まる、ブログで続く</p>
-<%= link_to about_path, class: "round-button" do %>
-  <span class="arrow">↗</span>
-<% end %>
+      <%= link_to about_path, class: "round-button" do %>
+        <span class="arrow">↗</span>
+      <% end %>
 
     </div>
   </div>
@@ -258,10 +258,10 @@
           <% end %>
         </ul>
       <div class="trend-btn-container text-center mt-3">
-       <span class="btntextchange trend-btn">
+       <%= link_to rising_users_users_path, class: 'btntextchange trend-btn' do %>
         <span>急上昇クリエイター</span>
         <span>大注目!!!</span>
-      </span>
+       <% end %>
     　</div>
   　</div>
   </div>
