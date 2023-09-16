@@ -1,0 +1,10 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h4 class="headline my-3">急上昇クリエイター</h4>
+       <% @rising_users.each do |user| %>
+         <%= render partial: 'public/users/profile-card', locals: { user: user }  %>
+       <% end %>
+    </div>
+  </div>
+</div>
