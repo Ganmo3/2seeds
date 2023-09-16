@@ -1,9 +1,44 @@
-<%= form_with url: search_path, method: :get, local: true do |f| %>
+<%= form_with url: search_results_path, method: :get, local: true do |f| %>
   <div class="input-group mb-3">
     <%= f.text_field :content, class: "form-control", placeholder: "検索キーワード" %>
     <div class="input-group-append">
       <%= f.select :model, options_for_select({"User" => "user", "Post" => "post", "Tag" => "tag"}), class: "custom-select" %>
       <%= f.select :method, options_for_select({"完全一致" => "perfect", "前方一致" => "forward", "後方一致" => "backward", "部分一致" => "partial"}), class: "custom-select" %>
+      <%= f.submit "検索", class: "btn btn-outline-dark btn-sm" %>
+    </div>
+  </div>
+<% end %>
+
+
+
+<%= form_with url: search_path, method: :get, local: true do |f| %>
+  <div class="input-group mb-3">
+    <%= f.text_field :content, class: "form-control", placeholder: "検索キーワード" %>
+    <div class="input-group-append">
+      <!-- modelのラジオボタン -->
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :model, "user", class: "form-check-input", id: "user_model" %>
+        <%= f.label :model_user, "User", class: "form-check-label" %>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :model, "post", class: "form-check-input", id: "post_model" %>
+        <%= f.label :model_post, "Post", class: "form-check-label" %>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :model, "tag", class: "form-check-input", id: "tag_model" %>
+        <%= f.label :model_tag, "Tag", class: "form-check-label" %>
+      </div>
+
+      <!-- methodのラジオボタン -->
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :method, "perfect", class: "form-check-input", id: "perfect_method" %>
+        <%= f.label :method_perfect, "完全一致", class: "form-check-label" %>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :method, "partial", class: "form-check-input", id: "partial_method" %>
+        <%= f.label :method_partial, "部分一致", class: "form-check-label" %>
+      </div>
+
       <%= f.submit "検索", class: "btn btn-outline-dark btn-sm" %>
     </div>
   </div>

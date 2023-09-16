@@ -1,6 +1,5 @@
 class Public::UsersController < ApplicationController
-  #before_action :sign_out_user, only: :show
-  before_action :set_user, except: [:edit, :update, :withdraw_input, :withdraw_process]
+  before_action :set_user, except: [:edit, :update, :withdraw_input, :withdraw_process, :rising_users]
   before_action :authenticate_user!, except: [:show]
 
   def show
@@ -36,7 +35,7 @@ class Public::UsersController < ApplicationController
 
   def withdraw_process
     user = current_user
-  
+
     if user.guest_user?
       flash[:error] = "ゲストユーザーは退会できません。"
       redirect_to request.referer
@@ -59,6 +58,10 @@ class Public::UsersController < ApplicationController
 
   def liked_posts
     @liked_posts = current_user.post_favorites.includes(:post).order(created_at: :desc).map(&:post)
+  end
+
+  def rising_users
+    @rising_users = User.calculate_ranking(20)
   end
 
   private

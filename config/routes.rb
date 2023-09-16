@@ -57,7 +57,11 @@ Rails.application.routes.draw do
         delete :unfollow, to: "relationships#destroy"
         get :follower_list
         get :following_list
+        
       end
+      
+      # 急上昇ユーザー一覧ページ
+      get :rising_users, on: :collection
     end
     
     resources :notifications, only: [:index] do
@@ -67,7 +71,8 @@ Rails.application.routes.draw do
   end
 
   get "/search", to: "searches#search", as: :search
-  get "/search/results", to: "searches#results", as: :search_results
+  get "/search/results", to: "searches#search_results", as: :search_results
+
   post "/chatbots", to: "chatbots#create"
 
 
