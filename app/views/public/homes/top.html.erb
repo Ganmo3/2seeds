@@ -250,6 +250,12 @@
                   <%= user_icon_or_youtube(user, size: '100x100', class: 'rounded-circle user-icon') %>
                   <div class="user-details ml-3">
                     <p class="ranking-user-nickname"><%= user.nickname %></p>
+                    <p class="ranking-user-channel">
+                        <% channel_id = extract_youtube_channel_id(user.channel) %>
+                        <% if channel_id.present? %>
+                          <%= youtube_channel_name(channel_id) %>
+                        <% end %>
+                    </p>
                     <p class="user-introduction"><%= user.introduction %></p>
                   </div>
                 </div>
