@@ -29,10 +29,6 @@ Rails.application.routes.draw do
         post :preview
       end
       
-      member do
-        post "share_on_twitter"
-      end
-      
       resource :post_favorites, only: [:create, :destroy]
       resources :comments, only: [:create, :destroy] do
         resource :comment_favorites, only: [:create, :destroy]
