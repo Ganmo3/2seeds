@@ -1,19 +1,22 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-8 offset-md-2">
-      <div class="shine-btn">投稿一覧</div>
-      <div class="sort-links">
-        <%= link_to "最新順", posts_path(sort: :latest), class: params[:sort] != 'favorites' ? 'active' : '' %>
-        <%= link_to "いいね順", posts_path(sort: :favorites), class: params[:sort] == 'favorites' ? 'active' : '' %>
-      </div>
+    <div class="col-md-12">
+      <h4 class="headline mt-5 ml-5">新着記事</h4>
+        <div class="sort-links">
+          <%= link_to "最新順", posts_path(sort: :latest), class: params[:sort] != 'favorites' && params[:sort] != 'impressions_count' ? 'active' : '' %>
+          <%= link_to "いいね順", posts_path(sort: :favorites), class: params[:sort] == 'favorites' ? 'active' : '' %>
+          <%= link_to "閲覧数順", posts_path(sort: :impressions_count), class: params[:sort] == 'impressions_count' ? 'active' : '' %>
+        </div>
 
-      <%= render 'public/shared/post_and_user_info', posts: @posts %>
-      
+        <div class="row mt-3">
+        <% @posts.each do |post| %>
+          <%= render 'public/shared/post_item', post: post %>
+        <% end %>
+      </div>
+      <div class="d-flex justify-content-center">
+        <%= paginate @posts, theme: 'bootstrap-5' %>
+      </div>
     </div>
   </div>
 </div>
-      
-     
-      
 
- 

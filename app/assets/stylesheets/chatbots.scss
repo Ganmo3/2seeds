@@ -120,13 +120,16 @@
 .modal-title {
   font-size: 28px;
   font-weight: bold;
-  color: #BDDF38;
+  color: #fff; 
+  background-color: #BDDF38; 
   text-align: center; 
   text-transform: uppercase; 
   letter-spacing: 4px; 
   margin-bottom: 20px; 
-  text-decoration: underline; 
-  text-decoration-color: #BDDF38; 
-  text-underline-offset: 3px; 
+  padding: 10px 20px; 
+  border: none; 
+  border-radius: 10px;
+  outline: none; 
 }
+
 

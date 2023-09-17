@@ -4,19 +4,23 @@ class Public::PostsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :trending, :weekly_ranking, :show, :search_by_tag]
 
   def index
-    if params[:sort] == 'favorites'
-      @posts = Post.sort_by_favorites
+    case params[:sort]
+    when 'favorites'
+      @posts = Post.sort_by_favorites.page(params[:page]).per(12)
+    when 'impressions_count'
+      @posts = Post.sort_by_impressions_count.page(params[:page]).per(12)
     else
-      @posts = Post.published_posts
+      @posts = Post.published.order(created_at: :desc).page(params[:page]).per(12)
     end
-
+  
     @posts.each do |post|
       impressionist(post, nil, unique: [:session_hash, :user_id])
     end
   end
 
+
   def trending
-    @trending_posts = Post.daily_popular_posts(27)
+    @trending_posts = Post.daily_popular_posts(18)
   end
 
   def weekly_ranking
@@ -143,22 +147,6 @@ class Public::PostsController < ApplicationController
   def search_by_tag
     tag_name = params[:tag_name]
     @posts = Post.tagged_with(tag_name)
-  end
-
-  def share_on_twitter
-    client = Twitter::REST::Client.new do |config|
-      config.consumer_key = ENV['YOUR_CONSUMER_KEY']
-      config.consumer_secret = ENV['YOUR_CONSUMER_SECRET']
-      config.access_token = ENV['USER_ACCESS_TOKEN']
-      config.access_token_secret = ENV['USER_ACCESS_TOKEN_SECRET']
-    end
-
-    post = Post.find(params[:id])
-    tweet_text = "Check out this post: #{post.title} - #{post.link}"
-
-    client.update(tweet_text)
-
-    redirect_to post_path(post), notice: 'Post successfully shared on Twitter!'
   end
 
   private

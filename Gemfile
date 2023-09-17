@@ -50,6 +50,9 @@ group :test do
   gem 'selenium-webdriver', '>= 4.0.0.rc1'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
+  gem 'rspec-rails'
+  gem 'factory_bot_rails'
+  gem 'faker'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -60,12 +63,19 @@ gem 'bootstrap5-kaminari-views', '~> 0.0.1'
 gem 'enum_help'
 gem 'simple_form'
 gem 'image_processing', '~> 1.2'
+# YouTube情報取得
 gem 'google-api-client', '~> 0.48'
+# chatbot作成
 gem 'ruby-openai'
 gem 'httparty'
-gem 'twitter'
+# PV数測定
 gem 'impressionist'
+# tag付け用
 gem 'acts-as-taggable-on'
+# 確認モーダル用
+gem 'data-confirm-modal'
+gem 'meta-tags', :require => 'meta_tags'
+
 gem 'dotenv-rails'
 group :production do
   gem 'mysql2'

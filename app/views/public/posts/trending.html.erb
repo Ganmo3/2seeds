@@ -1,65 +1,12 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-8 offset-md-2">
- <% @trending_posts.each do |post| %>     
-<div class="post-item mx-1 my-1">
-<%= link_to post_path(post), class: "link-to" do %>
-  <% video_id = extract_youtube_video_id(post.link) %>
-  <% next unless video_id.present? %>
-  <div class="thumbnail-wrapper">
-    <div class="thumbnail-container">
-      <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 300px; height: auto;', show_info: false) %>
-    </div>
-    <div class="weekly-view-count">
-      <div class="weekly-view-number">
-        <p class="count-style"><%= post.impressions_count %><br></p>
-        <p class="view-style">Views</p>
-      </div>
-    </div>
-  </div>
-<% end %>
-
-<div class="post-content mt-2">
-  <div class="tag-buttons">
-    <% post.tag_list.first(2).each do |tag| %>
-      <span class="tag-btn ml-3"><%= link_to tag, tag_path(tag) %></span>
-    <% end %>
-    <div class="date-container ml-auto">
-      <p class="date mr-1"><%= formatted_datetime(post.created_at) %></p>
-    </div>
-  </div>
-  <div class="weekly-post-title text-center mt-2">
-    <%= link_to post_path(post) do %>
-      <% if post.title.length > 30 %>
-      <h6>  <%= truncate(post.title, length: 30) %></h6>
-      <% else %>
-      <h6>  <%= post.title %></h6>
-      <% end %>
-    <% end %>
-  </div>
-  <div class="post-meta d-flex">
-    <%= link_to user_path(post.user.account), class: 'user-link' do %>
-    <div class="user-info">
-      <%= user_icon_or_youtube(post.user, size: '20x20', class: 'rounded-circle ml-1') %>
-      <p class="user-nickname ml-2"><%= post.user.nickname %></p>
-    </div>
-      <% end %>
-    <div class="post-favorites-container ml-auto">
-      <div class="post-favorites">
-        <i class="fa fa-heart"></i>
-        <span class="count-style"><%= post.post_favorites.count %></span>
+    <div class="col-md-12">
+      <h4 class="headline mt-5 ml-5">人気の記事</h4>
+      <div class="row mt-3">
+        <% @trending_posts.each do |post| %>
+          <%= render partial: 'public/shared/post_item', locals: { post: post } %>
+        <% end %>
       </div>
     </div>
   </div>
 </div>
-</div>
-
-<% end %>
-      
-      
-    </div>
-  </div>
-</div>
-
-
-

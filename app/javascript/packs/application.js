@@ -14,9 +14,8 @@ import "bootstrap";
 import "../stylesheets/application";
 import "script.js";
 import "relative_time.js";
-//import "modal.js";
 import 'bootstrap-tagsinput';
-// import 'jscroll';
+// import "data-confirm-modal";
 
 Rails.start()
 Turbolinks.start()
