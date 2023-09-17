@@ -85,6 +85,8 @@ GEM
       xpath (~> 3.2)
     concurrent-ruby (1.2.2)
     crass (1.0.6)
+    data-confirm-modal (1.6.3)
+      railties (>= 3.0)
     date (3.3.3)
     declarative (0.0.20)
     devise (4.9.2)
@@ -93,6 +95,7 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    diff-lcs (1.5.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.8.1)
@@ -103,6 +106,13 @@ GEM
       activesupport (>= 3.0.0)
     equalizer (0.0.11)
     erubi (1.12.0)
+    factory_bot (6.2.1)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
+      railties (>= 5.0.0)
+    faker (3.2.1)
+      i18n (>= 1.8.11, < 2)
     faraday (2.7.10)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
@@ -197,6 +207,8 @@ GEM
     memoist (0.16.2)
     memoizable (0.4.2)
       thread_safe (~> 0.3, >= 0.3.1)
+    meta-tags (2.18.0)
+      actionpack (>= 3.2.0, < 7.1)
     method_source (1.0.0)
     mini_magick (4.12.0)
     mini_mime (1.1.2)
@@ -273,6 +285,23 @@ GEM
       railties (>= 5.2)
     retriable (3.1.2)
     rexml (3.2.6)
+    rspec-core (3.12.2)
+      rspec-support (~> 3.12.0)
+    rspec-expectations (3.12.3)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.12.0)
+    rspec-mocks (3.12.6)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.12.0)
+    rspec-rails (6.0.3)
+      actionpack (>= 6.1)
+      activesupport (>= 6.1)
+      railties (>= 6.1)
+      rspec-core (~> 3.12)
+      rspec-expectations (~> 3.12)
+      rspec-mocks (~> 3.12)
+      rspec-support (~> 3.12)
+    rspec-support (3.12.1)
     ruby-openai (4.2.0)
       faraday (>= 1)
       faraday-multipart (>= 1)
@@ -372,9 +401,12 @@ DEPENDENCIES
   bootstrap5-kaminari-views (~> 0.0.1)
   byebug
   capybara (>= 3.26)
+  data-confirm-modal
   devise
   dotenv-rails
   enum_help
+  factory_bot_rails
+  faker
   google-api-client (~> 0.48)
   httparty
   image_processing (~> 1.2)
@@ -382,6 +414,7 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   kaminari (~> 1.2.1)
   listen (~> 3.3)
+  meta-tags
   mysql2
   net-imap
   net-pop
@@ -389,6 +422,7 @@ DEPENDENCIES
   puma (~> 3.11)
   rack-mini-profiler (~> 2.0)
   rails (~> 6.1.7, >= 6.1.7.4)
+  rspec-rails
   ruby-openai
   sass-rails (>= 6)
   selenium-webdriver (>= 4.0.0.rc1)

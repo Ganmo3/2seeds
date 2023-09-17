@@ -11,6 +11,7 @@
     "@rails/webpacker": "5.4.4",
     "bootstrap": "4.6.2",
     "bootstrap-tagsinput": "^0.7.1",
+    "data-confirm-modal": "^1.6.2",
     "jquery": "^3.7.0",
     "jscroll": "^2.4.1",
     "popper.js": "^1.16.1",

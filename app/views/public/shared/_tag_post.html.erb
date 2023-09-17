@@ -1,29 +1,12 @@
-<div class="hashtags container">
-  <div class="hashtags__wrapper row">
-    <div class="col-md-12">
-      <div class="hashtags__header">
-        <% if results.present? %>
-          <h1 class="hashtags__title">Hashtag: <%= @content %>の一覧</h1>
-        <% else %>
-          <h1 class="hashtags__title">Hashtag not found</h1>
-        <% end %>
-      </div>
-      <div class="row hidden-md-up">
-        <% results.each do |tag| %>
-          <div>
-            <h3><%= link_to tag.name, tag_path(tag) %></h3>
-            <ul>
-              <% tag.taggings.each do |tagging| %>
-                <% post = tagging.taggable %>
-                <li><%= link_to post.title, post_path(post) %></li>
-              <% end %>
-            </ul>
-          </div>
-        <% end %>
-      </div>
-    </div>
+<% if @results.present? %>
+  <div class="row mt-3">
+    <% @results.each do |tag| %>
+      <% tag.taggings.each do |tagging| %>
+        <% post = tagging.taggable %>
+        <%= render partial: 'public/shared/post_item', locals: { post: post, isDetail: false } %>
+      <% end %>
+    <% end %>
   </div>
-  <div class="pagination justify-content-center">
-    <%# <%= paginate results %>
-  </div>
-</div>
+<% else %>
+  <h1 class="hashtags__title">Hashtag not found</h1>
+<% end %>

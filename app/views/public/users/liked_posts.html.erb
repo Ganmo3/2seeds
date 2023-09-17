@@ -1,10 +1,16 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-8 offset-md-2">
-      <div class="shine-btn">いいね投稿</div>
-
-          <%= render 'public/shared/post_and_user_info', posts: @liked_posts %>
-
+    <div class="col-md-12">
+      <h4 class="headline mt-5 ml-5">いいねした投稿</h4>
+        <div class="row mt-3">
+        <% @liked_posts.each do |post| %>
+          <%= render 'public/shared/post_item', post: post %>
+        <% end %>
+      </div>
+      <div class="d-flex justify-content-center">
+        <%= paginate @liked_posts, theme: 'bootstrap-5' %>
+      </div>
     </div>
   </div>
 </div>
+

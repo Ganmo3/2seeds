@@ -96,7 +96,6 @@ end
 
 # ユーザーごとに異なるステータス割り当て
 User.where.not(account: 'guest').each do |user|
-  # 既存の投稿を削除せず、新しい投稿を作成
   statuses = [0] * 12 + [1] * 3 + [2] * 3
   create_posts_for_user_with_ordered_dates(user, 12, statuses, tags)  # 投稿を12個生成するように修正
 end
@@ -104,7 +103,7 @@ end
 # お気に入り投稿の作成
 PostFavorite.delete_all
 users = User.all
-posts = Post.published  # ステータスが0（公開）の投稿のみ取得
+posts = Post.published
 users.each do |user|
   favorite_posts = posts.sample(rand(1..3))
   favorite_posts.each do |post|
@@ -114,10 +113,6 @@ users.each do |user|
     )
   end
 end
-
-# コメントの作成
-Comment.delete_all
-CommentFavorite.delete_all
 
 user_comments = [
   '素敵な投稿ですね。',

@@ -57,7 +57,7 @@ class Public::UsersController < ApplicationController
   end
 
   def liked_posts
-    @liked_posts = current_user.post_favorites.includes(:post).order(created_at: :desc).map(&:post)
+    @liked_posts = Post.liked_posts(current_user, params[:page], 12)
   end
 
   def rising_users

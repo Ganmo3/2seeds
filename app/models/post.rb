@@ -19,7 +19,7 @@ class Post < ApplicationRecord
                                               message: "はYouTubeの正しい動画リンクである必要があります" }
   validates :body, presence: true, unless: -> { body.present? }
 
-
+  # 投稿ステータス
   enum status: { published: 0, draft: 1,  unpublished: 2 }
 
 
@@ -186,12 +186,29 @@ end
 
   # 投稿のいいね数ソート
   def self.sort_by_favorites
-    includes(:post_favorites).sort_by { |post| -post.post_favorites.count }
+    left_joins(:post_favorites)
+      .group(:id)
+      .order('COUNT(post_favorites.id) DESC')
+  end
+  
+  # 投稿のPV数順
+  def self.sort_by_impressions_count
+    published
+      .order(impressions_count: :desc)
   end
 
   # publishedステータスの投稿新着ソート
   def self.published_posts
     where(status: 'published').order(created_at: :desc)
+  end
+  
+  # いいねをつけた投稿の取得
+  def self.liked_posts(user, page, per_page)
+  includes(:post_favorites)
+    .where(post_favorites: { user_id: user.id })
+    .order(created_at: :desc)
+    .page(page)
+    .per(per_page)
   end
 
 end
