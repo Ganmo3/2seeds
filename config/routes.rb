@@ -72,18 +72,21 @@ Rails.application.routes.draw do
   post "/chatbots", to: "chatbots#create"
 
 
-
   # 管理者用
   # URL /admin/sign_in ...
   devise_for :admin, controllers: {
     sessions: "admin/sessions"
   }
 
+  # devise signout時のエラー解消
+  devise_scope :admin do
+    get "/admin/sign_out" => "devise/sessions#destroy"
+  end
+
   namespace :admin do
     root to: "homes#top"
-    resources :posts do
-      resources :comments, only: [:destroy]
-    end
+    resources :posts, only: [:destroy]
+    resources :comments, only: [:destroy]
     resources :users, only: [:index, :show, :update]
     resources :reports, only: [:show, :update]
   end
