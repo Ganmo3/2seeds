@@ -15,28 +15,9 @@
             <% end %>
           </div>
 
-             <div class="mypage-btn-container" id="navBtnContainer">
-               <% unless user_signed_in? %>
-               <div class="nav-btn" id="menuBtn">Menu▼</div>
-              <div class="mypage-dropdown" id="navDropdown">
-                <ul>
-                  <% if admin_signed_in? %>
-                    <li><%= link_to destroy_admin_session_path, method: :delete do %><i class="fas fa-sign-out-alt"></i>Log Out<% end %></li>
-                  <% else %>
-                    <% unless user_signed_in? %>
-                      <li><%= link_to new_user_registration_path do %><i class="fas fa-user-plus"></i>Sign Up<% end %></li>
-                      <li><%= link_to new_user_session_path do %><i class="fas fa-sign-in-alt"></i>Log In<% end %></li>
-                      <li><%= button_to users_guest_sign_in_path, method: :post, class: "guest-button" do %><i class="fas fa-glass-cheers"></i>Guest Login<% end %></li>
-                    <% end %>
-                  <% end %>
-                </ul>
-              </div>
-               <% end %>
-            </div>
-
           <!-- サインインしている場合のメニュー要素（通常の表示） -->
           <% if user_signed_in? %>
-            <ul class="navbar-nav mx-5 d-flex align-items-center ml-auto">
+            <ul class="navbar-nav d-flex align-items-center ml-auto">
               <li class="mr-3">
                 <a href="javascript:void(0)" id="notifications-link">
                   <% if unchecked_notifications.any? %>
@@ -68,6 +49,27 @@
               </li>
             </ul>
           <% end %>
+
+             <div class="mypage-btn-container" id="navBtnContainer">
+               <% unless user_signed_in? %>
+               <div class="nav-btn" id="menuBtn">Menu▼</div>
+              <div class="mypage-dropdown" id="navDropdown">
+                <ul>
+                  <% if admin_signed_in? %>
+                    <li><%= link_to destroy_admin_session_path, method: :delete do %><i class="fas fa-sign-out-alt"></i>Log Out<% end %></li>
+                  <% else %>
+                    <% unless user_signed_in? %>
+                      <li><%= link_to new_user_registration_path do %><i class="fas fa-user-plus"></i>Sign Up<% end %></li>
+                      <li><%= link_to new_user_session_path do %><i class="fas fa-sign-in-alt"></i>Log In<% end %></li>
+                      <li><%= button_to users_guest_sign_in_path, method: :post, class: "guest-button" do %><i class="fas fa-glass-cheers"></i>Guest Login<% end %></li>
+                    <% end %>
+                  <% end %>
+                </ul>
+              </div>
+               <% end %>
+            </div>
+
+
         </nav>
       </div>
     </div>
