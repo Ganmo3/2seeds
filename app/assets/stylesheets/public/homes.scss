@@ -358,6 +358,10 @@
   transition: background-color 0.3s, color 0.3s;
 }
 
+.tag-btn a {
+  color: white;
+}
+
 /* 週間記事ランキング */
 
 .post-item {
@@ -640,7 +644,6 @@
     background-position: 100% 0%;
   }
 }
-
 
 /* リンクスタイル */
 .advertisement {

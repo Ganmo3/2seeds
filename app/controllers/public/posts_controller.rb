@@ -18,7 +18,6 @@ class Public::PostsController < ApplicationController
     end
   end
 
-
   def trending
     @trending_posts = Post.daily_popular_posts(18)
   end
@@ -119,8 +118,11 @@ class Public::PostsController < ApplicationController
 
   def destroy
     @post = Post.find(params[:id])
-    @post.destroy
-    redirect_to dashboard_posts_path, notice: '投稿を削除しました。'
+    if @post.destroy
+      redirect_to dashboard_posts_path, flash: { success: '投稿を削除しました。' }
+    else
+      redirect_to root_path, flash: { alert: '投稿の削除に失敗しました。' }
+    end
   end
 
   def preview
@@ -154,7 +156,6 @@ class Public::PostsController < ApplicationController
     end
   end
 
-
   # タグ検索
   def search_by_tag
     tag_name = params[:tag_name]
@@ -181,12 +182,10 @@ class Public::PostsController < ApplicationController
     daily_impressions_hash
   end
 
-
   # 指定した期間内の日付範囲を取得
   def impressions_date_range(start_date, end_date)
     (start_date..end_date).to_a
   end
-
 
   def hide_header
     @show_header = false
@@ -195,7 +194,6 @@ class Public::PostsController < ApplicationController
   def hide_footer
     @show_footer = false
   end
-
 
   def post_params
     params.require(:post).permit(:title, :body, :link, :tag_list, :status)

@@ -1,6 +1,6 @@
 class Public::UsersController < ApplicationController
   before_action :set_user, except: [:edit, :update, :withdraw_input, :withdraw_process, :rising_users]
-  before_action :authenticate_user!, except: [:show]
+  before_action :authenticate_user!, except: [:show, :rising_users]
 
   def show
     @latest_post = @user.posts.published.order(created_at: :desc).first

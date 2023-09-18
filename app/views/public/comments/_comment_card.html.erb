@@ -8,12 +8,16 @@
       </div>
     </div>
 
-
     <div class="d-flex ml-auto">
-   <% if user_signed_in? && (current_user == comment.user || admin_signed_in?) %>
-      <span data-comment-id=<%= comment.id %> class="js-edit-comment-button mr-2" style="cursor: pointer;">
-        <i class="fas fa-edit"></i>
-      </span>
+      <% if admin_signed_in? %>
+        <%= link_to admin_comment_path(comment), method: :delete, remote: true, data: { confirm: '本当に削除しますか?', cancel: 'やめる', commit: '削除する' }, title: '削除確認', class: "btn btn-danger btn-sm" do %>
+          削除
+        <% end %>
+      <% end %>
+      <% if user_signed_in? && (current_user == comment.user) %>
+        <span data-comment-id=<%= comment.id %> class="js-edit-comment-button mr-2" style="cursor: pointer;">
+          <i class="fas fa-edit"></i>
+        </span>
         <div class="text-right">
           <%= link_to post_comment_path(post, comment), method: :delete, remote: true, data: { confirm: '本当に削除しますか?', cancel: 'やめる', commit: '削除する' }, title: '削除確認' do %>
             <i class="fas fa-trash-alt"></i>
@@ -29,7 +33,7 @@
 </div>
 <div class="comment-card__wrapper">
   <div class="comment-card__contents">
-   <%# <p class="comment-card__body"><%= comment.comment %>
+    <%# <p class="comment-card__body"><%= comment.comment %>
     <div id="js-comment-<%= comment.id %>">
       <%= render "public/comments/js_comment", comment: comment %>
     </div>

@@ -29,9 +29,7 @@
            <%= link_to "https://twitter.com/share?url=#{ post_url(@post) }&text=【2Seeds】%0a%0a#{ @post.title }", target: '_blank' do %>
             <i class="fab fa-twitter" style="color: #00acee; font-size: 25px;"></i>
       　    <% end %>
-
         </div>
-
 
         <% if user_signed_in? %>
           <% if @post.user_id == current_user.id %>
@@ -48,6 +46,13 @@
               </div>
             </div>
           <% end %>
+        <% end %>
+        <% if admin_signed_in? %>
+        <div class="post-delete-icon mt-4">
+          <%= link_to admin_post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' } do %>
+            <i class="fas fa-trash-alt fa-lg" data-toggle=tooltip data-placement="bottom" title="Delete"></i>
+          <% end %>
+        </div>
         <% end %>
       </div>
     </div>
