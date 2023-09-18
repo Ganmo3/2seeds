@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row mx-auto">
-    <div class="col-md-6 offset mx-auto">
+    <div class="col-md-8 offset-md-2 mx-auto">
       <h2 class="auth-form-title text-center mt-5 mb-3">Log in</h2>
       <div class="d-flex justify-content-center flex-column">
         <div class="form-group mx-auto">
@@ -35,7 +35,10 @@
             </div>
           <% end %>
 
-          <%= render "public/shared/links" %>
+          <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+            <%= link_to "Sign up", new_registration_path(resource_name) %><br />
+          <% end %>
+          <%#= render "public/shared/links" %>
         </div>
       </div>
     </div>

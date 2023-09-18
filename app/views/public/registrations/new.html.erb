@@ -12,10 +12,10 @@
 
           <% fields = [
             { attribute: :nickname, label: "表示名", placeholder: "2～20文字" },
-            { attribute: :account, label: "アカウント名", placeholder: "3~20文字の英数字、ハイフン、アンダースコア" },
-            { attribute: :email, label: "メールアドレス", placeholder: "メールアドレスを入力してください" },
-            { attribute: :password, label: "パスワード", placeholder: "6文字以上30文字以内の小文字、大文字、数字、特殊文字い" },
-            { attribute: :password_confirmation, label: "パスワード(確認用)", placeholder: "パスワード(確認用)を入力してください" }
+            { attribute: :account, label: "アカウント名", placeholder: "3~20文字の英数字" },
+            { attribute: :email, label: "メールアドレス", placeholder: "メールアドレス"},
+            { attribute: :password, label: "パスワード", placeholder: "6~30文字の" },
+            { attribute: :password_confirmation, label: "パスワード(確認用)", placeholder: "パスワード(確認用)" }
           ] %>
 
         <% fields.each do |field| %>

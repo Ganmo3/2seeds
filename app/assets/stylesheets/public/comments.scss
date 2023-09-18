@@ -30,3 +30,54 @@
   opacity: 0.8; 
   transition: opacity 0.3s ease-in-out; 
 }
+
+/* ユーザー名のスタイル */
+.comment-card__username {
+  font-weight: bold; 
+  text-decoration: none; 
+  color: #333; 
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.comment-card__username:hover {
+  text-decoration: none; 
+  color: #333;
+  opacity: 0.8;
+}
+
+/* コメント作成日時のスタイル */
+.comment-card__createdAt {
+  font-size: 12px; 
+  color: #777; 
+}
+
+/* いいねボタンのスタイル */
+.comment-card__favorite-btn {
+  font-size: 14px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.comment-card__favorite-btn a {
+  color: #ff4081; 
+  transition: color 0.3s ease; 
+}
+
+
+.comment-card__favorite-btn a:hover {
+  color: #f50057;
+  text-decoration: none;
+}
+
+/* アイコンのスタイル */
+.comment-card__icon {
+  font-size: 18px;
+  color: #999; 
+  cursor: pointer;
+  transition: color 0.3s ease; 
+}
+
+.comment-card__icon:hover {
+  color: #f44336; 
+}

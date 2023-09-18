@@ -1,9 +1,11 @@
 <div class="post-card-creator">
-  <div class="icon d-flex align-items-center">
+  <div class="post-card-icon d-flex align-items-center">
+    <div class="icon">
     <%= link_to user_path(post.user.account) do %>
       <%= user_icon_or_youtube(post.user, size: "30x30", class: "rounded-circle") %>
       <%= post.user.nickname %>
     <% end %>
+    </div>
   
     <% if user_signed_in? && current_user != @user %>
       <div class="follow-btn ml-2" id="follow-btn-card">
@@ -12,7 +14,7 @@
     <% end %>
   </div>
 
-  <div class="channel-name">
+  <div class="channel-name mt-2">
     <% channel_id = extract_youtube_channel_id(post.user.channel) %>
     <% if channel_id.present? %>
       <%= link_to youtube_channel_name(channel_id), "https://www.youtube.com/channel/#{channel_id}", target: "_blank", data: { toggle: "tooltip", placement: "bottom" }, title: "YouTubeチャンネルへ" %>

@@ -642,31 +642,65 @@ h6.dashboard-title a {
 }
 
 
-  /* タイトルのスタイル */
-  .analytics-post-title a {
-    color: #333; 
-    font-size: 18px; 
-    text-decoration: none; 
-  }
+/* タイトルのスタイル */
+.analytics-post-title a {
+  color: #333; 
+  font-size: 18px; 
+  text-decoration: none; 
+}
 
-  .analytics-post-title a:hover {
-    color: #007bff; 
-  }
+.analytics-post-title a:hover {
+  color: #007bff; 
+}
 
-  /* 公開日のスタイル */
-  .analytics-post-created-at {
-    font-size: 14px; 
-    color: #777; 
-  }
+/* 公開日のスタイル */
+.analytics-post-created-at {
+  font-size: 14px; 
+  color: #777; 
+}
 
-  /* カウント数のスタイル */
-  .analytics-impressions-count {
-    font-size: 16px; 
-    color: #28a745;
-    font-weight: bold; 
-  }
+/* カウント数のスタイル */
+.analytics-impressions-count {
+  font-size: 16px; 
+  color: #28a745;
+  font-weight: bold; 
+}
 
-  /* レイアウトの調整 */
-  .analytics-post-item {
-    margin-bottom: 20px; 
-  }
+/* レイアウトの調整 */
+.analytics-post-item {
+  margin-bottom: 20px; 
+}
+
+/* youtubeタイトル */
+.video-info {
+  color: black;
+}
+
+/* Twitterアイコンのスタイル */
+.twitter {
+  display: flex;
+  align-items: center;
+  font-size: 25px; 
+}
+
+.twitter a {
+  color: #00acee; 
+}
+
+.twitter a:hover {
+  opacity: 0.7; 
+  transition: opacity 0.3s ease;
+  text-decoration: none; 
+}
+
+/* 編集アイコンとゴミ箱アイコンのスタイル */
+.post-edit-icon i, .post-delete-icon i {
+  font-size: 25px; 
+  color: #555; 
+  margin: 0 5px; 
+}
+
+.post-edit-icon i:hover, .post-delete-icon i:hover {
+  color: #ff4081; 
+  transition: color 0.3s ease; 
+}

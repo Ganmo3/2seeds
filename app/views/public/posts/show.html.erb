@@ -20,42 +20,9 @@
 <div class="container">
   <div class="row">
     <!-- いいね&twitter -->
-    <div class="col-md-1">
-      <div class="col-md-2 mt-5 d-flex flex-column align-items-center justify-content-center fixed-content">
-        <div id="post_favorite_btn_<%= @post.id %>" class="post-favorite-btn" <%= "data-toggle=tooltip" unless user_signed_in? || admin_signed_in? %> data-placement="bottom" title="<%= 'いいねをするには、ログインしてください。' unless user_signed_in? || admin_signed_in? %>">
-          <%= render "public/post_favorites/btn", post: @post %>
-        </div>
-        <div class="twitter" <%= "data-toggle=tooltip" unless user_signed_in? %> data-placement="bottom">
-           <%= link_to "https://twitter.com/share?url=#{ post_url(@post) }&text=【2Seeds】%0a%0a#{ @post.title }", target: '_blank' do %>
-            <i class="fab fa-twitter" style="color: #00acee; font-size: 25px;"></i>
-      　    <% end %>
-        </div>
-
-        <% if user_signed_in? %>
-          <% if @post.user_id == current_user.id %>
-            <div class="post-edit-container">
-              <div class="post-edit-icon mt-4">
-                <%= link_to edit_post_path(@post), data: { turbolinks: false } do %>
-                  <i class="far fa-edit fa-lg" data-toggle=tooltip data-placement="bottom" title="Edit"></i>
-                <% end %>
-              </div>
-              <div class="post-delete-icon mt-4">
-                <%= link_to post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' } do %>
-                  <i class="fas fa-trash-alt fa-lg" data-toggle=tooltip data-placement="bottom" title="Delete"></i>
-                <% end %>
-              </div>
-            </div>
-          <% end %>
-        <% end %>
-        <% if admin_signed_in? %>
-        <div class="post-delete-icon mt-4">
-          <%= link_to admin_post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' } do %>
-            <i class="fas fa-trash-alt fa-lg" data-toggle=tooltip data-placement="bottom" title="Delete"></i>
-          <% end %>
-        </div>
-        <% end %>
-      </div>
-    </div>
+    <div class="col-md-1"></div>
+      
+    
 
     <!-- body -->
     <div class="col-md-7">
@@ -106,6 +73,44 @@
           <%= @post.body %>
         </article>
       </article>
+      
+      <!-- twitter & いいね -->
+      <div class="action-container d-flex justify-content-end">
+        <div id="post_favorite_btn_<%= @post.id %>" class="post-favorite-btn" <%= "data-toggle=tooltip" unless user_signed_in? || admin_signed_in? %> data-placement="bottom" title="<%= 'いいねをするには、ログインしてください。' unless user_signed_in? || admin_signed_in? %>">
+          <%= render "public/post_favorites/btn", post: @post %>
+        </div>
+        <div class="twitter" <%= "data-toggle=tooltip" unless user_signed_in? %> data-placement="bottom">
+           <%= link_to "https://twitter.com/share?url=#{ post_url(@post) }&text=【2Seeds】%0a%0a#{ @post.title }", target: '_blank' do %>
+            <i class="fab fa-twitter"></i>
+      　    <% end %>
+        </div>
+
+        <% if user_signed_in? %>
+          <% if @post.user_id == current_user.id %>
+            <div class="post-edit-container d-flex align-items-center">
+              <div class="post-edit-icon">
+                <%= link_to edit_post_path(@post), data: { turbolinks: false } do %>
+                  <i class="far fa-edit fa-lg" data-toggle=tooltip data-placement="bottom" title="Edit"></i>
+                <% end %>
+              </div>
+              <div class="post-delete-icon">
+                <%= link_to post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' } do %>
+                  <i class="fas fa-trash-alt fa-lg" data-toggle=tooltip data-placement="bottom" title="Delete"></i>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+        <% if admin_signed_in? %>
+        <div class="post-delete-icon">
+          <%= link_to admin_post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' } do %>
+            <i class="fas fa-trash-alt fa-lg" data-toggle=tooltip data-placement="bottom" title="Delete"></i>
+          <% end %>
+        </div>
+        <% end %>
+      </div>
+      
+      
 
       <div class="comment-container">
         <% if @comments.present? %>
@@ -118,7 +123,7 @@
           </div>
         <% end %>
 
-        <div class="comment-form mt-2">
+        <div class="comment-form mt-2 mb-5">
           <% if user_signed_in? %>
             <%= form_with model: @comment, url: post_comments_path(@post, @comment), local: false, class: 'post-detail__comment-form' do |f| %>
               <%= f.text_area :comment, rows: '3', required: true, class:'form-control', id:"comment-form", placeholder: "コメントはここに" %>
