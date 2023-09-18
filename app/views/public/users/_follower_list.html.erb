@@ -1,14 +1,27 @@
-
 <div class="container">
   <div class="row">
     <div class="col-md-8 offset-md-2">
-      <h4>フォロワー</h4>
+      <h5>フォロワー</h5>
       <% if @user.followers.present? %>
-        <ul>
+        <ul class="list-unstyled">
           <% @user.followers.each do |follower| %>
-            <li>
-              <%= link_to follower.nickname, user_path(follower.account), data: { turbolinks: false } %>
-              <%= render "public/relationships/follow", user: follower %>
+            <li class="media mb-3">
+              <%= link_to user_path(follower.account), data: { turbolinks: false } do %>
+                <%= user_icon_or_youtube(follower, size: '30x30', class: 'rounded-circle align-self-center mr-3') %>
+              <% end %>
+              <div class="media-body my-auto">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <h6 class="mt-0 mb-1">
+                      <%= link_to follower.nickname, user_path(follower.account), data: { turbolinks: false } %>
+                    </h6>
+                    <p>@<%= follower.account %></p>
+                  </div>
+                  <!--<div class="align-self-center">-->
+                  <!--  <%#= render "public/relationships/follow", user: follower %>-->
+                  <!--</div>-->
+                </div>
+              </div>
             </li>
           <% end %>
         </ul>

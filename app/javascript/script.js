@@ -99,7 +99,39 @@ document.addEventListener('turbolinks:load', function() {
   }
 });
 
+document.addEventListener('turbolinks:load', function() {
 
+  const menuBtn = document.getElementById('menuBtn');
+  const navDropdown = document.getElementById('navDropdown');
+
+  function toggleDropdown() {
+    $(navDropdown).slideToggle(300);
+  }
+
+  function closeDropdown() {
+    $(navDropdown).slideUp(300);
+  }
+
+  if (menuBtn) {
+    // Menuボタンをクリックしたときにドロップダウンメニューの切り替え
+    menuBtn.addEventListener('click', toggleDropdown);
+
+    // ドロップダウンメニュー内部のクリックイベントをキャンセル
+    navDropdown.addEventListener('click', function(event) {
+      event.stopPropagation();
+    });
+
+    // ドロップダウンメニューの外側をクリックしたらドロップダウンを閉じる
+    document.addEventListener('click', function(event) {
+      if (!navBtnContainer.contains(event.target)) {
+        closeDropdown();
+      }
+    });
+
+    // ページ遷移前にドロップダウンメニューを閉じる
+    document.addEventListener('turbolinks:before-visit', closeDropdown);
+  }
+});
 
 // コメント編集発火 //
 $(document).on("turbolinks:load", () => {

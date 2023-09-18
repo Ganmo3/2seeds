@@ -1,42 +1,40 @@
 <% notifications.each do |notification| %>
   <% visitor = notification.visitor %>
   <% visited = notification.visited %>
-  <div class="col-md-12 mx-auto">
-    <div class="form-inline">
-      <span>
-        <%= link_to user_path(visitor) do %>
-          <%#<%= image_tag avatar_url(visitor).to_s, class: "icon_mini" %>
-          <strong>
-            <%= visitor.nickname %>
-          </strong>
+  <div class="col-md-12 mx-auto notification-container">
+    <div class="notification-box d-flex align-items-center"> 
+      <div class="notification-icon">
+        <%= link_to user_path(visitor.account), data: { turbolinks: false } do %>
+          <%= user_icon_or_youtube(visitor, size: '40x40', class: 'rounded-circle mr-3') %>
         <% end %>
-        さんが
-      </span>
+      </div>
+
       <% case notification.action %>
       <% when 'follow' then %>
-        あなたをフォローしました
+        <strong><%= visitor.nickname %></strong>さんがあなたをフォローしました
+        
       <% when 'favorite_post' then %>
-        <%= link_to "#{truncate(notification.post.title, length: 10)}の投稿", notification.post, style: "font-weight: bold;" %>
-        にいいねしました
-      <% when 'comment' then %>
+        <%= link_to post_path(notification.post) do %>
+         <strong><%= visitor.nickname %></strong>さんが<strong><%= truncate(notification.post.title, length: 10) %></strong>の投稿にいいねしました
+        <% end %>
+        
+        <% when 'comment' then %>
         <% if notification.post.user_id == visited.id %>
-          <%= link_to "#{truncate(notification.post.title, length: 10)}の投稿", notification.post, style: "font-weight: bold;" %>
+          <%= link_to post_path(notification.post) do %>
+            <strong><%= visitor.nickname %></strong>さんが<strong><%= truncate(notification.post.title, length: 10) %></strong>の投稿にコメントしました
+          <% end %>
+ 
         <% else %>
           <span>
             <%= link_to post_path(notification.post) do %>
-             <%# <%= image_tag avatar_url(notification.post.user).to_s, class: "icon_mini" %>
-              <strong>
-                <%= notification.post.user.nickname + 'さんの投稿' %>
-              </strong>
+              <strong><%= visitor.nickname %></strong>さんが<strong><%= notification.post.user.nickname + 'さんの投稿' %></strong>にコメントしました
             <% end %>
           </span>
         <% end %>
-        にコメントしました
       <% end %>
     </div>
     <div class="small text-muted text-right">
-      <%= time_ago_in_words(notification.created_at).upcase %>
+      <%= time_ago_in_words(notification.created_at).upcase %>前
     </div>
-    <hr>
   </div>
 <% end %>

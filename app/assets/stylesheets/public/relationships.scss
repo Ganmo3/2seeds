@@ -1,3 +1,16 @@
 // Place all the styles related to the public/relationships controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+/* フォロワーのリスト項目全体 */
+.media {
+  font-size: 14px; /* フォントサイズを小さく調整 */
+}
+
+/* ニックネームとアカウント情報のスタイル */
+.media-body {
+  font-size: 12px; 
+  line-height: 1.5;
+  
+}
+

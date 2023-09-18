@@ -14,43 +14,33 @@
               <i class="fas fa-search fa-lg mr-3"></i>
             <% end %>
           </div>
-          <nav class="navbar navbar-expand-lg navbar-light">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav ml-auto text-center">
-                <% if admin_signed_in? %>
-                  <li class="nav-item">
-                    <%= link_to 'Log Out', destroy_admin_session_path, method: :delete, class: "nav-link custom-btn", style: "font-weight: bold;" %>
-                  </li>
-                <% else %>
-                  <li class="nav-item mr-2">
+
+             <div class="mypage-btn-container" id="navBtnContainer">
+               <% unless user_signed_in? %>
+               <div class="nav-btn" id="menuBtn">Menu▼</div>
+              <div class="mypage-dropdown" id="navDropdown">
+                <ul>
+                  <% if admin_signed_in? %>
+                    <li><%= link_to destroy_admin_session_path, method: :delete do %><i class="fas fa-sign-out-alt"></i>Log Out<% end %></li>
+                  <% else %>
                     <% unless user_signed_in? %>
-                      <%= link_to 'Sign Up', new_user_registration_path, class: "nav-link custom-btn", style: "font-weight: bold;" %>
+                      <li><%= link_to new_user_registration_path do %><i class="fas fa-user-plus"></i>Sign Up<% end %></li>
+                      <li><%= link_to new_user_session_path do %><i class="fas fa-sign-in-alt"></i>Log In<% end %></li>
+                      <li><%= button_to users_guest_sign_in_path, method: :post, class: "guest-button" do %><i class="fas fa-glass-cheers"></i>Guest Login<% end %></li>
                     <% end %>
-                  </li>
-                  <li class="nav-item mr-2">
-                    <% unless user_signed_in? %>
-                      <%= link_to 'Log In', new_user_session_path, class: "nav-link custom-btn", style: "font-weight: bold;" %>
-                    <% end %>
-                  </li>
-                  <li class="nav-item">
-                    <% unless user_signed_in? || admin_signed_in? %>
-                      <%= link_to 'Guest Login', users_guest_sign_in_path, method: :post, class: "nav-link custom-btn", style: "font-weight: bold;" %>
-                    <% end %>
-                  </li>
-                <% end %>
-              </ul>
+                  <% end %>
+                </ul>
+              </div>
+               <% end %>
             </div>
-          </nav>
+
+
           
 
           <!-- サインインしている場合のメニュー要素（通常の表示） -->
           <% if user_signed_in? %>
             <ul class="navbar-nav mx-5 d-flex align-items-center ml-auto">
               <li class="mr-3">
-                <%# 通知アイコンを表示 %>
                 <a href="javascript:void(0)" id="notifications-link">
                   <% if unchecked_notifications.any? %>
                     <span class="fa-stack">

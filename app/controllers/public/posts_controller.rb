@@ -7,7 +7,7 @@ class Public::PostsController < ApplicationController
     case params[:sort]
     when 'favorites'
       @posts = Post.sort_by_favorites.page(params[:page]).per(12)
-    when 'impressions_count'
+    when 'popular'
       @posts = Post.sort_by_impressions_count.page(params[:page]).per(12)
     else
       @posts = Post.published.order(created_at: :desc).page(params[:page]).per(12)
@@ -133,15 +133,27 @@ class Public::PostsController < ApplicationController
 
   def analytics
     @user = current_user
-    @posts = @user.posts
+    sort_option = params[:sort] || 'latest'  # デフォルトは新着順
+  
+    case sort_option
+    when 'popular'
+      @posts = @user.posts.sort_by_impressions_count.page(params[:page]).per(10)
+    else
+      @posts = @user.posts.published_posts.page(params[:page]).per(10)
+    end
+    
+    # 合計表示回数を計算
+    @total_impressions_count = @user.posts.total_impressions_count
+  
     # 過去1ヶ月分のデイリーごとの総視聴回数データを取得
     @daily_impressions_data = calculate_daily_impressions
-
+  
     respond_to do |format|
       format.html
       format.json { render json: @daily_impressions_data }
     end
   end
+
 
   # タグ検索
   def search_by_tag
@@ -153,18 +165,22 @@ class Public::PostsController < ApplicationController
 
   # アナリティクスの計算
   def calculate_daily_impressions
-    impressions = Impression.where(impressionable_type: 'Post', created_at: 1.month.ago..Time.now, impressionable_id: @user.posts.pluck(:id))
+    impressions = Impression.where(
+      impressionable_type: 'Post',
+      created_at: 1.month.ago..Time.now,
+      impressionable_id: @user.posts.where(status: 'published').pluck(:id) 
+    )
     daily_impressions_data = impressions.group("DATE(created_at)").count
-
-    # 集計されたデータを日付ごとのハッシュ形式に整形
+  
     daily_impressions_hash = {}
     impressions_date_range(1.month.ago.to_date, Date.today).each do |date|
-      formatted_date = date.to_s(:db) # "2023-09-01" のような形式に変換
+      formatted_date = date.to_s(:db) 
       daily_impressions_hash[formatted_date] = daily_impressions_data[formatted_date].to_i
     end
-
+  
     daily_impressions_hash
   end
+
 
   # 指定した期間内の日付範囲を取得
   def impressions_date_range(start_date, end_date)

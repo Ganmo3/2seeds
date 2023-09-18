@@ -199,7 +199,7 @@
   right: 10px;
   cursor: pointer;
   font-size: 50px;
-  color: #999; 
+  color: #999;
   background-color: transparent;
   border: none;
   transition: color 0.3s;
@@ -598,3 +598,75 @@ h6.dashboard-title a {
   animation: underline 0.3s linear;
 }
 
+
+/* アナリティクス */
+
+/* タイトルのスタイル */
+.chart-title {
+  font-size: 24px; 
+  color: #333; 
+  margin-bottom: 10px; 
+}
+
+/* タイトルコンテナのスタイル */
+.chart-title-container {
+  padding: 10px 0; 
+  text-align: center; 
+  border-bottom: 1px solid #ccc; 
+}
+
+.analytics-total-count small {
+  font-size: 14px; 
+  color: #777; 
+}
+
+
+
+/* アナリティクスポストリストのスタイル */
+.analytics-post-list {
+  border: 1px solid #ccc; 
+  padding: 20px; 
+  border-radius: 10px; 
+  background-color: #f8f9fa; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+
+/* アナリティクスポストアイテムのスタイル */
+.analytics-post-item {
+  border: 1px solid #ccc; 
+  padding: 10px; 
+  border-radius: 5px; 
+  background-color: #ffffff; 
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); 
+  margin-bottom: 10px; 
+}
+
+
+  /* タイトルのスタイル */
+  .analytics-post-title a {
+    color: #333; 
+    font-size: 18px; 
+    text-decoration: none; 
+  }
+
+  .analytics-post-title a:hover {
+    color: #007bff; 
+  }
+
+  /* 公開日のスタイル */
+  .analytics-post-created-at {
+    font-size: 14px; 
+    color: #777; 
+  }
+
+  /* カウント数のスタイル */
+  .analytics-impressions-count {
+    font-size: 16px; 
+    color: #28a745;
+    font-weight: bold; 
+  }
+
+  /* レイアウトの調整 */
+  .analytics-post-item {
+    margin-bottom: 20px; 
+  }
