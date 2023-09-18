@@ -12,7 +12,7 @@
     <div class="catchphrase-container">
       <h1 class="slogan">Seeding Success, <br>Growing Influence</h1>
       <p class="catchphrase">YouTubeで始まる、ブログで続く</p>
-      <%= link_to about_path, class: "round-button" do %>
+      <%= link_to about_path, class: "round-button", data: { turbolinks: false } do %>
         <span class="arrow">↗</span>
       <% end %>
 
@@ -179,7 +179,7 @@
               <% next unless video_id.present? %>
               <div class="thumbnail-wrapper">
                 <div class="thumbnail-container">
-                  <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 740px; height: auto;', show_info: false) %>
+                  <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width: 600px; height: auto;', show_info: false) %>
                 </div>
                 <div class="weekly-view-count">
                   <div class="weekly-view-number">
@@ -228,7 +228,7 @@
         <% end %>
       </div>
 
-      <div class="trend-btn-container text-center mt-3">
+      <div class="trend-btn-container text-center mt-3 mb-5">
         <% if @daily_best %>
           <%= link_to post_path(@daily_best), class: 'btntextchange trend-btn' do %>
             <span>Read More</span>
@@ -263,15 +263,34 @@
             </li>
           <% end %>
         </ul>
-      <div class="trend-btn-container text-center mt-3">
+      <div class="trend-btn-container text-center mt-4">
        <%= link_to rising_users_users_path, class: 'btntextchange trend-btn' do %>
-        <span>急上昇クリエイター</span>
-        <span>大注目!!!</span>
+        <span>View More</span>
+        <span>人気急上昇中</span>
        <% end %>
     　</div>
   　</div>
   </div>
 </div>
+
+<!--広告コンテナ-->
+<% if user_signed_in? %>
+<div class="advertisement-container-fluid mb-3">
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <%= link_to "新たなファンと繋がるチャンス！今すぐ投稿を始めよう。", new_post_path, class: "advertisement" %>
+    </div>
+  </div>
+</div>
+<% else %>
+<div class="advertisement-container-fluid mb-3">
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <%= link_to "Youtuberの夢、ここから始めよう。一歩を踏み出す場所。", new_user_registration_path, class: "advertisement" %>
+    </div>
+  </div>
+</div>
+<% end %>
 
 
 
@@ -335,7 +354,7 @@
           </li>
         <% end %>
       </ul>
-       <div class="trend-btn-container text-center mt-3">
+       <div class="trend-btn-container text-center mt-3 mb-5">
          <%= link_to posts_path, class: 'btntextchange trend-btn' do %>
           <span>View More</span>
           <span>今すぐチェック</span>
@@ -428,3 +447,4 @@ document.addEventListener("turbolinks:load", function() {
   });
 });
 </script>
+

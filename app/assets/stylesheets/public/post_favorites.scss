@@ -4,7 +4,7 @@
 
 
 .login-required-message {
-  display: none; /* 最初は非表示にする */
+  display: none; 
   background-color: #f7f7f7;
   border: 1px solid #ccc;
   font-size: 6px;
@@ -13,17 +13,17 @@
 }
 
 .heart-link:hover  .login-required-message {
-  display: block; /* ホバー時に表示する */
+  display: block; 
 }
 
 .heart-icon {
   display: inline-block;
-  padding: 10px; /* 必要に応じて調整 */
-  font-size: 24px; /* ハートアイコンの大きさを設定 */
+  padding: 10px; 
+  font-size: 24px; 
 }
 
 .heart-count {
-  font-size: 12px; /* カウントのフォントサイズを設定 */
-  color: gray; /* カウントの色を設定 */
-  margin-left: 5px; /* 必要に応じて調整 */
+  font-size: 12px; 
+  color: gray;
+  margin-left: 5px; 
 }

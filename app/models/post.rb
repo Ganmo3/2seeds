@@ -32,6 +32,13 @@ class Post < ApplicationRecord
   def daily_likes_count(start_date, end_date)
     post_favorites.where("created_at >= ? AND created_at < ?", start_date.beginning_of_day, end_date.end_of_day).count
   end
+  
+  # いいねの数をカウント
+  def likes_count
+    Post.includes(:post_favorites)
+        .group('posts.id')
+        .order('COUNT(post_favorites.id) DESC')
+  end
 
   # デイリー視聴回数のカウント
   def daily_views_count(date)
@@ -132,10 +139,28 @@ end
   def self.daily_popular_posts(limit)
     start_date = 3.days.ago.to_date
     end_date = Date.today
-    posts = published.where('created_at >= ? AND created_at <= ?', start_date, end_date)
-                    .sort_by { |post| post.daily_likes_count(start_date, end_date) }
-                    .reverse
-    posts.take(limit)
+  
+    # 3日間でいいねが多い順にソートされた投稿を取得
+    posts_within_period = published
+      .joins(:post_favorites) # いいねのある投稿のみを取得するためにJOIN
+      .where('posts.created_at >= ? AND posts.created_at <= ?', start_date, end_date)
+      .group('posts.id')
+      .order('COUNT(post_favorites.id) DESC')
+  
+    # もし5件未満の場合、期間に関係なくいいねが多い順で追加の投稿を取得
+    if posts_within_period.length < limit
+      additional_posts = published
+        .joins(:post_favorites) # いいねのある投稿のみを取得するためにJOIN
+        .where.not(id: posts_within_period.map(&:id)) # すでに取得した投稿を除外
+        .group('posts.id')
+        .order('COUNT(post_favorites.id) DESC')
+        .limit(limit - posts_within_period.length) # 不足分を取得
+  
+      posts_within_period += additional_posts
+    end
+  
+    # 最終的な結果をlimitの数だけ返す
+    posts_within_period.take(limit)
   end
 
   # 1週間でPVが多い投稿を取得
@@ -196,6 +221,12 @@ end
     published
       .order(impressions_count: :desc)
   end
+  
+  # published_post全体の合計表示回数
+  def self.total_impressions_count
+    where(status: 'published').sum(:impressions_count)
+  end
+  
 
   # publishedステータスの投稿新着ソート
   def self.published_posts

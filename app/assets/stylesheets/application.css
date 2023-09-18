@@ -201,22 +201,6 @@ footer a:hover {
   transform: scale(1.05);
 }
 
-.custom-btn[disabled] {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.custom-btn.disabled-btn {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.custom-btn.disabled-btn:hover {
-  background-color: #ccc;
-  transform: none;
-}
-
-
 /* モーダルの背景 */
 .modal {
   display: none;

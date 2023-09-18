@@ -53,12 +53,12 @@
 
 .nickname h5 {
   margin: 0;
-  font-size: 20px; /* 大きめのフォントサイズ */
+  font-size: 20px; 
   color: #333;
-  text-transform: uppercase; /* テキストを大文字に変換 */
-  letter-spacing: 1px; /* 文字間のスペースを調整 */
-  font-weight: bold; /* 太字 */
-  padding-bottom: 5px; /* 下線の余白 */
+  text-transform: uppercase; 
+  letter-spacing: 1px; 
+  font-weight: bold; 
+  padding-bottom: 5px; 
 }
 
 
@@ -72,13 +72,13 @@
 
 .information p {
   display: inline-block;
-  color: #666; /* ラベルのテキストカラー */
+  color: #666; 
 }
 
 .info-label {
   font-weight: bold;
   margin-right: 5px;
-  color: #999; /* ラベルのテキストカラー */
+  color: #999; 
 }
 
 #follow-btn {
@@ -119,31 +119,31 @@
 
 .pickup-badge {
   position: absolute;
-  top: 10px; /* 上側に位置 */
-  left: 10px; /* 左側に位置 */
-  padding: 6px 12px; /* パディング */
-  border-radius: 10px; /* 丸みを持たせる */
-  font-size: 14px; /* フォントサイズ */
-  color: #fff; /* テキストの色 */
-  background: linear-gradient(-45deg, #ff9900, #ff5e00); /* グラデーション背景 */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* テキストの影 */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* バッジ全体に影を追加 */
-  transform: rotate(-3deg); /* バッジをわずかに傾ける */
-  transform-origin: center; /* 基準点を中心に設定 */
-  z-index: 1; /* 前面に表示 */
-  overflow: hidden; /* 要素内のオーバーフローを隠す */
+  top: 10px; 
+  left: 10px; 
+  padding: 6px 12px; 
+  border-radius: 10px; 
+  font-size: 14px; 
+  color: #fff; 
+  background: linear-gradient(-45deg, #ff9900, #ff5e00); 
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  transform: rotate(-3deg); 
+  transform-origin: center; 
+  z-index: 1; 
+  overflow: hidden; 
 }
 
 .pickup-badge::before {
   content: "";
   position: absolute;
-  top: -10px; /* 上方向に配置 */
-  left: -10px; /* 左方向に配置 */
-  width: 120%; /* オーバーフローさせる */
-  height: 120%; /* オーバーフローさせる */
-  background: rgba(255, 255, 255, 0.2); /* 光沢のある白い背景 */
-  transform: rotate(45deg); /* 背景を回転 */
-  z-index: -1; /* 背景よりも後ろに表示 */
+  top: -10px; 
+  left: -10px; 
+  width: 120%; 
+  height: 120%; 
+  background: rgba(255, 255, 255, 0.2); 
+  transform: rotate(45deg); 
+  z-index: -1; 
 }
 
 

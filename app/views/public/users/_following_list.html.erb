@@ -1,20 +1,32 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8 offset-md-2">
-      <h4>フォロー</h4>
+      <h5>フォロー中</h5>
       <% if @user.followings.present? %>
-        <ul>
+        <ul class="list-unstyled">
           <% @user.followings.each do |following| %>
-            <li>
-              <%= link_to following.nickname, user_path(following.account), data: { turbolinks: false } %>
-              <% if @user == @current_user %>
-                <%= render "public/relationships/follow", user: following %>
+            <li class="media mb-3">
+              <%= link_to user_path(following.account), data: { turbolinks: false } do %>
+                <%= user_icon_or_youtube(following, size: '30x30', class: 'rounded-circle align-self-center mr-3') %>
               <% end %>
+              <div class="media-body my-auto">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <h6 class="mt-0 mb-1">
+                      <%= link_to following.nickname, user_path(following.account), data: { turbolinks: false } %>
+                    </h6>
+                    <p>@<%= following.account %></p>
+                  </div>
+                  <!--<div class="align-self-center">-->
+                  <!--  <%#= render "public/relationships/follow", user: following %>-->
+                  <!--</div>-->
+                </div>
+              </div>
             </li>
           <% end %>
         </ul>
       <% else %>
-        <p>フォローしているユーザーはいません。</p>
+        <p>フォロワーはいません。</p>
       <% end %>
     </div>
   </div>
