@@ -13,7 +13,7 @@
       <h1 class="slogan">Seeding Success, <br>Growing Influence</h1>
       <p class="catchphrase">YouTubeで始まる、ブログで続く</p>
       <%= link_to about_path, class: "round-button", data: { turbolinks: false } do %>
-        <span class="arrow">↗</span>
+        <span class="arrow" data-toggle=tooltip data-placement="bottom" title="2Seedsについて">↗</span>
       <% end %>
 
     </div>
@@ -278,7 +278,7 @@
 <div class="advertisement-container-fluid mb-3">
   <div class="row">
     <div class="col-md-12 text-center">
-      <%= link_to "新たなファンと繋がるチャンス！今すぐ投稿を始めよう。", new_post_path, class: "advertisement" %>
+      <%= link_to "新たなファンと繋がるチャンス！今すぐ投稿を始めよう。", new_post_path, class: "advertisement", data: { toggle: "tooltip", placement: "bottom" }, title: "新規投稿へ" %>
     </div>
   </div>
 </div>
@@ -286,7 +286,7 @@
 <div class="advertisement-container-fluid mb-3">
   <div class="row">
     <div class="col-md-12 text-center">
-      <%= link_to "Youtuberの夢、ここから始めよう。一歩を踏み出す場所。", new_user_registration_path, class: "advertisement" %>
+      <%= link_to "Youtuberの夢、ここから始めよう。一歩を踏み出す場所。", new_user_registration_path, class: "advertisement", data: { toggle: "tooltip", placement: "bottom" }, title: "新規登録へ" %>
     </div>
   </div>
 </div>

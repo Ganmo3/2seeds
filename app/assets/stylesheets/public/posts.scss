@@ -204,7 +204,7 @@
 }
 
 .close-button:hover {
-  color: #333; 
+  color: #333;
 }
 
 /* プレビューメッセージ */
@@ -255,7 +255,7 @@
   overflow: hidden;
   width: 100%;
   box-sizing: border-box;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
 
 }
@@ -379,11 +379,11 @@
 }
 
 .dashboard-title {
-  transition: opacity 0.3s; 
+  transition: opacity 0.3s;
 }
 
 .dashboard-title:hover {
-  opacity: 0.7; 
+  opacity: 0.7;
 }
 
 /* ステータスラベルのスタイリング */
@@ -406,19 +406,19 @@
 
 /* アイコンのスタイル */
 .status-container .fa-play-circle {
-  font-size: 18px; 
+  font-size: 18px;
   color: #4220C7;
-  transition: color 0.3s; 
+  transition: color 0.3s;
 }
 
 .status-container .fa-edit {
-  font-size: 18px; 
+  font-size: 18px;
   color: #006400;
   transition: color 0.3s;
 }
 
 .status-container .fa-trash {
-  font-size: 18px; 
+  font-size: 18px;
   color: #FF5733;
   transition: color 0.3s;
 }
@@ -429,11 +429,11 @@
 }
 
 .status-container .fa-edit:hover {
-  color: #228B22; 
+  color: #228B22;
 }
 
 .status-container .fa-trash:hover {
-  color: #FF0000; 
+  color: #FF0000;
 }
 
 /* 作成日または更新日のスタイリング */
@@ -513,6 +513,7 @@
 .new-post-btn:hover {
   background-color: #BDDF38;
   color: white;
+  text-decoration: none;
 }
 
 h6.dashboard-title a {
@@ -624,72 +625,72 @@ h6.dashboard-title a {
 
 /* タイトルのスタイル */
 .chart-title {
-  font-size: 24px; 
-  color: #333; 
-  margin-bottom: 10px; 
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
 }
 
 /* タイトルコンテナのスタイル */
 .chart-title-container {
-  padding: 10px 0; 
-  text-align: center; 
-  border-bottom: 1px solid #ccc; 
+  padding: 10px 0;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
 }
 
 .analytics-total-count small {
-  font-size: 14px; 
-  color: #777; 
+  font-size: 14px;
+  color: #777;
 }
 
 
 
 /* アナリティクスポストリストのスタイル */
 .analytics-post-list {
-  border: 1px solid #ccc; 
-  padding: 20px; 
-  border-radius: 10px; 
-  background-color: #f8f9fa; 
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f8f9fa;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* アナリティクスポストアイテムのスタイル */
 .analytics-post-item {
-  border: 1px solid #ccc; 
-  padding: 10px; 
-  border-radius: 5px; 
-  background-color: #ffffff; 
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); 
-  margin-bottom: 10px; 
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
 }
 
 
 /* タイトルのスタイル */
 .analytics-post-title a {
-  color: #333; 
-  font-size: 18px; 
-  text-decoration: none; 
+  color: #333;
+  font-size: 18px;
+  text-decoration: none;
 }
 
 .analytics-post-title a:hover {
-  color: #007bff; 
+  color: #007bff;
 }
 
 /* 公開日のスタイル */
 .analytics-post-created-at {
-  font-size: 14px; 
-  color: #777; 
+  font-size: 14px;
+  color: #777;
 }
 
 /* カウント数のスタイル */
 .analytics-impressions-count {
-  font-size: 16px; 
+  font-size: 16px;
   color: #28a745;
-  font-weight: bold; 
+  font-weight: bold;
 }
 
 /* レイアウトの調整 */
 .analytics-post-item {
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 }
 
 /* youtubeタイトル */
@@ -701,39 +702,39 @@ h6.dashboard-title a {
 .twitter {
   display: flex;
   align-items: center;
-  font-size: 25px; 
+  font-size: 25px;
 }
 
 .twitter a {
-  color: #00acee; 
+  color: #00acee;
 }
 
 .twitter a:hover {
-  opacity: 0.7; 
+  opacity: 0.7;
   transition: opacity 0.3s ease;
-  text-decoration: none; 
+  text-decoration: none;
 }
 
 /* 編集アイコンとゴミ箱アイコンのスタイル */
 .post-edit-icon i, .post-delete-icon i {
-  font-size: 25px; 
-  color: #555; 
-  margin: 0 5px; 
+  font-size: 25px;
+  color: #555;
+  margin: 0 5px;
 }
 
 .post-edit-icon i:hover, .post-delete-icon i:hover {
-  color: #ff4081; 
-  transition: color 0.3s ease; 
+  color: #ff4081;
+  transition: color 0.3s ease;
 }
 
 .user-link {
-  opacity: 1; 
+  opacity: 1;
   transition: opacity 0.3s ease;
 }
 
 .user-link:hover {
   text-decoration: none;
-  opacity: 0.8; 
+  opacity: 0.8;
   transition: opacity 0.3s ease;
 }
 
@@ -756,11 +757,11 @@ h6.dashboard-title a {
 }
 
 .post-card-views i {
-  color: #3498db; 
+  color: #3498db;
 }
 
 .post-card-comments i {
-  color: #27ae60; 
+  color: #27ae60;
 }
 
 @media (max-width: 768px) {

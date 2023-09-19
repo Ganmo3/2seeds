@@ -74,7 +74,7 @@ gem 'impressionist'
 # tag付け用
 gem 'acts-as-taggable-on'
 # 確認モーダル用
-gem 'data-confirm-modal'
+# gem 'data-confirm-modal'
 gem 'meta-tags', :require => 'meta_tags'
 
 gem 'dotenv-rails'
