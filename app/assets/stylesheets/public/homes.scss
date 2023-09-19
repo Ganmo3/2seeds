@@ -30,23 +30,23 @@
 }
 
 .search-container i {
-  color: #BDDF38; 
+  color: #4220C7; 
   transition: color 0.3s; 
 }
 
 .search-container:hover i {
-  color: #9ECA2D; 
+  color: #655DFC; 
 }
 
 /* ベルのアイコンの色 */
 i.far.fa-bell.fa-lg {
-  color: #BDDF38; 
+  color: #4220C7; 
   transition: color 0.3s; 
 }
 
 /* ホバー時のベルのアイコンの色 */
 i.far.fa-bell.fa-lg:hover  {
-  color: #9ECA2D; 
+  color: #655DFC; 
 }
 
 
@@ -342,6 +342,7 @@ i.far.fa-bell.fa-lg:hover  {
 .post-item:hover {
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15); 
   background-color: #BDDF38;
+  transition: all 0.3s ease;
 }
 
 .user-info img {
@@ -395,6 +396,7 @@ i.far.fa-bell.fa-lg:hover  {
 
 .post-item {
   position: relative;
+  transition: all 0.3s ease;
 }
 
 .ranking-number {
@@ -406,6 +408,7 @@ i.far.fa-bell.fa-lg:hover  {
   padding: 5px 10px;
   font-weight: bold;
   z-index: 2; 
+  border-radius: 4px;
 }
 
 .weekly-view-count {
@@ -610,8 +613,8 @@ i.far.fa-bell.fa-lg:hover  {
   border-color: #9ECA2D; 
   top: -3px; 
   box-shadow: 0 5px 6px rgba(0, 0, 0, 0.4); 
+  text-decoration: none;
 }
-
 
 /* ランキングリストのスタイル */
 .ranking-list {
@@ -631,12 +634,14 @@ i.far.fa-bell.fa-lg:hover  {
   transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
   opacity: 1;
   transition: opacity 0.3s;
+  transition: all 0.3s ease;
 }
 
 .ranking-user:hover {
   transform: translateY(-5px);
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   background-color: #BDDF38;
+  transition: all 0.3s ease;
 }
 
 .ranking-user a:hover {
@@ -711,6 +716,7 @@ i.far.fa-bell.fa-lg:hover  {
 .about-container-fluid {
   background-color: #BDDF38;
   height: 100vh;
+  position: relative;
 }
 
 .site-description {
@@ -731,7 +737,6 @@ i.far.fa-bell.fa-lg:hover  {
   top: 30%; 
   left: calc(35% - 15vh); 
   transform: translate(-50%, -50%); 
-
 }
 
 @keyframes fluidrotate {
@@ -965,15 +970,6 @@ i.far.fa-bell.fa-lg:hover  {
   transform: translateY(0) scale(1.1); 
 }
 
-
-/* ポイントボックスのホバースタイル */
-.first-point:hover,
-.second-point:hover,
-.third-point:hover {
-  background-color: #BDDF38;
-  transform: scale(1.1);
-}
-
 /* フェードインアニメーション */
 .first-point.fade-in,
 .second-point.fade-in,
@@ -993,4 +989,17 @@ i.far.fa-bell.fa-lg:hover  {
     font-size: 12px;
     padding: 6px 12px;
   }
+  
+  .advertisement {
+    font-size: 18px;
+  }
+  
+  .advertisement-container-fluid {
+    padding: 50px;
+  }
+  
+  .fluid {
+    display :none;
+  }
+
 }

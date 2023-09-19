@@ -18,6 +18,7 @@
 .edit-btn:hover {
   background-color: #9ECA2D;
   text-decoration: none;
+  color: #fff;
 }
 
 /* アイコンカラム */
@@ -25,7 +26,6 @@
   background-color: #f5f5f5;
   border: 1px solid #ccc;
   border-radius: 10px;
-  padding: 20px;
   text-align: center;
   transition: background-color 0.3s ease-out;
 }
@@ -35,7 +35,7 @@
 }
 
 .icon a {
-  font-weight: bold; 
+  font-weight: bold;
   color: black;
   opacity: 1;
   transition: opacity 0.3s;
@@ -49,30 +49,30 @@
 
 /* チャンネル名のスタイル */
 .channel-name a {
-  display: inline-block; 
-  padding: 8px 16px; 
+  display: inline-block;
+  padding: 8px 16px;
   border: 1px solid #BDDF38;
   background-color: #BDDF38;
-  color: #fff; 
-  text-decoration: none; 
-  border-radius: 4px; 
-  font-weight: bold; 
-  transition: background-color 0.3s, color 0.3s; 
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 /* ホバー時のスタイル */
 .channel-name a:hover {
   background-color: #9ECA2D;
-  color: #fff; 
-  text-decoration: none; 
+  color: #fff;
+  text-decoration: none;
 }
 
 
 /* .post-card-creator-introduction スタイル */
 .post-card-creator-introduction {
-  font-size: 14px; 
-  line-height: 1.5; 
-  margin-top: 5px; 
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 5px;
 }
 
 .edit-container {
@@ -86,12 +86,12 @@
 
 .nickname h5 {
   margin: 0;
-  font-size: 20px; 
+  font-size: 20px;
   color: #333;
-  text-transform: uppercase; 
-  letter-spacing: 1px; 
-  font-weight: bold; 
-  padding-bottom: 5px; 
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+  padding-bottom: 5px;
 }
 
 
@@ -105,13 +105,13 @@
 
 .information p {
   display: inline-block;
-  color: #666; 
+  color: #666;
 }
 
 .info-label {
   font-weight: bold;
   margin-right: 5px;
-  color: #999; 
+  color: #999;
 }
 
 #follow-btn {
@@ -152,47 +152,47 @@
 
 .pickup-badge {
   position: absolute;
-  top: 10px; 
-  left: 10px; 
-  padding: 6px 12px; 
-  border-radius: 10px; 
-  font-size: 14px; 
-  color: #fff; 
-  background: linear-gradient(-45deg, #ff9900, #ff5e00); 
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); 
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-  transform: rotate(-3deg); 
-  transform-origin: center; 
-  z-index: 1; 
-  overflow: hidden; 
+  top: 10px;
+  left: 10px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #fff;
+  background: linear-gradient(-45deg, #ff9900, #ff5e00);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: rotate(-3deg);
+  transform-origin: center;
+  z-index: 1;
+  overflow: hidden;
 }
 
 .pickup-badge::before {
   content: "";
   position: absolute;
-  top: -10px; 
-  left: -10px; 
-  width: 120%; 
-  height: 120%; 
-  background: rgba(255, 255, 255, 0.2); 
-  transform: rotate(45deg); 
-  z-index: -1; 
+  top: -10px;
+  left: -10px;
+  width: 120%;
+  height: 120%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(45deg);
+  z-index: -1;
 }
 
 
 /* 退会画面 */
 .withdraw-account h6 {
-  font-size: 18px; 
-  margin: 0; 
+  font-size: 18px;
+  margin: 0;
 }
 
 .withdraw-message {
   text-align: center;
-  margin-top: 20px; 
+  margin-top: 20px;
 }
 
 .withdraw-message p {
-  font-size: 16px; 
+  font-size: 16px;
 }
 
 .red-text {
@@ -200,18 +200,18 @@
 }
 
 .withdraw-point {
-  margin-top: 20px; 
-  padding-left: 20px; 
-  font-size: 16px; 
-  border: 1px solid #ccc; 
-  border-radius: 5px; 
-  padding: 10px; 
+  margin-top: 20px;
+  padding-left: 20px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
   list-style-position: inside;
 }
 
 .withdraw-checked {
   text-align: center;
-  margin-top: 20px; 
+  margin-top: 20px;
 }
 
 .withdraw-button {
@@ -232,7 +232,7 @@
 }
 
 .profile-card:hover {
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   background-color: #BDDF38;
   transform: translateY(-5px);
 }
@@ -276,4 +276,39 @@
   font-size: 16px;
   font-weight: bold;
   color: #333;
+}
+
+/* ユーザーのニックネームへのリンクの色を変更 */
+.profile-card__data--name a {
+  color: #4220C7;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.profile-card__data--name a:hover {
+  color: #4220C7;
+  opacity: 0.8;
+  text-decoration: none;
+}
+
+/* チャンネル名へのリンクの色を変更 */
+.profile-card__data--chennel-name a {
+  color: #4220C7;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.profile-card__data--chennel-name a:hover {
+  color: #4220C7;
+  opacity: 0.8;
+  text-decoration: none;
+}
+
+.profile-card__image {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.profile-card__image:hover {
+  opacity: 0.8;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }

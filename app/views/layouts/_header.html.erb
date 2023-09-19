@@ -1,85 +1,80 @@
 <header class="sticky-top" id="header">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <nav class="navbar navbar-expand-lg">
-          <div class="logo-container">
-            <%= link_to root_path, data: { "turbolinks" => false } do %>
-              <%= image_tag "logo_2seedsr1.png", alt: "LOGO", width: "10%", height: "auto" %>
-            <% end %>
-          </div>
-          
-          <div class="search-container">
-            <%= link_to search_path do %>
-              <i class="fas fa-search fa-lg mr-3"></i>
-            <% end %>
-          </div>
+  <nav class="navbar navbar-expand-sm navbar-expand-md navbar-expand-lg navbar-expand-xl">
+    <div class="logo-container col-sm-2 col-2">
+      <%= link_to root_path, data: { "turbolinks" => false } do %>
+        <%= image_tag "logo_2seedsr1.png", alt: "LOGO", width: "60px", height: "auto" %>
+      <% end %>
+    </div>
 
-          <!-- サインインしている場合のメニュー要素（通常の表示） -->
-          <% if user_signed_in? %>
-            <ul class="navbar-nav d-flex align-items-center ml-auto">
-              <li class="mr-3">
-                <a href="javascript:void(0)" id="notifications-link">
-                  <% if unchecked_notifications.any? %>
-                    <span class="fa-stack">
-                      <i class="far fa-bell fa-lg fa-stack-2x" style="font-size: 1.5em;"></i>
-                      <i class="fas fa-circle n-circle fa-stack-1x"></i>
-                    </span>
-                  <% else %>
-                    <i class="far fa-bell fa-lg" style="font-size: 1.5em;"></i>
-                  <% end %>
-                </a>
-              </li>
-              <li>
-                <!-- マイページへのリンクとユーザーアイコン -->
-                <div class="mypage-btn-container" id="mypageBtnContainer">
-                  <%= user_icon_or_youtube(current_user, size: '40x40', class: 'rounded-circle cursor-pointer') %>
-                  <div class="mypage-dropdown" id="mypageDropdown">
-                    <ul>
-                      <li><%= link_to user_path(current_user), data: { "turbolinks" => false } do %><i class="fas fa-user-circle"></i>マイページ<% end %></li>
-                      <li><%= link_to new_post_path, data: { "turbolinks" => false } do %><i class="fas fa-pen"></i>新規投稿<% end %></li>
-                      <li><%= link_to dashboard_posts_path, data: { "turbolinks" => false } do %><i class="fas fa-clipboard-list"></i>ダッシュボード<% end %></li>
-                      <li><%= link_to analytics_posts_path, data: { "turbolinks" => false } do %><i class="fas fa-chart-line"></i>アナリティクス<% end %></li>
-                      <li><%= link_to edit_user_path(current_user), data: { "turbolinks" => false } do %><i class="fas fa-user-cog"></i>プロフィール設定<% end %></li>
-                      <li><%= link_to liked_posts_user_path(current_user), data: { "turbolinks" => false } do %><i class="fas fa-thumbs-up"></i>いいねした投稿<% end %></li>
-                      <li><%= link_to destroy_user_session_path, method: :delete do %><i class="fas fa-sign-out-alt"></i>ログアウト<% end %></li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          <% end %>
-
-             <div class="mypage-btn-container" id="navBtnContainer">
-               <% unless user_signed_in? %>
-               <div class="nav-btn" id="menuBtn">Menu▼</div>
-              <div class="mypage-dropdown" id="navDropdown">
-                <ul>
-                  <% if admin_signed_in? %>
-                    <li><%= link_to destroy_admin_session_path, method: :delete do %><i class="fas fa-sign-out-alt"></i>Log Out<% end %></li>
-                  <% else %>
-                    <% unless user_signed_in? %>
-                      <li><%= link_to new_user_registration_path do %><i class="fas fa-user-plus"></i>Sign Up<% end %></li>
-                      <li><%= link_to new_user_session_path do %><i class="fas fa-sign-in-alt"></i>Log In<% end %></li>
-                      <li><%= button_to users_guest_sign_in_path, method: :post, class: "guest-button" do %><i class="fas fa-glass-cheers"></i>Guest Login<% end %></li>
-                    <% end %>
-                  <% end %>
-                </ul>
-              </div>
-               <% end %>
-            </div>
-
-
-        </nav>
+    <div class="d-flex justify-content-end align-items-center flex-grow-1">
+      <div class="search-container">
+        <%= link_to search_path do %>
+          <i class="fas fa-search fa-lg mr-3"></i>
+        <% end %>
       </div>
     </div>
-  </div>
+
+    <!-- サインインしている場合のメニュー要素（通常の表示） -->
+    <% if user_signed_in? %>
+      <div class="mypage-nav d-flex align-items-center">
+        <div class="bell-container mr-3">
+          <a href="javascript:void(0)" id="notifications-link">
+            <% if unchecked_notifications.any? %>
+              <span class="fa-stack">
+                <i class="far fa-bell fa-lg fa-stack-2x" style="font-size: 1.5em;"></i>
+                <i class="fas fa-circle n-circle fa-stack-1x"></i>
+              </span>
+            <% else %>
+              <i class="far fa-bell fa-lg" style="font-size: 1.5em;"></i>
+            <% end %>
+          </a>
+        </div>
+
+        <!-- マイページへのリンクとユーザーアイコン -->
+        <div class="mypage-btn-container" id="mypageBtnContainer">
+          <%= user_icon_or_youtube(current_user, size: '40x40', class: 'rounded-circle cursor-pointer') %>
+          <div class="mypage-dropdown" id="mypageDropdown">
+            <ul>
+              <li><%= link_to user_path(current_user), data: { "turbolinks" => false } do %><i class="fas fa-user-circle"></i>マイページ<% end %></li>
+              <li><%= link_to new_post_path, data: { "turbolinks" => false } do %><i class="fas fa-pen"></i>新規投稿<% end %></li>
+              <li><%= link_to dashboard_posts_path, data: { "turbolinks" => false } do %><i class="fas fa-clipboard-list"></i>ダッシュボード<% end %></li>
+              <li><%= link_to analytics_posts_path, data: { "turbolinks" => false } do %><i class="fas fa-chart-line"></i>アナリティクス<% end %></li>
+              <li><%= link_to edit_user_path(current_user), data: { "turbolinks" => false } do %><i class="fas fa-user-cog"></i>プロフィール設定<% end %></li>
+              <li><%= link_to liked_posts_user_path(current_user), data: { "turbolinks" => false } do %><i class="fas fa-thumbs-up"></i>いいねした投稿<% end %></li>
+              <li><%= link_to destroy_user_session_path, method: :delete do %><i class="fas fa-sign-out-alt"></i>ログアウト<% end %></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="mypage-btn-container" id="navBtnContainer">
+      <% unless user_signed_in? %>
+        <div class="nav-btn" id="menuBtn">Menu▼</div>
+        <div class="mypage-dropdown" id="navDropdown">
+          <ul>
+            <% if admin_signed_in? %>
+              <li><%= link_to destroy_admin_session_path, method: :delete do %><i class="fas fa-sign-out-alt"></i>Log Out<% end %></li>
+            <% else %>
+              <% unless user_signed_in? %>
+                <li><%= link_to new_user_registration_path do %><i class="fas fa-user-plus"></i>Sign Up<% end %></li>
+                <li><%= link_to new_user_session_path do %><i class="fas fa-sign-in-alt"></i>Log In<% end %></li>
+                <li><%= button_to users_guest_sign_in_path, method: :post, class: "guest-button" do %><i class="fas fa-glass-cheers"></i>Guest Login<% end %></li>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+  </nav>
+
   <!-- 通知一覧を表示するモーダルウィンドウ -->
   <div id="notifications-modal" class="modal">
     <div class="common-modal-content"></div>
     <button id="close-modal" class="close-button">×</button>
   </div>
 </header>
+
 
 
 <script>
