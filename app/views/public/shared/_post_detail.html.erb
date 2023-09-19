@@ -35,11 +35,11 @@
             <div class="right-details text-right">
               <ul class="post-card-nstatus list-unstyled d-flex">
                 <% unless request.fullpath.include?("drafts") %>
-                  <li class="post-cart-views text-muted small">
+                  <li class="post-card-views text-muted small mr-1">
                     <i class="fas fa-eye"></i>
                     <%= post.impressions_count %>
                   </li>
-                  <li class="post-card-likes text-muted small">
+                  <li class="post-card-likes text-muted small mr-1">
                     <i class="fa fa-heart"></i>
                     <span><%= post.post_favorites.count %></span>
                   </li>

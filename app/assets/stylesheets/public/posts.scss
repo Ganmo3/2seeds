@@ -57,8 +57,6 @@
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-
-
 /* 投稿body欄　*/
 .form-group_body .trix-content {
   background-color: white;
@@ -206,7 +204,7 @@
 }
 
 .close-button:hover {
-  color: #333; /* ホバー時の色 */
+  color: #333; 
 }
 
 /* プレビューメッセージ */
@@ -257,11 +255,10 @@
   overflow: hidden;
   width: 100%;
   box-sizing: border-box;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* 調整可能な影の設定 */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); 
   border-radius: 8px;
 
 }
-
 
 /* コメント欄 */
 .comment-section {
@@ -272,7 +269,7 @@
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* コメントカードリストのスタイル（例） */
+/* コメントカードリストのスタイル */
 .comment-card-list {
   list-style: none;
   padding: 0;
@@ -352,31 +349,41 @@
   transform: scaleX(1);
 }
 
-
 /* ダッシュボード */
 /* ステータスボタンのスタイリング */
-.status-button {
+.status-container {
   border: none;
   padding: 5px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
+  transition: all 0.3s ease;
 }
 
-.status-button:hover {
+.status-container:hover {
   transform: translateY(-5px);
 }
 
-.status-button.published {
+.status-container.published:hover {
   background-color: #BDDF38;
+  transition: all 0.3s ease;
 }
 
-.status-button.draft {
+.status-container.draft:hover {
   background-color: #E0E87C;
+  transition: all 0.3s ease;
 }
 
-.status-button.unpublished {
+.status-container.unpublished:hover {
   background-color: #FFB8B8;
+  transition: all 0.3s ease;
+}
+
+.dashboard-title {
+  transition: opacity 0.3s; 
+}
+
+.dashboard-title:hover {
+  opacity: 0.7; 
 }
 
 /* ステータスラベルのスタイリング */
@@ -387,20 +394,8 @@
   border-radius: 8px;
   color: white;
   height: 27px;
+  background-color: black;
 }
-
-.published {
-  background-color: #4caf50;
-}
-
-.draft {
-  background-color: #ffc107;
-}
-
-.unpublished {
-  background-color: #dc3545;
-}
-
 
 /* ステータスアイコンのスタイリング */
 .status-icon {
@@ -409,18 +404,44 @@
   color: white;
 }
 
-/* リンクアイコンのスタイリング */
-.link-icon {
-  margin-right: 5px;
-  font-size: 18px;
-  color: #555;
+/* アイコンのスタイル */
+.status-container .fa-play-circle {
+  font-size: 18px; 
+  color: #4220C7;
+  transition: color 0.3s; 
+}
+
+.status-container .fa-edit {
+  font-size: 18px; 
+  color: #006400;
+  transition: color 0.3s;
+}
+
+.status-container .fa-trash {
+  font-size: 18px; 
+  color: #FF5733;
+  transition: color 0.3s;
+}
+
+/* ホバー時のスタイル */
+.status-container .fa-play-circle:hover {
+  color: #0000FF;
+}
+
+.status-container .fa-edit:hover {
+  color: #228B22; 
+}
+
+.status-container .fa-trash:hover {
+  color: #FF0000; 
 }
 
 /* 作成日または更新日のスタイリング */
-.post-date {
+.status-container p {
   font-size: 12px;
   color: #777;
 }
+
 
 /* タブ */
 .tabs {
@@ -703,4 +724,41 @@ h6.dashboard-title a {
 .post-edit-icon i:hover, .post-delete-icon i:hover {
   color: #ff4081; 
   transition: color 0.3s ease; 
+}
+
+.user-link {
+  opacity: 1; 
+  transition: opacity 0.3s ease;
+}
+
+.user-link:hover {
+  text-decoration: none;
+  opacity: 0.8; 
+  transition: opacity 0.3s ease;
+}
+
+.post-title a {
+  color: black;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  font-weight: bold;
+}
+
+.post-title a:hover {
+  color: black;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+  text-decoration: none;
+}
+
+.post-card-likes i {
+  color: #FF5733;
+}
+
+.post-card-views i {
+  color: #3498db; 
+}
+
+.post-card-comments i {
+  color: #27ae60; 
 }

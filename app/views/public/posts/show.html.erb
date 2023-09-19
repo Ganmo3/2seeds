@@ -19,11 +19,7 @@
 
 <div class="container">
   <div class="row">
-    <!-- いいね&twitter -->
     <div class="col-md-1"></div>
-      
-    
-
     <!-- body -->
     <div class="col-md-7">
       <article class="post">
@@ -79,7 +75,7 @@
         <div id="post_favorite_btn_<%= @post.id %>" class="post-favorite-btn" <%= "data-toggle=tooltip" unless user_signed_in? || admin_signed_in? %> data-placement="bottom" title="<%= 'いいねをするには、ログインしてください。' unless user_signed_in? || admin_signed_in? %>">
           <%= render "public/post_favorites/btn", post: @post %>
         </div>
-        <div class="twitter" <%= "data-toggle=tooltip" unless user_signed_in? %> data-placement="bottom">
+        <div class="twitter ml-1" <%= "data-toggle=tooltip" unless user_signed_in? %> data-placement="bottom">
            <%= link_to "https://twitter.com/share?url=#{ post_url(@post) }&text=【2Seeds】%0a%0a#{ @post.title }", target: '_blank' do %>
             <i class="fab fa-twitter"></i>
       　    <% end %>

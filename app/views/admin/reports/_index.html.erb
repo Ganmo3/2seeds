@@ -25,11 +25,11 @@
                 <td><%= report.reporter.nickname %></td>
                 <td><%= Report.where(reported_id: report.reported_id).count %></td>
                 <td>
-                  <%#<% if report.is_checked %>
+                  <% if report.is_checked %>
                     <span class="badge badge-success">確認済み</span>
-                  <%#<% else %>
+                  <% else %>
                     <span class="badge badge-danger">未確認</span>
-                <%#  <% end %>
+                  <% end %>
                 </td>
               </tr>
             <% end %>

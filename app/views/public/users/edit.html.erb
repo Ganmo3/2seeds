@@ -11,11 +11,15 @@
           <%= link_to image_tag @user.get_icon, class: "rounded-circle file-fluid", id: "icon-image-link" %>
         <% end %>
       </div>
-      <div class="button">
-        <label for="icon-file-field" class="file-label">
-          <%# <%= f.file_field :icon, accept: "image/*", style: "display: none;", id: "icon-file-field" %>
-          <%= f.file_field :icon, accept: "image/*" %>
-      </div>
+      <% unless channel_id.present? %>
+        <div class="button">
+          <label for="icon-file-field" class="file-label">
+            <!-- ファイルフィールドの表示コード -->
+            <%= f.file_field :icon, accept: "image/*", style: "display: none;", id: "icon-file-field" %>
+            <%= f.file_field :icon, accept: "image/*" %>
+          </label>
+        </div>
+      <% end %>
       <div class="form-group">
         <label>表示名 *</label>
         <%= f.text_field :nickname, required: true, class: "form-control", style: "width: 80%" %>

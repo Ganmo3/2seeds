@@ -12,21 +12,15 @@
   text-align: center;
 }
 
-.heart-link:hover  .login-required-message {
-  display: block; 
-}
-
-.heart-icon {
-  display: inline-block;
-  padding: 10px; 
-  font-size: 24px; 
+.heart-link:hover {
+  text-decoration: none;
 }
 
 .heart-count {
   font-size: 12px; 
   color: gray;
+  text-decoration: none;
 }
-
 
 .post-card__like {
   color: #ff4081; 
@@ -41,9 +35,12 @@
 .heart-icon {
   color: #ff4081; 
   transition: color 0.3s ease; 
+  display: inline-block;
+  font-size: 24px;
 }
 
 .heart-icon:hover {
   color: #f50057; 
   text-decoration: none; 
 }
+
