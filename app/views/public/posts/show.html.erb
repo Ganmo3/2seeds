@@ -7,7 +7,7 @@
       <% if video_id.present? %>
         <%= link_to @post.link, target: "_blank", class: "youtube-info" do %>
           <div class="show-thumbnail-container">
-            <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width:65%; height: auto;') %>
+            <%= youtube_thumbnail(video_id, size: '1280x720', style: 'width:65%; height: auto;', data: { toggle: "tooltip", placement: "bottom" }, title: "YouTubeへ" ) %>
           </div>
         <% end %>
       <% else %>
@@ -72,11 +72,11 @@
       
       <!-- twitter & いいね -->
       <div class="action-container d-flex justify-content-end">
-        <div id="post_favorite_btn_<%= @post.id %>" class="post-favorite-btn" <%= "data-toggle=tooltip" unless user_signed_in? || admin_signed_in? %> data-placement="bottom" title="<%= 'いいねをするには、ログインしてください。' unless user_signed_in? || admin_signed_in? %>">
+        <div id="post_favorite_btn_<%= @post.id %>" class="post-favorite-btn" <%= "data-toggle=tooltip" unless user_signed_in? || admin_signed_in? %> data-placement="bottom" title="<%= 'いいねをするには、ログインが必要です。' unless user_signed_in? || admin_signed_in? %>">
           <%= render "public/post_favorites/btn", post: @post %>
         </div>
         <div class="twitter ml-1" <%= "data-toggle=tooltip" unless user_signed_in? %> data-placement="bottom">
-           <%= link_to "https://twitter.com/share?url=#{ post_url(@post) }&text=【2Seeds】%0a%0a#{ @post.title }", target: '_blank' do %>
+           <%= link_to "https://twitter.com/share?url=#{post_url(@post)}&text=【2Seeds】%0a%0a#{@post.title}", target: '_blank', data: { toggle: "tooltip", placement: "bottom" }, title: "Xでシェア" do %>
             <i class="fab fa-twitter"></i>
       　    <% end %>
         </div>

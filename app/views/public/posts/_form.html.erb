@@ -1,10 +1,10 @@
 <div class="d-flex justify-content-center align-items-center mt-5">
   <div class="back-button">
     <%= link_to dashboard_posts_path do %>
-      <i class="fas fa-arrow-left fa-lg"></i>
+      <i class="fas fa-arrow-left fa-lg" data-toggle=tooltip data-placement="bottom" title="ダッシュボードに戻る"></i>
     <% end %>
   </div>
-  <button id="preview-button" type="button" class="preview-btn ml-3">Preview</button>
+  <button id="preview-button" type="button" class="preview-btn ml-3" data-toggle=tooltip data-placement="bottom" title="プレビューを表示">Preview</button>
   <div class="form-group_button-wrapper d-flex align-items-center ml-auto">
     <div class="toggle_switch mr-3">
       <input type="checkbox" id="postTypeToggle" class="toggle_input">

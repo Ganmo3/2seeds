@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    
+
     <% if Rails.env.production? %>
       <%= render 'layouts/google_analytics' %>
     <% end %>
@@ -24,9 +24,9 @@
     <% if @show_header %>
       <%= render 'layouts/header' %>
     <% end %>
-   
+
      <a href="#top" class="scroll-top-btn">
-      <i class="fas fa-chevron-circle-up"></i>
+      <i class="fas fa-chevron-circle-up" data-toggle=tooltip data-placement="bottom" title="最上部へ移動"></i>
     </a>
     <main>
       <%= content_tag :div, flash[:notice], class: "flash-message notice" if flash[:notice].present? %>
@@ -35,7 +35,7 @@
       <%= content_tag :div, flash[:success], class: "flash-message success" if flash[:success].present? %>
 
       <%= yield %>
-   
+
       <%= render 'chatbots/chatbot' %>
       <button type="button" class="chatbot-btn" data-toggle="modal" data-target="#chat-modal">
         <i class="fas fa-robot" data-toggle=tooltip data-placement="bottom" title="ボットにゃんと遊ぶ！"></i>
@@ -44,7 +44,7 @@
     <% if @show_footer %>
       <%= render 'layouts/footer' %>
     <% end %>
-    
+
 
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
   </body>

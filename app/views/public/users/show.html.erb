@@ -17,7 +17,7 @@
           <% if channel_id.present? %>
             <%= link_to youtube_channel_icon(channel_id, size: 'default', class: 'channel-icon rounded-circle'), "https://www.youtube.com/channel/#{channel_id}", target: "_blank" %>
             <div class="channel-name">
-              <%= link_to youtube_channel_name(channel_id), "https://www.youtube.com/channel/#{channel_id}", target: "_blank" %>
+              <%= link_to youtube_channel_name(channel_id), "https://www.youtube.com/channel/#{channel_id}", target: "_blank", data: { toggle: "tooltip", placement: "bottom" }, title: "YouTubeチャンネルへ"  %>
             </div>
           <% else %>
             <%= image_tag @user.get_icon, class: "rounded-circle file-fluid" %>
