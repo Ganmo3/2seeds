@@ -378,6 +378,8 @@ i.far.fa-bell.fa-lg:hover  {
   text-decoration: none;
   font-size: 12px;
   transition: background-color 0.3s, color 0.3s;
+  align-items: center; 
+  justify-content: center;
 }
 
 .tag-btn a {
@@ -1001,5 +1003,5 @@ i.far.fa-bell.fa-lg:hover  {
   .fluid {
     display :none;
   }
-
+  
 }
