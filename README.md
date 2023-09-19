@@ -1,5 +1,5 @@
 # 2Seeds
-![ウェブサイトデザイン](images/image_2seeds.png)(https://two-seeds.com/)
+![ウェブサイトデザイン](app/assets/images/image_2seeds.png)(https://two-seeds.com/)
 ## サイト概要
 ### サイトテーマ
 "2Seeds"は動画クリエイター（Youtuber）が自身の動画コンテンツのリンクと共に記事を公開できるブログサイトです。
