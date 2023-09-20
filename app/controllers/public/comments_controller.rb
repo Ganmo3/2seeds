@@ -22,9 +22,13 @@ class Public::CommentsController < ApplicationController
   def destroy
     @post = Post.find(params[:post_id])
     @comment = Comment.find(params[:id])
-    @comment.destroy
-    @comments = Comment.where(post_id: params[:post_id]).order(created_at: :desc)
-    #redirect_back(fallback_location: root_path)
+
+    if @comment.user == current_user
+      @comment.destroy
+      @comments = Comment.where(post_id: params[:post_id]).order(created_at: :desc)
+    else
+      redirect_to root_path, alert: 'コメントの削除権限がありません。'
+    end
   end
 
   def update

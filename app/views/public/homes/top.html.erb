@@ -100,7 +100,7 @@
 
       <div class="weekly-ranking-container mt-3 d-flex flex-wrap">
         <% @weekly_most_viewed_posts.each_with_index do |post, index| %>
-          <div class="post-item mx-1 mx-auto">
+          <div class="post-item mx-1 mb-3 mx-auto">
             <%= link_to post_path(post), class: "link-to" do %>
               <div class="ranking-number">No. <%= index + 1 %></div>
               <% video_id = extract_youtube_video_id(post.link) %>

@@ -2,6 +2,7 @@ class Public::PostsController < ApplicationController
   before_action :hide_header, only: [:new, :edit]
   before_action :hide_footer, only: [:new, :edit]
   before_action :authenticate_user!, except: [:index, :trending, :weekly_ranking, :show, :search_by_tag]
+  before_action :redirect_non_owner, only: [:edit, :update]
 
   def index
     case params[:sort]
@@ -79,12 +80,7 @@ class Public::PostsController < ApplicationController
   end
 
   def edit
-    @post = Post.find(params[:id])
     @user = current_user
-
-    if user_signed_in? && @post.user != @user
-     redirect_to root_path, alert: "編集権限がありません。"
-    end
   end
 
   def update
@@ -118,12 +114,18 @@ class Public::PostsController < ApplicationController
 
   def destroy
     @post = Post.find(params[:id])
-    if @post.destroy
-      redirect_to dashboard_posts_path, flash: { success: '投稿を削除しました。' }
+  
+    if @post.user == current_user
+      if @post.destroy
+        redirect_to dashboard_posts_path, flash: { success: '投稿を削除しました。' }
+      else
+        redirect_to root_path, flash: { alert: '投稿の削除に失敗しました。' }
+      end
     else
-      redirect_to root_path, flash: { alert: '投稿の削除に失敗しました。' }
+      redirect_to root_path, alert: '編集権限がありません。'
     end
   end
+
 
   def preview
     @preview_post = Post.new(post_params)
@@ -193,6 +195,13 @@ class Public::PostsController < ApplicationController
   
   def hide_footer
     @show_footer = false
+  end
+  
+  def redirect_non_owner
+    @post = Post.find(params[:id])
+    if user_signed_in? && @post.user != current_user
+     redirect_to root_path, alert: "他人のデータは編集できません。"
+    end
   end
 
   def post_params

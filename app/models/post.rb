@@ -206,7 +206,7 @@ end
 
   # 最新の投稿を取得
   def self.find_daily_new_posts(limit)
-    where(status: :published).order(created_at: :desc).take(limit)
+    published.order(created_at: :desc).take(limit)
   end
 
   # 投稿のいいね数ソート
