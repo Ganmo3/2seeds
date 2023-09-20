@@ -768,4 +768,12 @@ h6.dashboard-title a {
   .new-post-btn {
     display: none;
   }
+  
+  .thumbnail-container img {
+    width: 345px !important;
+  }
+  
+  .post-card-detail.d-flex {
+    display: block !important; 
+  }
 }
