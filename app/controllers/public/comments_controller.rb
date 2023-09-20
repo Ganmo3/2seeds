@@ -4,17 +4,17 @@ class Public::CommentsController < ApplicationController
 
   def create
     @post = Post.find(params[:post_id])
-    
+
     # if current_user.guest_user?
     #   flash[:alert] = "ゲストユーザーはコメントできません。"
     # else
       @comment = current_user.comments.new(comment_params)
       @comment.post_id = params[:post_id]
       @comment.save
-      
+
       # コメントの投稿に対する通知を作成・保存
       @post.create_notification_comment!(current_user, @comment.id)
-      
+
       @comments = Comment.where(post_id: params[:post_id]).order(created_at: :desc)
     # end
   end
@@ -32,18 +32,15 @@ class Public::CommentsController < ApplicationController
   end
 
   def update
-    if @comment.update(comment_update_params)
-    else
-      @comment.reload
-    end
+    @comment.reload unless @comment.update(comment_update_params)
   end
-  
+
   private
-  
+
   def set_comment
     @comment = current_user.comments.find(params[:id])
   end
-  
+
   def comment_update_params
     params.require(:comment).permit(:comment)
   end
