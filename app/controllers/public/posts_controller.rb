@@ -13,7 +13,7 @@ class Public::PostsController < ApplicationController
     else
       @posts = Post.published.order(created_at: :desc).page(params[:page]).per(12)
     end
-  
+
     @posts.each do |post|
       impressionist(post, nil, unique: [:session_hash, :user_id])
     end
@@ -114,7 +114,7 @@ class Public::PostsController < ApplicationController
 
   def destroy
     @post = Post.find(params[:id])
-  
+
     if @post.user == current_user
       if @post.destroy
         redirect_to dashboard_posts_path, flash: { success: '投稿を削除しました。' }
@@ -138,20 +138,20 @@ class Public::PostsController < ApplicationController
   def analytics
     @user = current_user
     sort_option = params[:sort] || 'latest'  # デフォルトは新着順
-  
+
     case sort_option
     when 'popular'
       @posts = @user.posts.sort_by_impressions_count.page(params[:page]).per(10)
     else
       @posts = @user.posts.published_posts.page(params[:page]).per(10)
     end
-    
+
     # 合計表示回数を計算
     @total_impressions_count = @user.posts.total_impressions_count
-  
+
     # 過去1ヶ月分のデイリーごとの総視聴回数データを取得
     @daily_impressions_data = calculate_daily_impressions
-  
+
     respond_to do |format|
       format.html
       format.json { render json: @daily_impressions_data }
@@ -168,19 +168,26 @@ class Public::PostsController < ApplicationController
 
   # アナリティクスの計算
   def calculate_daily_impressions
+    # 1ヶ月前から現在までの投稿の閲覧回数を取得
     impressions = Impression.where(
       impressionable_type: 'Post',
       created_at: 1.month.ago..Time.now,
-      impressionable_id: @user.posts.where(status: 'published').pluck(:id) 
+      impressionable_id: @user.posts.where(status: 'published').pluck(:id)
     )
-    daily_impressions_data = impressions.group("DATE(created_at)").count
-  
+
+    # 日ごとの閲覧回数をカウントし、日付ごとにグループ化
+    daily_impressions_data = []
+    if ActiveRecord::Base.connection_db_config.configuration_hash[:adapter] == 'sqlite3'
+      daily_impressions_data = impressions.group("DATE(created_at)").count
+    else
+      daily_impressions_data = impressions.group("DATE_FORMAT(created_at, '%Y-%m-%d')").count
+    end
     daily_impressions_hash = {}
     impressions_date_range(1.month.ago.to_date, Date.today).each do |date|
-      formatted_date = date.to_s(:db) 
+      formatted_date = date.to_s(:db)
       daily_impressions_hash[formatted_date] = daily_impressions_data[formatted_date].to_i
     end
-  
+
     daily_impressions_hash
   end
 
@@ -192,11 +199,11 @@ class Public::PostsController < ApplicationController
   def hide_header
     @show_header = false
   end
-  
+
   def hide_footer
     @show_footer = false
   end
-  
+
   def redirect_non_owner
     @post = Post.find(params[:id])
     if user_signed_in? && @post.user != current_user
