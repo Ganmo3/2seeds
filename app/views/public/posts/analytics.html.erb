@@ -61,14 +61,25 @@ document.addEventListener("turbolinks:load", function() {
       datasets: [{
         label: 'ブログ総閲覧数/day',
         data: data,
-        borderColor: 'blue',
+        borderColor: '#4220C7',
         backgroundColor: 'rgba(0, 0, 255, 0.1)',
         fill: true
       }]
     },
     options: {
       responsive: false,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true,
+          stepSize: 1,
+          callback: function(value) {
+            if (Number.isInteger(value)) {
+              return value;
+            }
+          }
+        }
+      }
     }
   });
 });

@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12">
       <% if @model == 'user' %>
-        <h4 class="headline">Users search for "<%= @content %>"</h4>
+        <h4 class="headline">Users search for "<%= @content %>"（<%= @total_results_count %>件）</h4>
         <% if @results.present? %>
           <% @results.each do |user| %>
             <%= render partial: 'public/users/profile-card', locals: { user: user }  %>
@@ -11,14 +11,14 @@
           <p>ユーザーの検索結果がありません</p>
         <% end %>
       <% elsif @model == 'post' %>
-        <h4 class="headline">Posts search for "<%= @content %>"</h4>
+        <h4 class="headline">Posts search for "<%= @content %>"（<%= @total_results_count %>件）</h4>
         <% if @results.present? %>
           <%= render partial: 'public/posts/index', locals: { posts: @results }  %>
         <% else %>
           <p>投稿の検索結果がありません</p>
         <% end %>
       <% elsif @model == 'tag' %>
-        <h4 class="headline">Tags search for "<%= @content %>"</h4>
+        <h4 class="headline">Tags search for "<%= @content %>"（<%= @total_results_count %>件）</h4>
         <% if @results.present? %>
           <% @results.each do |tag| %>
             <%= render partial: 'public/shared/tag_post', locals: { results: @results } %>

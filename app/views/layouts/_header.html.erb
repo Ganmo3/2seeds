@@ -20,9 +20,11 @@
         <div class="bell-container mr-3">
           <a href="javascript:void(0)" id="notifications-link">
             <% if unchecked_notifications.any? %>
-              <span class="fa-stack">
-                <i class="far fa-bell fa-lg fa-stack-2x" style="font-size: 1.5em;"></i>
-                <i class="fas fa-circle n-circle fa-stack-1x"></i>
+              <span class="fa-stack" style="vertical-align: middle;">
+                <i class="far fa-bell fa-lg fa-stack-1x" style="font-size: 1.5em;"></i>
+                  <i class="fas fa-circle n-circle fa-stack-1x">
+                    <span class="notification-count"><%= unchecked_notifications.count %></span>
+                  </i>
               </span>
             <% else %>
               <i class="far fa-bell fa-lg" style="font-size: 1.5em;"></i>

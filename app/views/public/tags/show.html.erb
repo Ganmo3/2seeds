@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12">
       <% if @tagged_posts.present? %>
-      <h4 class="headline mt-5 ml-5">Tag: <%= @tag.name %>の一覧</h4>
+      <h4 class="headline mt-5 ml-5">Tag: <%= @tag.name %>の一覧（<%= @total_posts_count %>件）</h4>
       <div class="row mt-3">
         <% @tagged_posts.each do |post| %>
           <%= render partial: 'public/shared/post_item', locals: { post: post, isDetail: false } %>

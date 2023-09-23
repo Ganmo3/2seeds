@@ -1,4 +1,5 @@
 class ChatbotsController < ApplicationController
+  before_action :authenticate_user!
   #csrf tokenの問題で追記コード
   protect_from_forgery
 

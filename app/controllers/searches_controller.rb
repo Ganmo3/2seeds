@@ -16,12 +16,14 @@ class SearchesController < ApplicationController
     if @model == "post"
       @results = Post.tagged_with(@content)
     elsif @model == "tag"
-      @results = ActsAsTaggableOn::Tag.named_like(@content).order(created_at: :desc)
+      @results = ActsAsTaggableOn::Tag.named_like(@content).order(:name)
     end
 
     # Array
     @results = Search.search_all_models(@content, @model, @method)
     @results = @results.order(created_at: :desc).page(params[:page]).per(12)
+    @total_results_count = @results.total_count
+
 
     render "searches/search_results"
   end
