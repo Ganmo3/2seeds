@@ -182,6 +182,7 @@ class Public::PostsController < ApplicationController
     else
       daily_impressions_data = impressions.group("DATE_FORMAT(created_at, '%Y-%m-%d')").count
     end
+    
     daily_impressions_hash = {}
     impressions_date_range(1.month.ago.to_date, Date.today).each do |date|
       formatted_date = date.to_s(:db)
