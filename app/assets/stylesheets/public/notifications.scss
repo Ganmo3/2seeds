@@ -2,15 +2,48 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
+
+/* ベルのアイコンの色 */
+i.far.fa-bell.fa-lg {
+  color: #4220C7;
+  transition: color 0.3s;
+}
+
+/* ホバー時のベルのアイコンの色 */
+i.far.fa-bell.fa-lg:hover  {
+  color: #655DFC;
+}
+
+.notification-count {
+  position: absolute;
+  top: 54%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  color: #4220C7;
+  font-size: 12px;
+  transition: color 0.3s;
+}
+
+
+.notification-count:hover {
+  color: #655DFC;
+}
+
+
 .n-circle {
   position: absolute;
   padding-left: 1rem;
   padding-top: 0rem;
   color: #efa04c;
+  transition: color 0.3s;
   /* 初期状態でオレンジ色を保持しないようにする */
   &.orange {
     color: #efa04c;
   }
+}
+
+.n-circle:hover {
+  color: #f4c986;
 }
 
 .notification-container {
@@ -34,20 +67,21 @@
 }
 
 .notification-icon {
-  transition: transform 0.2s ease; 
+  transition: transform 0.2s ease;
 }
 
 
 .notification-icon:hover {
-  transform: scale(1.1); 
+  transform: scale(1.1);
   transition: transform 0.2s ease;
 }
 
 .notification-box a {
   text-decoration: none;
-  color: #333; 
+  color: #333;
 }
 
 .notification-box a:hover {
-  color: #333; 
+  color: #333;
 }
+
