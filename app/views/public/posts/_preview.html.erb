@@ -18,7 +18,7 @@
   <div class="row">
     <div class="col-md-8 offset-md-2">
       <article class="post">
-        <article class="tags">
+        <div class="tags">
           <% if preview_tags.present? %>
             <div class="d-flex flex-wrap">
               <% preview_tags.each do |tag| %>
@@ -30,14 +30,13 @@
           <% else %>
             <p>登録されているタグはありません</p>
           <% end %>
-        </article>
+        </div>
 
-        <article class="show-post-title-container d-flex justify-content-between">
+        <div class="show-post-title-container d-flex justify-content-between">
           <h3 class="show-post-title"><%= @preview_post.title %></h3>
-        </article>
+        </div>
 
         <div class="post-meta">
-          <%= @preview_post.user.account %>
           <div class="user-info d-flex justify-content-between">
             <div class="d-flex align-items-center">
               <%= user_icon_or_youtube(@preview_post.user, size: '20x20', class: 'rounded-circle ml-3') %>
@@ -46,9 +45,9 @@
           </div>
         </div>
 
-        <article class="post-body" id="dynamicSize">
+        <div class="post-body" id="dynamicSize">
           <%= @preview_post.body %>
-        </article>
+        </div>
       </article>
     </div>
   </div>
