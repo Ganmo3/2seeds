@@ -136,6 +136,11 @@ footer a:hover {
   margin-right: 5%; 
 }
 
+.auth-form-title {
+  color: #8FBF24;
+  font-weight: bold; 
+}
+
 /* mypage dropdown menu */
 .mypage-dropdown {
   display: none;
