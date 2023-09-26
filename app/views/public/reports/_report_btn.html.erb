@@ -9,9 +9,9 @@
 $(document).ready(function() {
   $('.open-report-modal-button').click(function() {
     const commentId = $(this).data("comment-id");
-    
+
     $.ajax({
-      url: '<%= new_report_path %>', 
+      url: '<%= new_report_path %>',
       type: 'GET',
       data: { content_id: commentId, content_type: "Comment" },
       success: function(response) {
@@ -26,7 +26,7 @@ $(document).ready(function() {
       $(this).addClass('fade-out');
       setTimeout(() => {
         $(this).hide().removeClass('fade-out');
-      }, 300); 
+      }, 300);
     }
   });
 });

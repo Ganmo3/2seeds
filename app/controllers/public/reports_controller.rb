@@ -7,33 +7,33 @@ class Public::ReportsController < ApplicationController
   end
 
   def create
-    # if current_user.guest_user?
-    #   respond_to do |format|
-    #     format.js { render "create_failure" } # ゲストユーザーの場合は通報失敗時のレスポンスファイルを指定
-    # end
-    # else
-      content_type = params[:report][:content_type]
-      content_id = params[:report][:content_id]
-      @content = content_type.constantize.find(content_id)
-  
-      if @content
-        @report = Report.new(report_params)
-        @report.reporter = current_user
-        @report.reported = @content.user
-        if @report.save
-          respond_to do |format|
-            format.js { render "create_success" } # 通報成功時のレスポンスファイルを指定
-          end
-        else
-          respond_to do |format|
-            format.js { render "create_failure" } # 通報失敗時のレスポンスファイルを指定
-          end
+    content_type = params[:report][:content_type]
+    content_id = params[:report][:content_id]
+    @content = content_type.constantize.find(content_id)
+
+    if @content
+      @report = Report.new(report_params)
+      @report.reporter = current_user
+      @report.reported = @content.user
+
+      if @report.save
+        respond_to do |format|
+          format.js { render "create_success" }
         end
       else
-        respond_to :js
+        respond_to do |format|
+          format.js { render "create_failure" }
+        end
       end
-    # end
+    end
+
+  rescue ActiveRecord::NotNullViolation => e
+    # NOT NULL 制約違反が発生した場合もエラー処理
+    respond_to do |format|
+      format.js { render "create_failure", status: :unprocessable_entity }
+    end
   end
+
 
   private
 

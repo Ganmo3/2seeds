@@ -86,10 +86,10 @@ footer a:hover {
 
 /* 成功メッセージ */
 .flash-message.success {
-  background-color: #BDDF38;
+  background-color: #8BC34A;
   color: #333;
   padding: 10px;
-  border: 1px solid #BDDF38;
+  border: 1px solid #8BC34A;
 }
 
 .error-messages {
@@ -110,7 +110,6 @@ footer a:hover {
   margin-left: 20px;
 }
 
-
 .input-validation {
   display: inline-block;
   margin-left: 10px;
@@ -130,14 +129,12 @@ footer a:hover {
 
 /* ヘッダー */
 .logo-container {
-  margin-left: 5%; /* 幅の5%に相当するマージン */
+  margin-left: 5%; 
 }
 
 .mypage-btn-container {
-  margin-right: 5%; /* 幅の5%に相当するマージン */
+  margin-right: 5%; 
 }
-
-
 
 /* mypage dropdown menu */
 .mypage-dropdown {
