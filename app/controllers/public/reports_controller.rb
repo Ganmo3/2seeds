@@ -34,7 +34,6 @@ class Public::ReportsController < ApplicationController
     end
   end
 
-
   private
 
   def find_content(content_type, content_id)
