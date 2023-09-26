@@ -33,6 +33,7 @@
       <%= content_tag :div, flash[:alert], class: "flash-message alert" if flash[:alert].present? %>
       <%= content_tag :div, flash[:error], class: "flash-message error" if flash[:error].present? %>
       <%= content_tag :div, flash[:success], class: "flash-message success" if flash[:success].present? %>
+      <div class="success-message"></div>
 
       <%= yield %>
 
