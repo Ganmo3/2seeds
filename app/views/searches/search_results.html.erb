@@ -18,7 +18,7 @@
           <p>投稿の検索結果がありません</p>
         <% end %>
       <% elsif @model == 'tag' %>
-        <h4 class="headline">Tags search for "<%= @content %>"（<%= @total_results_count %>件）</h4>
+        <h4 class="headline">Tags search for "<%= @content %>"</h4>
         <% if @results.present? %>
           <% @results.each do |tag| %>
             <%= render partial: 'public/shared/tag_post', locals: { results: @results } %>

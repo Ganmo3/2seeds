@@ -1,7 +1,7 @@
 class Public::TagsController < ApplicationController
 
   def show
-    @tags = Post.tag_counts_on(:tags).order('count DESC')
+    @tags = Post.tag_counts_on(:tags)
      # パラメータからタグ名を取得
     tag_name = params[:id]
     # タグ名に基づいてタグに関連する情報を取得（例：タグが付けられた投稿）
@@ -10,7 +10,7 @@ class Public::TagsController < ApplicationController
 
     # Kaminariのページネーションを行う前に、全体の件数を取得
     @total_posts_count = @tagged_posts.count
-    
+
     # ページネーションを適用
     @tagged_posts = @tagged_posts.page(params[:page]).per(12)
 
