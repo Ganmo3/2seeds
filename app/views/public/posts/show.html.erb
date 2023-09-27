@@ -23,7 +23,7 @@
     <!-- body -->
     <div class="col-md-7">
       <article class="post">
-        <article class="tags">
+        <div class="tags">
           <% if @tags.present? %>
             <div class="d-flex flex-wrap">
               <% @tags.each do |tag| %>
@@ -35,7 +35,7 @@
           <% else %>
             <p>登録されているタグはありません</p>
           <% end %>
-        </article>
+        </div>
 
         <article class="show-post-title-container d-flex justify-content-between">
           <h3 class="show-post-title"><%= @post.title %></h3>
