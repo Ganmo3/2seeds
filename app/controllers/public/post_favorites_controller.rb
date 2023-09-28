@@ -9,11 +9,12 @@ class Public::PostFavoritesController < ApplicationController
     # else
       @post_favorite = current_user.post_favorites.new(post_id: @post.id)
       @post_favorite.save
-    
-      # いいね通知を作成
-      post = Post.find(params[:post_id])
-      @post.create_notification_favorite_post!(current_user, @post_favorite.user_id, @post_favorite.post_id)
-    # end
+
+      # 通知を作成（他のユーザーが自分の投稿にいいねした場合のみ）
+      if current_user != @post.user
+        @post.create_notification_favorite_post!(current_user)
+      end
+  # end
   end
   
   def destroy
