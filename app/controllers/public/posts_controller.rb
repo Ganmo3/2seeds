@@ -76,7 +76,8 @@ class Public::PostsController < ApplicationController
     @tags = @post.tag_counts_on(:tags)
     @report = Report.new
     @user = @post.user
-    @latest_posts = @user.posts.order(created_at: :desc).limit(4)
+    # @postを除いた最新の投稿を4つ取得
+    @latest_posts = @user.posts.where(status: 'published').where.not(id: @post.id).order(created_at: :desc).limit(4)
   end
 
   def edit
@@ -182,7 +183,7 @@ class Public::PostsController < ApplicationController
     else
       daily_impressions_data = impressions.group("DATE_FORMAT(created_at, '%Y-%m-%d')").count
     end
-    
+
     daily_impressions_hash = {}
     impressions_date_range(1.month.ago.to_date, Date.today).each do |date|
       formatted_date = date.to_s(:db)
