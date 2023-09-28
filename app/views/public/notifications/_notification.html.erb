@@ -2,7 +2,7 @@
   <% visitor = notification.visitor %>
   <% visited = notification.visited %>
   <div class="col-md-12 mx-auto notification-container">
-    <div class="notification-box d-flex align-items-center"> 
+    <div class="notification-box d-flex align-items-center">
       <div class="notification-icon">
         <%= link_to user_path(visitor.account), data: { turbolinks: false } do %>
           <%= user_icon_or_youtube(visitor, size: '40x40', class: 'rounded-circle mr-3') %>
@@ -12,18 +12,23 @@
       <% case notification.action %>
       <% when 'follow' then %>
         <strong><%= visitor.nickname %></strong>さんがあなたをフォローしました
-        
+
       <% when 'favorite_post' then %>
         <%= link_to post_path(notification.post) do %>
          <strong><%= visitor.nickname %></strong>さんが<strong><%= truncate(notification.post.title, length: 10) %></strong>の投稿にいいねしました
         <% end %>
-        
+
+      <% when 'favorite_comment' then %>
+        <%= link_to post_path(notification.comment.post) do %>
+          <strong><%= visitor.nickname %></strong>さんが<strong>あなたのコメント</strong>にいいねしました
+        <% end %>
+
         <% when 'comment' then %>
         <% if notification.post.user_id == visited.id %>
           <%= link_to post_path(notification.post) do %>
             <strong><%= visitor.nickname %></strong>さんが<strong><%= truncate(notification.post.title, length: 10) %></strong>の投稿にコメントしました
           <% end %>
- 
+
         <% else %>
           <span>
             <%= link_to post_path(notification.post) do %>

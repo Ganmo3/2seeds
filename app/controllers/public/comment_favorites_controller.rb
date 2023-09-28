@@ -8,9 +8,11 @@ class Public::CommentFavoritesController < ApplicationController
     #redirect_to request.referer
     
     # いいね通知を作成
-    #post = Comment.find(params[:comment_id]).post  # コメントから関連する投稿を取得
-    #post = @comment.post
-   # post.create_notification_favorite_comment!(current_user, @comment.id)
+    post = Comment.find(params[:comment_id]).post  # コメントから関連する投稿を取得
+    comment = Comment.find(params[:comment_id])     # コメントを取得
+    if current_user != comment.user
+      post.create_notification_favorite_comment!(current_user, comment, comment.id)
+    end
 
   end
   
